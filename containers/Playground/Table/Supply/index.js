@@ -50,7 +50,7 @@ export default class Supply extends Component {
         <Swiper
           maxHeight={200}
           paginationStyle={{
-            top: -110,
+            top: -130,
             left: -80,
           }}>
           <View style={styles.container}>

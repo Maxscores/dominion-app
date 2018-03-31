@@ -11,8 +11,7 @@ export default class Table extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Supply style={styles.supply} />
-        <Text>Hello</Text>
+        <Supply style={styles.supply}/>
       </View>
     )
   }
