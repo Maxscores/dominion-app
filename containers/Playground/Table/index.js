@@ -5,11 +5,13 @@ import {
   View
 } from 'react-native';
 
+import Supply from './Supply';
+
 export default class Table extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Table</Text>
+        <Supply style={styles.supply}/>
       </View>
     )
   }
@@ -19,8 +21,7 @@ export default class Table extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#abcdef'
+  },
+  supply: {
   }
 })
