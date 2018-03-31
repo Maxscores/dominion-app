@@ -1,14 +1,34 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { Component } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View
+} from 'react-native';
+import {
+  TabNavigator
+} from 'react-navigation';
+import Playground from './containers/Playground'
 
-export default class App extends React.Component {
+const routeConfig = {
+  Playground: {
+    screen: Playground,
+  },
+}
+
+const navConfig = {
+  tabBarOptions: {
+    labelStyle: {
+      fontSize: 22,
+    }
+  }
+}
+
+const RootNav = TabNavigator(routeConfig, navConfig)
+
+export default class App extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
-      </View>
+      <Playground />
     );
   }
 }
