@@ -7,11 +7,19 @@ import {
 import {
   TabNavigator
 } from 'react-navigation';
-import Playground from './containers/Playground'
+import Table from './Table'
+import Deck from './Deck'
+import Turns from './Turns'
 
 const routeConfig = {
-  Playground: {
-    screen: Playground,
+  Table: {
+    screen: Table,
+  },
+  Deck: {
+    screen: Deck,
+  },
+  Turns: {
+    screen: Turns,
   },
 }
 
@@ -19,6 +27,10 @@ const navConfig = {
   tabBarOptions: {
     labelStyle: {
       fontSize: 22,
+    },
+    style: {
+      height: 36,
+      bottom: 6,
     }
   }
 }
@@ -28,7 +40,7 @@ const RootNav = TabNavigator(routeConfig, navConfig)
 export default class App extends Component {
   render() {
     return (
-      <Playground />
+      <RootNav />
     );
   }
 }
@@ -36,7 +48,7 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#abcdef',
     alignItems: 'center',
     justifyContent: 'center',
   },
