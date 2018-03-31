@@ -27,6 +27,10 @@ const navConfig = {
   tabBarOptions: {
     labelStyle: {
       fontSize: 22,
+    },
+    style: {
+      height: 36,
+      bottom: 6,
     }
   }
 }
