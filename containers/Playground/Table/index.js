@@ -4,14 +4,19 @@ import {
   Text,
   View
 } from 'react-native';
+import { responsiveHeight, responsiveWidth, responsiveFontSize } from 'react-native-responsive-dimensions';
 
 import Supply from './Supply';
+import Scoreboard from '../../../components/Scoreboard';
 
 export default class Table extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Supply style={styles.supply}/>
+        <View style={styles.topContainer}>
+          <Supply style={styles.supply}/>
+          <Scoreboard />
+        </View>
       </View>
     )
   }
@@ -21,6 +26,9 @@ export default class Table extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  topContainer: {
+    flexDirection: 'row'
   },
   supply: {
   }
