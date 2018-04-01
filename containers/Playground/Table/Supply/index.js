@@ -51,7 +51,10 @@ export default class Supply extends Component {
     return (
         <Swiper
           maxHeight={responsiveHeight(27)}
-          maxWidth={responsiveWidth(65)}>
+          maxWidth={responsiveWidth(65)}
+          paginationStyle={{
+            bottom: 0,
+          }}>
           <View style={styles.container}>
             { firstCards }
           </View>
