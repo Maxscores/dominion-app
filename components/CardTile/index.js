@@ -5,6 +5,7 @@ import {
   ImageBackground,
   View
 } from 'react-native';
+import { responsiveWidth, responsiveFontSize } from 'react-native-responsive-dimensions';
 
 export default class CardTile extends Component<Props> {
   render() {
@@ -12,8 +13,8 @@ export default class CardTile extends Component<Props> {
       <ImageBackground
         source={this.props.cardTileImage}
         style={{
-          height: 75,
-          width: 75,
+          height: responsiveWidth(18),
+          width: responsiveWidth(18),
           margin: 2,
         }}
       >
@@ -30,7 +31,8 @@ export default class CardTile extends Component<Props> {
 const styles = StyleSheet.create({
   cardCount: {
     backgroundColor: 'red',
-    width: 20,
+    width: responsiveWidth(6),
+    fontSize: responsiveFontSize(3.7),
     borderRadius: 100,
     alignItems: 'center',
     justifyContent: 'center',
