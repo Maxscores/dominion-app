@@ -7,7 +7,7 @@ import {
 
 import Swiper from 'react-native-swiper';
 import CardTile from '../../../../components/CardTile'
-import { responsiveHeight, responsiveWidth, responsiveFontSize } from 'react-native-responsive-dimensions';
+import { responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
 
 
 let copperImage = require("../../../../assets/images/copper.png")
