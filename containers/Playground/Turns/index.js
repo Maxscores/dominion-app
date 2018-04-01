@@ -2,14 +2,43 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
-  View
+  View,
+  ScrollView
 } from 'react-native';
+import {
+  responsiveHeight,
+  responsiveWidth,
+  responsiveFontSize
+} from 'react-native-responsive-dimensions';
+import { StackNavigator } from 'react-navigation';
 
-export default class Table extends Component {
+import TurnSummary from '../../../components/TurnSummary'
+
+
+export default class Turns extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Turns</Text>
+        <Text style={styles.title}>Game Turns</Text>
+        <ScrollView>
+          <TurnSummary />
+          <TurnSummary />
+          <TurnSummary />
+          <TurnSummary />
+          <TurnSummary />
+          <TurnSummary />
+          <TurnSummary />
+          <TurnSummary />
+          <TurnSummary />
+          <TurnSummary />
+          <TurnSummary />
+          <TurnSummary />
+          <TurnSummary />
+          <TurnSummary />
+          <TurnSummary />
+          <TurnSummary />
+          <TurnSummary />
+        </ScrollView>
       </View>
     )
   }
@@ -18,9 +47,13 @@ export default class Table extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: responsiveHeight(4),
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    textAlign: 'center',
     backgroundColor: '#abcdef'
-  }
+  },
+  title: {
+    fontSize: responsiveFontSize(2.5),
+    textAlign: 'center',
+  },
 })
