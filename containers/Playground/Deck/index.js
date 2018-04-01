@@ -6,6 +6,8 @@ import {
   ScrollView
 } from 'react-native';
 import CardTile from '../../../components/CardTile'
+import { responsiveFontSize } from 'react-native-responsive-dimensions';
+
 
 let copperImage = require("../../../assets/images/copper.png")
 
@@ -62,15 +64,15 @@ export default class Table extends Component {
 
     return (
       <ScrollView style={styles.scrollContainer} contentContainerStyle={styles.container}>
-        <Text>Deck</Text>
+        <Text style={styles.textCenter}>Deck</Text>
         <View style={styles.cardContainer}>
           { deckRender }
         </View>
-        <Text>Discard</Text>
+        <Text style={styles.textCenter}>Discard</Text>
         <View style={styles.cardContainer}>
           { discardRender }
         </View>
-        <Text>Trash</Text>
+        <Text style={styles.textCenter}>Trash</Text>
         <View style={styles.cardContainer}>
           { trashRender }
         </View>
@@ -82,20 +84,21 @@ export default class Table extends Component {
 
 const styles = StyleSheet.create({
   scrollContainer: {
+    marginTop: 20,
+    backgroundColor: '#abcdef',
+  },
+  textCenter: {
+    textAlign: 'center',
+    fontSize: responsiveFontSize(3.7),
   },
   container: {
     paddingTop: 15,
-    flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#abcdef',
   },
   cardContainer: {
-    flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    backgroundColor: '#000',
+    marginBottom: 50,
   },
 })
