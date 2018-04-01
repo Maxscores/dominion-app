@@ -9,6 +9,18 @@ import { responsiveWidth, responsiveFontSize } from 'react-native-responsive-dim
 
 export default class CardTile extends Component<Props> {
   render() {
+
+    let renderQuantity;
+    if (this.props.cardQuantity) {
+      renderQuantity = (
+        <View style={styles.cardCount}>
+          <Text style={styles.cardCountNumber}>
+            {this.props.cardQuantity}
+          </Text>
+        </View>
+      )
+    }
+
     return (
       <ImageBackground
         source={this.props.cardTileImage}
@@ -18,11 +30,7 @@ export default class CardTile extends Component<Props> {
           margin: 2,
         }}
       >
-        <View style={styles.cardCount}>
-          <Text >
-            {this.props.cardQuantity}
-          </Text>
-        </View>
+      { renderQuantity }
       </ImageBackground>
     )
   }
@@ -31,10 +39,12 @@ export default class CardTile extends Component<Props> {
 const styles = StyleSheet.create({
   cardCount: {
     backgroundColor: 'red',
-    width: responsiveWidth(6),
-    fontSize: responsiveFontSize(3.7),
+    width: responsiveWidth(5.4),
     borderRadius: 100,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  cardCountNumber: {
+    fontSize: responsiveFontSize(2),
   },
 })
