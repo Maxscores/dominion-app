@@ -25,8 +25,8 @@ export default class CardTile extends Component<Props> {
       <ImageBackground
         source={this.props.cardTileImage}
         style={{
-          height: responsiveWidth(18),
-          width: responsiveWidth(18),
+          height: responsiveWidth(this.props.cardHeight),
+          width: responsiveWidth(this.props.cardWidth),
           margin: 2,
         }}
       >
