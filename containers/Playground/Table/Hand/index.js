@@ -31,6 +31,8 @@ export default class Table extends Component {
     for(var card in handComposition){
       handRender.push(
         <CardTile
+        cardHeight={18}
+        cardWidth={18}
         cardTileImage={copperImage}
         cardQuantity={handComposition[card]}>
         </CardTile>
