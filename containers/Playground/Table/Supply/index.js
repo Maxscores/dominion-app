@@ -7,6 +7,8 @@ import {
 
 import Swiper from 'react-native-swiper';
 import CardTile from '../../../../components/CardTile'
+import { responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
+
 
 let copperImage = require("../../../../assets/images/copper.png")
 let gameCards = {'card103': 10,
@@ -48,10 +50,10 @@ export default class Supply extends Component {
 
     return (
         <Swiper
-          maxHeight={200}
+          maxHeight={responsiveHeight(27)}
+          maxWidth={responsiveWidth(65)}
           paginationStyle={{
-            top: -130,
-            left: -80,
+            bottom: 0,
           }}>
           <View style={styles.container}>
             { firstCards }
@@ -67,7 +69,6 @@ export default class Supply extends Component {
   }
 }
 
-
 const styles = StyleSheet.create({
   container: {
     paddingTop: 20,
@@ -77,7 +78,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     backgroundColor: '#abcdef',
-    maxHeight: 200,
-    width: 240,
   }
 })
