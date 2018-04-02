@@ -9,8 +9,6 @@ import CardTile from '../../../components/CardTile'
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
 
 
-let copperImage = require("../../../assets/images/copper.png")
-
 let deckComposition = {'copper': 7, 'estate': 3, 'colony': 4, 'hello': 5, 'card_5': 2}
 let discard = ['copper', 'copper', 'copper', 'copper']
 let trash = ['copper', 'copper']
@@ -22,7 +20,7 @@ export default class Table extends Component {
     for(var card in deckComposition){
       deckRender.push(
         <CardTile
-          cardTileImage={copperImage}
+          cardTileImage={"copper"}
           cardQuantity={deckComposition[card]}>
         </CardTile>
       )
@@ -39,7 +37,7 @@ export default class Table extends Component {
     for(var card in discardComposition){
       discardRender.push(
         <CardTile
-          cardTileImage={copperImage}
+          cardTileImage={"copper"}
           cardQuantity={discardComposition[card]}>
         </CardTile>
       )
@@ -56,7 +54,7 @@ export default class Table extends Component {
     for(var card in trashComposition){
       trashRender.push(
         <CardTile
-          cardTileImage={copperImage}
+          cardTileImage={"copper"}
           cardQuantity={trashComposition[card]}>
         </CardTile>
       )

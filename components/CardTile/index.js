@@ -6,6 +6,8 @@ import {
   View
 } from 'react-native';
 import { responsiveWidth, responsiveFontSize } from 'react-native-responsive-dimensions';
+import { images } from '@assets/images'
+
 
 export default class CardTile extends Component<Props> {
   render() {
@@ -23,7 +25,7 @@ export default class CardTile extends Component<Props> {
 
     return (
       <ImageBackground
-        source={this.props.cardTileImage}
+        source={images[`${this.props.cardTileImage}Tile`]}
         style={{
           height: responsiveWidth(18),
           width: responsiveWidth(18),

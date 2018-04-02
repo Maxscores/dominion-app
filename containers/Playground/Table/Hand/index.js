@@ -12,7 +12,6 @@ import {
 } from 'react-native-responsive-dimensions';
 
 import CardTile from '../../../../components/CardTile'
-let copperImage = require("../../../../assets/images/copper.png")
 
 
 let hand = ['estate', 'copper_1', 'copper_2', 'copper_3', 'copper_4', 'copper_5', 'copper_6', 'copper_7']
@@ -31,7 +30,7 @@ export default class Table extends Component {
     for(var card in handComposition){
       handRender.push(
         <CardTile
-        cardTileImage={copperImage}
+        cardTileImage={"copper"}
         cardQuantity={handComposition[card]}>
         </CardTile>
       )
