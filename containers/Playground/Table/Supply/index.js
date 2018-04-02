@@ -38,6 +38,8 @@ export default class Supply extends Component {
       gameCardRender.push(
         <CardTile
           key={card}
+          cardHeight={18}
+          cardWidth={18}
           cardTileImage={copperImage}
           cardQuantity={gameCards[card]}>
         </CardTile>
