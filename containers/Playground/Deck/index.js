@@ -20,6 +20,8 @@ export default class Table extends Component {
     for(var card in deckComposition){
       deckRender.push(
         <CardTile
+          cardHeight={18}
+          cardWidth={18}
           cardTileImage={card}
           cardQuantity={deckComposition[card]}>
         </CardTile>
@@ -37,6 +39,8 @@ export default class Table extends Component {
     for(var card in discardComposition){
       discardRender.push(
         <CardTile
+          cardHeight={18}
+          cardWidth={18}
           cardTileImage={card}
           cardQuantity={discardComposition[card]}>
         </CardTile>
@@ -54,6 +58,8 @@ export default class Table extends Component {
     for(var card in trashComposition){
       trashRender.push(
         <CardTile
+          cardHeight={18}
+          cardWidth={18}
           cardTileImage={card}
           cardQuantity={trashComposition[card]}>
         </CardTile>
