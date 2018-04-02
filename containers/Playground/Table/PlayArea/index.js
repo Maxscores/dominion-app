@@ -11,7 +11,7 @@ import CardTile from '../../../../components/CardTile'
 import { responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
 
 
-let copperImage = require("../../../../assets/images/copper.png")
+let copperImage = require("../../../../components/images/copper.png")
 let playCards = ['card103',
                  'card114',
                  'card142',

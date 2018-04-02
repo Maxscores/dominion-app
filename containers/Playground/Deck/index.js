@@ -9,7 +9,7 @@ import CardTile from '../../../components/CardTile'
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
 
 
-let copperImage = require("../../../assets/images/copper.png")
+let copperImage = require("../../../components/images/copper.png")
 
 let deckComposition = {'copper': 7, 'estate': 3, 'colony': 4, 'hello': 5, 'card_5': 2}
 let discard = ['copper', 'copper', 'copper', 'copper']
