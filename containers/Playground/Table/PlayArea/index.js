@@ -10,40 +10,11 @@ import Swiper from 'react-native-swiper';
 import CardTile from '../../../../components/CardTile'
 import { responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
 
-
-let playCards = ['card103',
-                 'card114',
-                 'card142',
-                 'card131',
-                 'copper1',
-                 'card115',
-                 'card145',
-                 'card131',
-                 'copper1',
-                 'card115',
-                 'card145',
-                 'card131',
-                 'copper1',
-                 'card115',
-                 'card145',
-                 'card131',
-                 'copper1',
-                 'card115',
-                 'card115',
-                 'card145',
-                 'card131',
-                 'copper1',
-                 'card115',
-                 'card145',
-                 'card135',
-                 'copper2',
-                 'silver2']
-
 export default class PlayArea extends Component {
   render() {
 
     let playCardRender = [];
-    for (let i = 0; i < playCards.length; i++ ) {
+    for (let i = 0; i < 20; i++ ) {
       playCardRender.push(
         <CardTile
           key={i}

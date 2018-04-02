@@ -20,7 +20,7 @@ export default class Table extends Component {
     for(var card in deckComposition){
       deckRender.push(
         <CardTile
-          cardTileImage={"copper"}
+          cardTileImage={card}
           cardQuantity={deckComposition[card]}>
         </CardTile>
       )
@@ -37,7 +37,7 @@ export default class Table extends Component {
     for(var card in discardComposition){
       discardRender.push(
         <CardTile
-          cardTileImage={"copper"}
+          cardTileImage={card}
           cardQuantity={discardComposition[card]}>
         </CardTile>
       )
@@ -54,7 +54,7 @@ export default class Table extends Component {
     for(var card in trashComposition){
       trashRender.push(
         <CardTile
-          cardTileImage={"copper"}
+          cardTileImage={card}
           cardQuantity={trashComposition[card]}>
         </CardTile>
       )
