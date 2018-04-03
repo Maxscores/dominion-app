@@ -20,15 +20,10 @@ export default class Table extends Component {
 
   constructor() {
     super();
-    this.openDialog = this.openDialog.bind(this);
     this.state = {
       cardImage: "copperFull",
     }
   }
-
-  // componentDidMount() {
-  //   this.openDialog("silverFull")
-  // }
 
   openDialog(image) {
     this.setState({cardImage: image}, () => {
@@ -41,21 +36,19 @@ export default class Table extends Component {
       <View style={styles.container}>
         <TurnDetail />
         <View style={styles.topContainer}>
-          <Supply openDialog={ this.openDialog } style={styles.supply}/>
+          <Supply openDialog={ this.openDialog.bind(this) } style={styles.supply}/>
           <Scoreboard />
         </View>
         <View style={styles.playContainer}>
-          <PlayArea />
+          <PlayArea openDialog={ this.openDialog.bind(this) } />
         </View>
         <View>
-          <Hand />
+          <Hand openDialog={ this.openDialog.bind(this) } />
         </View>
-
         <PopupDialog
           cardImage={ this.state.cardImage }
           dialog={(popupDialog) => { this.popupDialog = popupDialog; }}
         />
-
       </View>
     )
   }
@@ -72,6 +65,4 @@ const styles = StyleSheet.create({
   topContainer: {
     flexDirection: 'row'
   },
-  supply: {
-  }
 })
