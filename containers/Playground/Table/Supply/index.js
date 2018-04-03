@@ -37,8 +37,8 @@ export default class Supply extends Component {
       gameCardRender.push(
         <CardTile
           key={card}
-          cardHeight={18}
-          cardWidth={18}
+          cardHeight={20}
+          cardWidth={20}
           cardTileImage={card}
           cardQuantity={gameCards[card]}>
         </CardTile>
@@ -72,10 +72,9 @@ export default class Supply extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 20,
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     flexDirection: 'row',
     flexWrap: 'wrap',
     backgroundColor: '#abcdef',

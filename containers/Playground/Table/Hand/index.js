@@ -13,8 +13,7 @@ import {
 
 import CardTile from '../../../../components/CardTile'
 
-
-let hand = ['village', 'witch', 'workshop', 'copper', 'copper', 'copper', 'copper', 'copper']
+let hand = ['estate', 'copper', 'village', 'village', 'gold']
 
 
 export default class Table extends Component {
@@ -30,8 +29,8 @@ export default class Table extends Component {
     for(var card in handComposition){
       handRender.push(
         <CardTile
-        cardHeight={18}
-        cardWidth={18}
+        cardHeight={23.5}
+        cardWidth={23.5}
         cardTileImage={card}
         cardQuantity={handComposition[card]}>
         </CardTile>
