@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  ImageBackground,
+  Image,
 } from 'react-native';
 import { responsiveHeight, responsiveWidth, responsiveFontSize } from 'react-native-responsive-dimensions';
 import PopupDialog from 'react-native-popup-dialog';
@@ -14,38 +14,22 @@ export default class Popup extends Component {
     super(props);
   }
 
-
   render() {
     return (
 
       <PopupDialog
         ref={this.props.dialog}
+        height={0.75}
+        width={.95}
       >
-        <ImageBackground
+        <Image
           source={images[this.props.cardImage]}
-          style={{
-            height: responsiveWidth(90),
-            width: responsiveWidth(90),
-            margin: 2,
-          }}
         >
-        </ImageBackground>
+        </Image>
       </PopupDialog>
     )
   }
 }
 
-
 const styles = StyleSheet.create({
-  playContainer: {
-    height: responsiveWidth(60),
-  },
-  container: {
-    flex: 1,
-  },
-  topContainer: {
-    flexDirection: 'row'
-  },
-  supply: {
-  }
 })
