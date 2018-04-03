@@ -12,6 +12,11 @@ import { images } from '@assets/images'
 
 
 export default class CardTile extends Component<Props> {
+
+  constructor(props) {
+    super(props);
+  }
+
   render() {
 
     let renderQuantity;
@@ -29,7 +34,7 @@ export default class CardTile extends Component<Props> {
       <View>
         <TouchableHighlight
           onPress={() => {
-            this.popupDialog.show();
+            this.props.openDialog(`${this.props.cardTileImage}Full`)
           }}>
           <ImageBackground
             source={images[`${this.props.cardTileImage}Tile`]}

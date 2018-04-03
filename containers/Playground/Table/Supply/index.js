@@ -29,6 +29,11 @@ let gameCards = {'bandit': 10,
                  'vassal': 10 }
 
 export default class Supply extends Component {
+
+  constructor(props) {
+    super(props);
+  }
+
   render() {
 
     let gameCardRender = [];
@@ -36,6 +41,7 @@ export default class Supply extends Component {
     for (var card in gameCards) {
       gameCardRender.push(
         <CardTile
+          openDialog={ this.openDialog }
           key={card}
           cardHeight={20}
           cardWidth={20}
