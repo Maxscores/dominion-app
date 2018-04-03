@@ -11,6 +11,7 @@ import Hand from './Hand';
 import PlayArea from './PlayArea';
 import Scoreboard from '../../../components/Scoreboard';
 import TurnDetail from '../../../components/TurnDetail';
+import { images } from '@assets/images'
 
 export default class Table extends Component {
   render() {

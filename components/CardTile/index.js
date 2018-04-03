@@ -3,9 +3,11 @@ import {
   StyleSheet,
   Text,
   ImageBackground,
-  View
+  View,
+  TouchableHighlight,
 } from 'react-native';
 import { responsiveWidth, responsiveFontSize } from 'react-native-responsive-dimensions';
+import PopupDialog from 'react-native-popup-dialog';
 import { images } from '@assets/images'
 
 
@@ -24,16 +26,37 @@ export default class CardTile extends Component<Props> {
     }
 
     return (
-      <ImageBackground
-        source={images[`${this.props.cardTileImage}Tile`]}
-        style={{
-          height: responsiveWidth(this.props.cardHeight),
-          width: responsiveWidth(this.props.cardWidth),
-          margin: 2,
-        }}
-      >
-      { renderQuantity }
-      </ImageBackground>
+      <View>
+        <TouchableHighlight
+          onPress={() => {
+            this.popupDialog.show();
+          }}>
+          <ImageBackground
+            source={images[`${this.props.cardTileImage}Tile`]}
+            style={{
+              height: responsiveWidth(this.props.cardHeight),
+              width: responsiveWidth(this.props.cardWidth),
+              margin: 2,
+            }}
+          >
+            { renderQuantity }
+          </ImageBackground>
+        </TouchableHighlight>
+        <PopupDialog
+          ref={(popupDialog) => { this.popupDialog = popupDialog; }}
+          containerStyle={{zIndex:10, elevation: 10}}
+        >
+          <ImageBackground
+            source={images[`${this.cardName}Full`]}
+            style={{
+              height: responsiveWidth(90),
+              width: responsiveWidth(90),
+              margin: 2,
+            }}
+          >
+          </ImageBackground>
+        </PopupDialog>
+      </View>
     )
   }
 }
