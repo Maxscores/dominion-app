@@ -10,11 +10,10 @@ import CardTile from '../../../../components/CardTile'
 import { responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
 
 
-let copperImage = require("../../../../assets/images/copper.png")
-let gameCards = {'card103': 10,
-                 'card114': 10,
-                 'card142': 10,
-                 'card131': 10,
+let gameCards = {'copper': 10,
+                 'witch': 10,
+                 'village': 10,
+                 'workshop': 10,
                  'copper1': 60,
                  'silver2': 60,
                  'gold4': 30,
@@ -40,7 +39,7 @@ export default class Supply extends Component {
           key={card}
           cardHeight={18}
           cardWidth={18}
-          cardTileImage={copperImage}
+          cardTileImage={card}
           cardQuantity={gameCards[card]}>
         </CardTile>
       )

@@ -11,8 +11,6 @@ import CardTile from '../../../../components/CardTile'
 import { responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
 import Carousel from 'react-native-snap-carousel';
 
-let copperImage = require("../../../../assets/images/copper.png")
-
 export default class PlayArea extends Component {
 
   _renderItem ({item, index}) {
@@ -30,7 +28,7 @@ export default class PlayArea extends Component {
           cardWidth={40}
           cardHeight={40}
           key={i}
-          cardTileImage={copperImage}>
+          cardTileImage={"copper"}>
         </CardTile>
       )
     };
