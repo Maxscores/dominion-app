@@ -17,6 +17,11 @@ let hand = ['estate', 'copper', 'village', 'village', 'gold']
 
 
 export default class Table extends Component {
+
+  constructor(props) {
+    super(props);
+  }
+
   render() {
     let handRender = []
 
@@ -29,10 +34,11 @@ export default class Table extends Component {
     for(var card in handComposition){
       handRender.push(
         <CardTile
-        cardHeight={23.5}
-        cardWidth={23.5}
-        cardTileImage={card}
-        cardQuantity={handComposition[card]}>
+          openDialog={ this.props.openDialog }
+          cardHeight={23.5}
+          cardWidth={23.5}
+          cardTileImage={card}
+          cardQuantity={handComposition[card]}>
         </CardTile>
       )
     }

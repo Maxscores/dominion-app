@@ -41,7 +41,7 @@ export default class Supply extends Component {
     for (var card in gameCards) {
       gameCardRender.push(
         <CardTile
-          openDialog={ this.openDialog }
+          openDialog={ this.props.openDialog }
           key={card}
           cardHeight={20}
           cardWidth={20}
