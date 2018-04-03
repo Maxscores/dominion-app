@@ -47,20 +47,6 @@ export default class CardTile extends Component<Props> {
             { renderQuantity }
           </ImageBackground>
         </TouchableHighlight>
-        <PopupDialog
-          ref={(popupDialog) => { this.popupDialog = popupDialog; }}
-          containerStyle={{zIndex:10, elevation: 10}}
-        >
-          <ImageBackground
-            source={images[`${this.cardName}Full`]}
-            style={{
-              height: responsiveWidth(90),
-              width: responsiveWidth(90),
-              margin: 2,
-            }}
-          >
-          </ImageBackground>
-        </PopupDialog>
       </View>
     )
   }
