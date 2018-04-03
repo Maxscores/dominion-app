@@ -10,23 +10,23 @@ import CardTile from '../../../../components/CardTile'
 import { responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
 
 
-let gameCards = {'copper': 10,
+let gameCards = {'bandit': 10,
                  'witch': 10,
                  'village': 10,
                  'workshop': 10,
-                 'copper1': 60,
-                 'silver2': 60,
-                 'gold4': 30,
-                 'estate3': 20,
-                 'card69': 10,
-                 'card22': 10,
-                 'card33': 10,
-                 'card34': 10,
-                 'card541': 10,
-                 'card61': 10,
-                 'card73': 10,
-                 'card48': 10,
-                 'card201': 10 }
+                 'copper': 60,
+                 'silver': 60,
+                 'gold': 30,
+                 'estate': 10,
+                 'duchy': 10,
+                 'province': 10,
+                 'harbinger': 10,
+                 'laboratory': 10,
+                 'market': 10,
+                 'merchant': 10,
+                 'moat': 10,
+                 'sentry': 10,
+                 'vassal': 10 }
 
 export default class Supply extends Component {
   render() {

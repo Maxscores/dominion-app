@@ -1,8 +1,8 @@
 export const images = {
 	'artisanTile': require('./images/artisan_tile.png'),
 	'artisanFull': require('./images/artisan.jpg'),
-	'banditTile': require('./imgaes/bandit_tile.png'),
-	'banditFull': require('./imgaes/bandit.jpg'),
+	'banditTile': require('./images/bandit_tile.png'),
+	'banditFull': require('./images/bandit.jpg'),
 	'bureaucratTile': require('./images/bureaucrat_tile.png'),
 	'bureaucratFull': require('./images/bureaucrat.jpg'),
 	'cellarTile': require('./images/cellar_tile.png'),
