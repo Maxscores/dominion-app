@@ -13,6 +13,10 @@ import Carousel from 'react-native-snap-carousel';
 
 export default class PlayArea extends Component {
 
+  constructor(props) {
+    super(props);
+  }
+
   _renderItem ({item, index}) {
         return (
           item
@@ -25,6 +29,7 @@ export default class PlayArea extends Component {
     for (let i = 0; i < 20; i++ ) {
       playCardRender.push(
         <CardTile
+          openDialog={ this.props.openDialog }
           cardWidth={40}
           cardHeight={40}
           key={i}
