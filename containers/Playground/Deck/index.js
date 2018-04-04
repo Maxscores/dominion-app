@@ -9,36 +9,50 @@ import CardTile from '../../../components/CardTile'
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
 
 
-let deckComposition = {'copper': 7, 'estate': 3, 'vassal': 4, 'moat': 5, 'militia': 2}
-let discard = ['copper', 'copper', 'copper', 'copper']
-let trash = ['copper', 'copper']
-
 export default class Table extends Component {
-  render() {
+
+  constructor() {
+    super()
+    this.state = {
+      deckComposition: {'copper': 7, 'estate': 3, 'vassal': 4, 'moat': 5, 'militia': 2},
+      discard: ['copper', 'copper', 'copper', 'copper'],
+      trash: ['copper', 'copper'],
+    }
+  }
+
+  renderDeck() {
     let deckRender = []
 
-    for(var card in deckComposition){
+    for(var card in this.state.deckComposition){
       deckRender.push(
         <CardTile
+          key={card}
           cardHeight={23.5}
           cardWidth={23.5}
           cardTileImage={card}
-          cardQuantity={deckComposition[card]}>
+          cardQuantity={this.state.deckComposition[card]}>
         </CardTile>
       )
     }
+    return deckRender
+  }
 
-    let discardRender = []
-
-    discardComposition = discard.reduce((result, card) => {
+  cardComposition(collection) {
+    return collection.reduce((result, card) => {
       if (result[card] === undefined) {result[card] = 0}
       result[card] += 1
       return result
     }, {})
+  }
+
+  renderDiscard() {
+    let discardComposition = this.cardComposition(this.state.discard)
+    let discardRender = []
 
     for(var card in discardComposition){
       discardRender.push(
         <CardTile
+          key={card}
           cardHeight={23.5}
           cardWidth={23.5}
           cardTileImage={card}
@@ -46,18 +60,17 @@ export default class Table extends Component {
         </CardTile>
       )
     }
+    return discardRender
+  }
 
+  renderTrash() {
+    let trashComposition = this.cardComposition(this.state.trash)
     let trashRender = []
-
-    trashComposition = trash.reduce((result, card) => {
-      if (!result[card]) {result[card] = 0}
-      result[card] += 1
-      return result
-    }, {})
 
     for(var card in trashComposition){
       trashRender.push(
         <CardTile
+          key={card}
           cardHeight={23.5}
           cardWidth={23.5}
           cardTileImage={card}
@@ -65,20 +78,23 @@ export default class Table extends Component {
         </CardTile>
       )
     }
+    return trashRender
+  }
 
+  render() {
     return (
       <ScrollView style={styles.scrollContainer} contentContainerStyle={styles.container}>
         <Text style={styles.textCenter}>Deck</Text>
         <View style={styles.cardContainer}>
-          { deckRender }
+          { this.renderDeck() }
         </View>
         <Text style={styles.textCenter}>Discard</Text>
         <View style={styles.cardContainer}>
-          { discardRender }
+          { this.renderDiscard() }
         </View>
         <Text style={styles.textCenter}>Trash</Text>
         <View style={styles.cardContainer}>
-          { trashRender }
+          { this.renderTrash() }
         </View>
       </ScrollView>
     )
