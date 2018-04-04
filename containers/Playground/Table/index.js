@@ -22,6 +22,7 @@ export default class Table extends Component {
     super();
     this.state = {
       cardImage: "copperFull",
+			popupAction: null,
       supply: {'bandit': 10,
                        'witch': 10,
                        'village': 10,
@@ -66,8 +67,8 @@ export default class Table extends Component {
     }
   }
 
-  openDialog(image) {
-    this.setState({cardImage: image}, () => {
+  openDialog(image, action) {
+    this.setState({cardImage: image, popupAction: action}, () => {
       this.popupDialog.show()
     })
   }
@@ -77,17 +78,30 @@ export default class Table extends Component {
       <View style={styles.container}>
         <TurnDetail />
         <View style={styles.topContainer}>
-          <Supply supplyCards={ this.state.supply } openDialog={ this.openDialog.bind(this) } style={styles.supply}/>
+          <Supply
+						supplyCards={ this.state.supply }
+						openDialog={ this.openDialog.bind(this) }
+						style={styles.supply}
+						popupAction="Buy"
+					/>
           <Scoreboard />
         </View>
         <View style={styles.playContainer}>
-          <PlayArea playareaCards={ this.state.playarea } openDialog={ this.openDialog.bind(this) } />
+          <PlayArea
+						playareaCards={ this.state.playarea }
+						openDialog={ this.openDialog.bind(this) }
+					/>
         </View>
         <View>
-          <Hand handCards={ this.state.hand } openDialog={ this.openDialog.bind(this) } />
+          <Hand
+						handCards={ this.state.hand }
+						openDialog={ this.openDialog.bind(this) }
+						popupAction="Play"
+					/>
         </View>
         <PopupDialog
           cardImage={ this.state.cardImage }
+					popupAction={ this.state.popupAction }
           dialog={(popupDialog) => { this.popupDialog = popupDialog; }}
         />
       </View>
