@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import CardTile from '../../../components/CardTile'
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
+import PopupDialog from '../../../components/PopupDialog'
 
 
 export default class Table extends Component {
@@ -14,10 +15,25 @@ export default class Table extends Component {
   constructor() {
     super()
     this.state = {
+      cardImage: "copperFull",
       deckComposition: {'copper': 7, 'estate': 3, 'vassal': 4, 'moat': 5, 'militia': 2},
       discard: ['copper', 'copper', 'copper', 'copper'],
       trash: ['copper', 'copper'],
     }
+    this.openDialog = this.openDialog.bind(this)
+  }
+
+  cardTile(card, quantity) {
+    return (
+      <CardTile
+        openDialog={ this.openDialog }
+        key={card}
+        cardHeight={23.5}
+        cardWidth={23.5}
+        cardTileImage={card}
+        cardQuantity={quantity}>
+      </CardTile>
+    )
   }
 
   renderDeck() {
@@ -25,13 +41,7 @@ export default class Table extends Component {
 
     for(var card in this.state.deckComposition){
       deckRender.push(
-        <CardTile
-          key={card}
-          cardHeight={23.5}
-          cardWidth={23.5}
-          cardTileImage={card}
-          cardQuantity={this.state.deckComposition[card]}>
-        </CardTile>
+        this.cardTile(card, this.state.deckComposition[card])
       )
     }
     return deckRender
@@ -51,13 +61,7 @@ export default class Table extends Component {
 
     for(var card in discardComposition){
       discardRender.push(
-        <CardTile
-          key={card}
-          cardHeight={23.5}
-          cardWidth={23.5}
-          cardTileImage={card}
-          cardQuantity={discardComposition[card]}>
-        </CardTile>
+        this.cardTile(card, discardComposition[card])
       )
     }
     return discardRender
@@ -69,16 +73,16 @@ export default class Table extends Component {
 
     for(var card in trashComposition){
       trashRender.push(
-        <CardTile
-          key={card}
-          cardHeight={23.5}
-          cardWidth={23.5}
-          cardTileImage={card}
-          cardQuantity={trashComposition[card]}>
-        </CardTile>
+        this.cardTile(card, trashComposition[card])
       )
     }
     return trashRender
+  }
+
+  openDialog(image) {
+    this.setState({cardImage: image}, () => {
+      this.popupDialog.show()
+    })
   }
 
   render() {
@@ -96,6 +100,10 @@ export default class Table extends Component {
         <View style={styles.cardContainer}>
           { this.renderTrash() }
         </View>
+        <PopupDialog
+          cardImage={ this.state.cardImage }
+          dialog={(popupDialog) => { this.popupDialog = popupDialog; }}
+        />
       </ScrollView>
     )
   }
