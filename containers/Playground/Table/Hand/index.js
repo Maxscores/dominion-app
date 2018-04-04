@@ -39,6 +39,7 @@ export default class Table extends Component {
           cardHeight={23.5}
           cardWidth={23.5}
           cardTileImage={card}
+					popupAction={ this.props.popupAction }
           cardQuantity={handComposition[card]}>
         </CardTile>
       )
