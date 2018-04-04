@@ -23,27 +23,30 @@ export default class PlayArea extends Component {
         );
     }
 
-  render() {
-
-    let playCardRender = [];
-    for (let i = 0; i < 20; i++ ) {
-      playCardRender.push(
+  renderPlayarea() {
+    return this.props.playareaCards.map((card, index) => {
+      return (
         <CardTile
           openDialog={ this.props.openDialog }
           cardWidth={40}
           cardHeight={40}
-          key={i}
-          cardTileImage={"copper"}>
+          key={index}
+          cardTileImage={card}>
         </CardTile>
       )
-    };
+    })
+  }
+
+  render() {
+
+
 
     return (
       <View style={styles.container}>
         <Carousel
         layout={'stack'}
         layoutCardOffset={25}
-        data={playCardRender}
+        data={this.renderPlayarea()}
         renderItem={this._renderItem}
         sliderWidth={responsiveWidth(100)}
         itemWidth={responsiveWidth(40)}

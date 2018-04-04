@@ -13,8 +13,6 @@ import {
 
 import CardTile from '../../../../components/CardTile'
 
-let hand = ['estate', 'copper', 'village', 'village', 'gold']
-
 
 export default class Table extends Component {
 
@@ -22,18 +20,21 @@ export default class Table extends Component {
     super(props);
   }
 
-  render() {
-    let handRender = []
-
-    handComposition = hand.reduce((result, card) => {
+  handComposition() {
+    return this.props.handCards.reduce((result, card) => {
       if (result[card] === undefined) {result[card] = 0}
       result[card] += 1
       return result
     }, {})
+  }
 
+  renderHand() {
+    let handComposition = this.handComposition()
+    let handRender = []
     for(var card in handComposition){
       handRender.push(
         <CardTile
+          key={card}
           openDialog={ this.props.openDialog }
           cardHeight={23.5}
           cardWidth={23.5}
@@ -42,9 +43,14 @@ export default class Table extends Component {
         </CardTile>
       )
     }
+    return handRender
+  }
+
+  render() {
+
     return (
       <ScrollView horizontal>
-        { handRender }
+        { this.renderHand() }
       </ScrollView>
     )
   }

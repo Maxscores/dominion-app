@@ -9,51 +9,35 @@ import Swiper from 'react-native-swiper';
 import CardTile from '../../../../components/CardTile'
 import { responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
 
-
-let gameCards = {'bandit': 10,
-                 'witch': 10,
-                 'village': 10,
-                 'workshop': 10,
-                 'copper': 60,
-                 'silver': 60,
-                 'gold': 30,
-                 'estate': 10,
-                 'duchy': 10,
-                 'province': 10,
-                 'harbinger': 10,
-                 'laboratory': 10,
-                 'market': 10,
-                 'merchant': 10,
-                 'moat': 10,
-                 'sentry': 10,
-                 'vassal': 10 }
-
 export default class Supply extends Component {
 
   constructor(props) {
     super(props);
   }
 
-  render() {
+  renderSupply() {
+    let supplyCardRender = [];
 
-    let gameCardRender = [];
-
-    for (var card in gameCards) {
-      gameCardRender.push(
+    for (var card in this.props.supplyCards) {
+      supplyCardRender.push(
         <CardTile
           openDialog={ this.props.openDialog }
           key={card}
           cardHeight={20}
           cardWidth={20}
           cardTileImage={card}
-          cardQuantity={gameCards[card]}>
+          cardQuantity={this.props.supplyCards[card]}>
         </CardTile>
       )
     };
+    return supplyCardRender;
+  }
 
-    let firstCards = gameCardRender.slice(0, 6)
-    let secondCards = gameCardRender.slice(6, 12)
-    let thirdCards = gameCardRender.slice(12)
+  render() {
+
+    let firstCards = this.renderSupply().slice(0, 6)
+    let secondCards = this.renderSupply().slice(6, 12)
+    let thirdCards = this.renderSupply().slice(12)
 
     return (
         <Swiper
