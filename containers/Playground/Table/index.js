@@ -22,6 +22,47 @@ export default class Table extends Component {
     super();
     this.state = {
       cardImage: "copperFull",
+      supply: {'bandit': 10,
+                       'witch': 10,
+                       'village': 10,
+                       'workshop': 10,
+                       'copper': 60,
+                       'silver': 60,
+                       'gold': 30,
+                       'estate': 10,
+                       'duchy': 10,
+                       'province': 10,
+                       'harbinger': 10,
+                       'laboratory': 10,
+                       'market': 10,
+                       'merchant': 10,
+                       'moat': 10,
+                       'sentry': 10,
+                       'vassal': 10 },
+      playarea: ['copper', 'copper', 'copper'],
+      draw: [
+      				"copper",
+      				"copper",
+      				"estate",
+      				"copper",
+      				"copper"
+      			],
+      discard: [
+      				"copper",
+      				"copper",
+      				"copper",
+      				"estate",
+      				"estate",
+      				"silver"
+      			],
+      hand: [
+              'estate',
+              'copper',
+              'village',
+              'village',
+              'gold'
+            ],
+      trash: [],
     }
   }
 
@@ -36,14 +77,14 @@ export default class Table extends Component {
       <View style={styles.container}>
         <TurnDetail />
         <View style={styles.topContainer}>
-          <Supply openDialog={ this.openDialog.bind(this) } style={styles.supply}/>
+          <Supply supplyCards={ this.state.supply } openDialog={ this.openDialog.bind(this) } style={styles.supply}/>
           <Scoreboard />
         </View>
         <View style={styles.playContainer}>
-          <PlayArea openDialog={ this.openDialog.bind(this) } />
+          <PlayArea playareaCards={ this.state.playarea } openDialog={ this.openDialog.bind(this) } />
         </View>
         <View>
-          <Hand openDialog={ this.openDialog.bind(this) } />
+          <Hand handCards={ this.state.hand } openDialog={ this.openDialog.bind(this) } />
         </View>
         <PopupDialog
           cardImage={ this.state.cardImage }
