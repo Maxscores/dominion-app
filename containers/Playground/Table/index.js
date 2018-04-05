@@ -17,7 +17,6 @@ import { images } from '@assets/images'
 import PopupDialog from '../../../components/PopupDialog'
 
 export default class Table extends Component {
-
   constructor() {
     super();
     this.state = {
@@ -64,11 +63,37 @@ export default class Table extends Component {
               'gold'
             ],
       trash: [],
+			cardsBought: [],
     }
   }
 
-  openDialog(image, action) {
-    this.setState({cardImage: image, popupAction: action}, () => {
+	playCard(card) {
+		// moveCard(card, hand, playarea)
+		let hand = this.state.hand
+		let index = hand.indexOf(card)
+		if (index > -1) { hand.splice(index, 1) }
+		let playarea = [card, ...this.state.playarea]
+
+		this.setState({hand: hand, playarea: playarea})
+		this.popupDialog.dismiss()
+	}
+
+	buyCard(card) {
+		let supply = this.state.supply
+		supply[card]--
+		let cardsBought = [...this.state.cardsBought, card]
+
+		this.setState({cardsBought: cardsBought, supply: supply})
+		this.popupDialog.dismiss()
+	}
+
+  openDialog(cardName, actionName, method) {
+    this.setState({
+				cardImage: `${cardName}Full`,
+				cardName: cardName,
+				popupAction: actionName,
+				popupMethod: method
+			}, () => {
       this.popupDialog.show()
     })
   }
@@ -81,6 +106,7 @@ export default class Table extends Component {
           <Supply
 						supplyCards={ this.state.supply }
 						openDialog={ this.openDialog.bind(this) }
+						popupMethod={ this.buyCard.bind(this) }
 						style={styles.supply}
 						popupAction="Buy"
 					/>
@@ -97,11 +123,14 @@ export default class Table extends Component {
 						handCards={ this.state.hand }
 						openDialog={ this.openDialog.bind(this) }
 						popupAction="Play"
+						popupMethod={ this.playCard.bind(this) }
 					/>
         </View>
         <PopupDialog
           cardImage={ this.state.cardImage }
+					cardName={ this.state.cardName }
 					popupAction={ this.state.popupAction }
+					popupMethod={ this.state.popupMethod }
           dialog={(popupDialog) => { this.popupDialog = popupDialog; }}
         />
       </View>
