@@ -30,7 +30,7 @@ export default class Table extends Component {
         key={card}
         cardHeight={23.5}
         cardWidth={23.5}
-        cardTileImage={card}
+        cardName={card}
         cardQuantity={quantity}>
       </CardTile>
     )

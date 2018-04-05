@@ -25,8 +25,9 @@ export default class Supply extends Component {
           key={card}
           cardHeight={20}
           cardWidth={20}
-          cardTileImage={card}
+					cardName={card}
 					popupAction={ this.props.popupAction }
+					popupMethod={ this.props.popupMethod }
           cardQuantity={ this.props.supplyCards[card] }
 				/>
       )

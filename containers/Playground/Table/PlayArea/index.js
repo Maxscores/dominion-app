@@ -31,7 +31,8 @@ export default class PlayArea extends Component {
           cardWidth={40}
           cardHeight={40}
           key={index}
-          cardTileImage={card}>
+					cardName={card}
+					>
         </CardTile>
       )
     })
