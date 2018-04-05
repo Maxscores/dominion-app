@@ -15,6 +15,7 @@ import Scoreboard from '../../../components/Scoreboard';
 import TurnDetail from '../../../components/TurnDetail';
 import { images } from '@assets/images'
 import PopupDialog from '../../../components/PopupDialog'
+import dominionCards from '../../../game-utilities/dominion'
 
 export default class Table extends Component {
   constructor() {
@@ -39,7 +40,7 @@ export default class Table extends Component {
                        'moat': 10,
                        'sentry': 10,
                        'vassal': 10 },
-      playarea: ['copper', 'copper', 'copper'],
+      playarea: [],
       draw: [
       				"copper",
       				"copper",
@@ -57,7 +58,7 @@ export default class Table extends Component {
       			],
       hand: [
               'estate',
-              'copper',
+							'copper',
               'village',
               'village',
               'gold'
@@ -76,6 +77,8 @@ export default class Table extends Component {
 		let index = hand.indexOf(card)
 		if (index > -1) { hand.splice(index, 1) }
 		let playarea = [card, ...this.state.playarea]
+
+		this.setState(dominonCards[card](this.state))
 
 		this.setState({hand: hand, playarea: playarea})
 		this.popupDialog.dismiss()
