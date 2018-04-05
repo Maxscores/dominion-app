@@ -34,10 +34,14 @@ export default class CardTile extends Component<Props> {
       <View>
         <TouchableHighlight
           onPress={() => {
-            this.props.openDialog(`${this.props.cardTileImage}Full`, this.props.popupAction)
+            this.props.openDialog(
+							this.props.cardName,
+							this.props.popupAction,
+							this.props.popupMethod
+						)
           }}>
           <ImageBackground
-            source={images[`${this.props.cardTileImage}Tile`]}
+            source={images[`${this.props.cardName}Tile`]}
             style={{
               height: responsiveWidth(this.props.cardHeight),
               width: responsiveWidth(this.props.cardWidth),
