@@ -16,60 +16,63 @@ import TurnDetail from '../../../components/TurnDetail';
 import { images } from '@assets/images'
 import PopupDialog from '../../../components/PopupDialog'
 import dominionCards from '../../../game-utilities/dominion'
+import { getGameState } from '../../../game-utilities/services'
 
 export default class Table extends Component {
   constructor() {
     super();
     this.state = {
+			gameId: 1,
       cardImage: "copperFull",
 			popupAction: null,
-      supply: {'bandit': 10,
-                       'witch': 10,
-                       'village': 10,
-                       'workshop': 10,
-                       'copper': 60,
-                       'silver': 60,
-                       'gold': 30,
-                       'estate': 10,
-                       'duchy': 10,
-                       'province': 10,
-                       'harbinger': 10,
-                       'laboratory': 10,
-                       'market': 10,
-                       'merchant': 10,
-                       'moat': 10,
-                       'sentry': 10,
-                       'vassal': 10 },
-      playarea: [],
-      draw: [
-      				"copper",
-      				"copper",
-      				"estate",
-      				"copper",
-      				"copper"
-      			],
-      discard: [
-      				"copper",
-      				"copper",
-      				"copper",
-      				"estate",
-      				"estate",
-      				"silver"
-      			],
-      hand: [
-              'estate',
-							'copper',
-              'village',
-              'village',
-              'gold'
-            ],
-      trash: [],
-			cardsBought: [],
+			playarea: [],
 			actions: 1,
 			buys: 1,
 			coins: 0,
+			cardsBought: [],
+			competitors: [],
+			competitorsStack: [
+				{}
+			],
+			currentPlayer: null,
+      supply: {},
+      draw: [],
+      discard: [],
+      hand: [],
+      trash: [],
+			turnOrder: [],
     }
   }
+
+	componentDidMount() {
+		getGameState(this.state.gameId)
+			.then((gameState) => {
+				let deck = this.currentPlayerDeck(gameState.decks, gameState.current_player);
+				this.setState({
+					currentPlayer: gameState.current_player,
+					supply: gameState.game_cards,
+					trash: gameState.trash,
+					hand: deck.hand,
+					draw: deck.draw,
+					discard: deck.discard,
+					turnOrder: gameState.turn_order,
+				})
+			})
+	}
+
+
+	currentPlayerDeck(decks, currentPlayer) {
+		let deck = decks.find((deck) => {
+			return deck.player_id === currentPlayer
+		})
+		let result = {
+			hand: deck.draw.splice(0,5),
+			draw: deck.draw,
+			discard: deck.discard
+		}
+
+		return result
+	}
 
 	playCard(card) {
 		// moveCard(card, hand, playarea)
@@ -77,10 +80,8 @@ export default class Table extends Component {
 		let index = hand.indexOf(card)
 		if (index > -1) { hand.splice(index, 1) }
 		let playarea = [card, ...this.state.playarea]
-
-		this.setState(dominonCards[card](this.state))
-
 		this.setState({hand: hand, playarea: playarea})
+		this.setState(dominonCards[card](this.state))
 		this.popupDialog.dismiss()
 	}
 
