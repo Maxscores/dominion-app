@@ -64,6 +64,9 @@ export default class Table extends Component {
             ],
       trash: [],
 			cardsBought: [],
+			actions: 1,
+			buys: 1,
+			coins: 0,
     }
   }
 
@@ -101,7 +104,11 @@ export default class Table extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <TurnDetail />
+        <TurnDetail
+					actions={ this.state.actions }
+					coins={ this.state.coins }
+					buys={ this.state.buys }
+				/>
         <View style={styles.topContainer}>
           <Supply
 						supplyCards={ this.state.supply }
