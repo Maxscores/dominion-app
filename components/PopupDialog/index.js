@@ -29,7 +29,7 @@ export default class Popup extends Component {
 			return (
 				<Button
 					title={`${this.props.popupAction}`}
-					onPress={ this.performAction.bind(this) }
+					onPress={ this.props.popupMethod.bind(this, this.props.cardName) }
 				/>
 			)
 		}
