@@ -79,11 +79,13 @@ export default class Table extends Component {
     return trashRender
   }
 
-  openDialog(image) {
-    this.setState({cardImage: image}, () => {
+  openDialog(cardName) {
+		this.setState({
+				cardImage: `${cardName}Full`,
+				cardName: cardName,
+			}, () => {
       this.popupDialog.show()
-    })
-  }
+  })}
 
   render() {
     return (
