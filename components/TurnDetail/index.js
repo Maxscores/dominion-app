@@ -14,9 +14,9 @@ export default class TurnDetail extends Component<Props> {
   render() {
     return (
       <View style={styles.turnDetail}>
-        <Text style={styles.turnDetailText}>Coins: 3</Text>
-        <Text style={styles.turnDetailText}>Actions: 1</Text>
-        <Text style={styles.turnDetailText}>Buys: 1</Text>
+        <Text style={styles.turnDetailText}>Coins: { this.props.coins }</Text>
+        <Text style={styles.turnDetailText}>Actions: { this.props.actions }</Text>
+        <Text style={styles.turnDetailText}>Buys: { this.props.buys }</Text>
       </View>
     )
   }
