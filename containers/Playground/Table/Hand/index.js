@@ -38,7 +38,9 @@ export default class Table extends Component {
           openDialog={ this.props.openDialog }
           cardHeight={23.5}
           cardWidth={23.5}
-          cardTileImage={card}
+					cardName={card}
+					popupAction={ this.props.popupAction }
+					popupMethod={ this.props.popupMethod }
           cardQuantity={handComposition[card]}>
         </CardTile>
       )

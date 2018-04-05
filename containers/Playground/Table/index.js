@@ -17,11 +17,11 @@ import { images } from '@assets/images'
 import PopupDialog from '../../../components/PopupDialog'
 
 export default class Table extends Component {
-
   constructor() {
     super();
     this.state = {
       cardImage: "copperFull",
+			popupAction: null,
       supply: {'bandit': 10,
                        'witch': 10,
                        'village': 10,
@@ -63,11 +63,37 @@ export default class Table extends Component {
               'gold'
             ],
       trash: [],
+			cardsBought: [],
     }
   }
 
-  openDialog(image) {
-    this.setState({cardImage: image}, () => {
+	playCard(card) {
+		// moveCard(card, hand, playarea)
+		let hand = this.state.hand
+		let index = hand.indexOf(card)
+		if (index > -1) { hand.splice(index, 1) }
+		let playarea = [card, ...this.state.playarea]
+
+		this.setState({hand: hand, playarea: playarea})
+		this.popupDialog.dismiss()
+	}
+
+	buyCard(card) {
+		let supply = this.state.supply
+		supply[card]--
+		let cardsBought = [...this.state.cardsBought, card]
+
+		this.setState({cardsBought: cardsBought, supply: supply})
+		this.popupDialog.dismiss()
+	}
+
+  openDialog(cardName, actionName, method) {
+    this.setState({
+				cardImage: `${cardName}Full`,
+				cardName: cardName,
+				popupAction: actionName,
+				popupMethod: method
+			}, () => {
       this.popupDialog.show()
     })
   }
@@ -77,17 +103,34 @@ export default class Table extends Component {
       <View style={styles.container}>
         <TurnDetail />
         <View style={styles.topContainer}>
-          <Supply supplyCards={ this.state.supply } openDialog={ this.openDialog.bind(this) } style={styles.supply}/>
+          <Supply
+						supplyCards={ this.state.supply }
+						openDialog={ this.openDialog.bind(this) }
+						popupMethod={ this.buyCard.bind(this) }
+						style={styles.supply}
+						popupAction="Buy"
+					/>
           <Scoreboard />
         </View>
         <View style={styles.playContainer}>
-          <PlayArea playareaCards={ this.state.playarea } openDialog={ this.openDialog.bind(this) } />
+          <PlayArea
+						playareaCards={ this.state.playarea }
+						openDialog={ this.openDialog.bind(this) }
+					/>
         </View>
         <View>
-          <Hand handCards={ this.state.hand } openDialog={ this.openDialog.bind(this) } />
+          <Hand
+						handCards={ this.state.hand }
+						openDialog={ this.openDialog.bind(this) }
+						popupAction="Play"
+						popupMethod={ this.playCard.bind(this) }
+					/>
         </View>
         <PopupDialog
           cardImage={ this.state.cardImage }
+					cardName={ this.state.cardName }
+					popupAction={ this.state.popupAction }
+					popupMethod={ this.state.popupMethod }
           dialog={(popupDialog) => { this.popupDialog = popupDialog; }}
         />
       </View>

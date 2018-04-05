@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   Image,
+	Button,
 } from 'react-native';
 import { responsiveHeight, responsiveWidth, responsiveFontSize } from 'react-native-responsive-dimensions';
 import PopupDialog from 'react-native-popup-dialog';
@@ -14,14 +15,34 @@ export default class Popup extends Component {
     super(props);
   }
 
+	performAction() {
+		let action = this.props.popupAction
+		if (action.toLowerCase() === 'buy') {
+			console.warn('Card Bought')
+		} else if (action.toLowerCase() === 'play') {
+			console.warn('Card Played')
+		}
+	}
+
+	showButton() {
+		if (this.props.popupAction) {
+			return (
+				<Button
+					title={`${this.props.popupAction}`}
+					onPress={ this.props.popupMethod.bind(this, this.props.cardName) }
+				/>
+			)
+		}
+	}
+
   render() {
     return (
-
       <PopupDialog
         ref={this.props.dialog}
         height={0.75}
         width={.95}
       >
+				{ this.showButton() }
         <Image
           source={images[this.props.cardImage]}
         >

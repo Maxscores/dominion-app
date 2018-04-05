@@ -30,7 +30,7 @@ export default class Table extends Component {
         key={card}
         cardHeight={23.5}
         cardWidth={23.5}
-        cardTileImage={card}
+        cardName={card}
         cardQuantity={quantity}>
       </CardTile>
     )
@@ -79,11 +79,13 @@ export default class Table extends Component {
     return trashRender
   }
 
-  openDialog(image) {
-    this.setState({cardImage: image}, () => {
+  openDialog(cardName) {
+		this.setState({
+				cardImage: `${cardName}Full`,
+				cardName: cardName,
+			}, () => {
       this.popupDialog.show()
-    })
-  }
+  })}
 
   render() {
     return (
