@@ -15,8 +15,6 @@ const buys = (current, add) => {
 const drawCards = (quantity, from, to) => {
 	let cards = from.splice(0, quantity)
 	let newHand = [...to, ...cards]
-	console.warn(`from ${from}`)
-	console.warn(`hand ${newHand}`)
 	return {draw: from, hand: newHand}
 }
 
