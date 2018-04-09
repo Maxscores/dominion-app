@@ -109,6 +109,10 @@ export default class Table extends Component {
 				hand: hand,
 				playarea: playarea
 			})
+			/*
+			Using an action must be done inside the action card logic.
+			State doesn't get updated quickly enough to update actions before calling the card action method.
+			*/
 			this.setState(dominionCards[card]['action'](this.state))
 		} else {
 			alert('You cannot play that right now')
