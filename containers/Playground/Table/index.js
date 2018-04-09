@@ -22,7 +22,7 @@ export default class Table extends Component {
   constructor() {
     super();
     this.state = {
-			gameId: 1,
+			gameId: 2,
       cardImage: "copperFull",
 			popupAction: null,
 			playarea: [],

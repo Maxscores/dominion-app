@@ -35,5 +35,22 @@ export default dominonCards = {
 		let newActions = actions(state.actions, 2)
 		let resultingState = _.merge(draw, newActions)
 		return resultingState
+	},
+	"laboratory": (state) => {
+		let draw = drawCards(2, state.draw, state.hand)
+		let newActions = actions(state.actions, 1)
+		let resultingState = _.merge(draw, newActions)
+		return resultingState
+	},
+	"festival": (state) => {
+		let newActions = actions(state.actions, 2)
+		let newBuys = buys(state.buys, 1)
+		let newCoins = coins(state.coins, 2)
+		let resultingState = _.merge(newBuys, newActions)
+		resultingState = _.merge(resultingState, newCoins)
+		return resultingState
+	},
+	"smithy": (state) => {
+		return drawCards(3, state.draw, state.hand)
 	}
 }
