@@ -67,9 +67,13 @@ export default class Table extends Component {
 			this.playAttack(currentAttacks.shift())
 		}
 		this.setState({
-			turnPhase: 2,
+			turnPhase: this.nextPhase(),
 			attackStack: allAttacks
 		})
+	}
+
+	nextPhase() {
+		return this.state.turnPhase + 1
 	}
 
 	currentPlayerDeck(decks, currentPlayer) {
@@ -89,13 +93,27 @@ export default class Table extends Component {
 	}
 
 	playCard(card) {
-		let hand = this.state.hand
-		let index = hand.indexOf(card)
-		if (index > -1) { hand.splice(index, 1) }
-		let playarea = [card, ...this.state.playarea]
-		this.setState({hand: hand, playarea: playarea})
-		this.setState(dominionCards[card]['action'](this.state))
+		if (this.canPlayCard(card)) {
+			let hand = this.state.hand
+			let index = hand.indexOf(card)
+			if (index > -1) { hand.splice(index, 1) }
+			let playarea = [card, ...this.state.playarea]
+			this.setState({hand: hand, playarea: playarea})
+			this.setState(dominionCards[card]['action'](this.state))
+		} else {
+			alert('You cannot play that right now')
+		}
 		this.popupDialog.dismiss()
+	}
+
+	canPlayCard(card) {
+		if (card['type'] === 'action' && this.state.turnPhase === 2 && this.state.actions > 1) {
+			return true
+		} else if (card['type'] === 'treasure') {
+			return true
+		} else {
+			return false
+		}
 	}
 
 	buyCard(card) {
