@@ -53,7 +53,7 @@ export default class Table extends Component {
 					currentPlayer: gameState.current_player,
 					supply: gameState.game_cards,
 					trash: gameState.trash,
-					hand: [...deck.hand, 'market', 'market'],
+					hand: [...deck.hand, 'market', 'village', 'gold', 'gold', 'silver'],
 					draw: deck.draw,
 					discard: deck.discard,
 					turnOrder: gameState.turn_order,
@@ -161,7 +161,7 @@ export default class Table extends Component {
 
   openDialog(cardName, actionName, method) {
     this.setState({
-				cardImage: `${cardName}Full`,
+				cardImage: `${cardName.replace(" ", "_")}Full`,
 				cardName: cardName,
 				popupAction: actionName,
 				popupMethod: method
