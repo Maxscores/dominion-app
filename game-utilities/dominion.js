@@ -19,7 +19,19 @@ const drawCards = (quantity, from, to) => {
 }
 
 export default dominonCards = {
-	"copper": {
+	'estate': {
+		'type': 'victory',
+		'cost': 2
+	},
+	'duchy': {
+		'type': 'victory',
+		'cost': 5
+	},
+	'province': {
+		'type': 'victory',
+		'cost': 8
+	},
+	'copper': {
 		'type': 'treasure',
 		'action': (state) => {
 			return coins(state.coins, 1)
@@ -29,7 +41,17 @@ export default dominonCards = {
 			return state
 		}
 	},
-	"silver": {
+	'copper': {
+		'type': 'treasure',
+		'action': (state) => {
+			return coins(state.coins, 1)
+		},
+		'cost': 0,
+		'attack': (state) => {
+			return state
+		}
+	},
+	'silver': {
 		'type': 'treasure',
 		'action': (state) => {
 			return coins(state.coins, 2)
@@ -39,7 +61,7 @@ export default dominonCards = {
 			return state
 		}
 	},
-	"gold": {
+	'gold': {
 		'type': 'treasure',
 		'action': (state) => {
 			return coins(state.coins, 3)
@@ -49,7 +71,7 @@ export default dominonCards = {
 			return state
 		}
 	},
-	"village": {
+	'village': {
 		'type': 'action',
 		'action': (state) => {
 			let draw = drawCards(1, state.draw, state.hand)
@@ -62,7 +84,7 @@ export default dominonCards = {
 			return state
 		}
 	},
-	"market": {
+	'market': {
 		'type': 'action',
 		'action': (state) => {
 			let newDraw = drawCards(1, state.draw, state.hand)

@@ -106,10 +106,12 @@ export default class Table extends Component {
 		this.popupDialog.dismiss()
 	}
 
-	canPlayCard(card) {
-		if (dominionCards[card]['type'] === 'action' && this.isActionPhase() && this.hasActions()) {
+	canPlayCard(cardName) {
+		if (!this.isActionPhase()) { return false }
+		let card = dominionCards[cardName]
+		if (card['type'].includes('action') && this.hasActions()) {
 			return true
-		} else if (card['type'] === 'treasure' && this.isActionPhase()) {
+		} else if (card['type'].includes('treasure')) {
 			return true
 		} else {
 			return false
