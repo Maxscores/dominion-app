@@ -38,13 +38,6 @@ export default dominonCards = {
 		},
 		'cost': 0
 	},
-	'copper': {
-		'type': 'treasure',
-		'action': (state) => {
-			return coins(state.coins, 1)
-		},
-		'cost': 0
-	},
 	'silver': {
 		'type': 'treasure',
 		'action': (state) => {
