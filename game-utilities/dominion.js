@@ -15,8 +15,6 @@ const buys = (current, add) => {
 const drawCards = (quantity, from, to) => {
 	let cards = from.splice(0, quantity)
 	let newHand = [...to, ...cards]
-	console.warn(`from ${from}`)
-	console.warn(`hand ${newHand}`)
 	return {draw: from, hand: newHand}
 }
 
@@ -34,6 +32,16 @@ export default dominonCards = {
 		let draw = drawCards(1, state.draw, state.hand)
 		let newActions = actions(state.actions, 2)
 		let resultingState = _.merge(draw, newActions)
+		return resultingState
+	},
+	"market": (state) => {
+		let newDraw = drawCards(1, state.draw, state.hand)
+		let newActions = actions(state.actions, 1)
+		let newCoins = coins(state.coins, 1)
+		let newBuys = buys(state.buys, 1)
+		let resultingState = _.merge(newDraw, newActions)
+		resultingState = _.merge(resultingState, newCoins)
+		resultingState = _.merge(resultingState, newBuys)
 		return resultingState
 	}
 }

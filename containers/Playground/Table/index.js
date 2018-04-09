@@ -22,7 +22,7 @@ export default class Table extends Component {
   constructor() {
     super();
     this.state = {
-			gameId: 1,
+			gameId: 3,
       cardImage: "copperFull",
 			popupAction: null,
 			playarea: [],
@@ -52,7 +52,7 @@ export default class Table extends Component {
 					currentPlayer: gameState.current_player,
 					supply: gameState.game_cards,
 					trash: gameState.trash,
-					hand: deck.hand,
+					hand: [...deck.hand, 'market'],
 					draw: deck.draw,
 					discard: deck.discard,
 					turnOrder: gameState.turn_order,
