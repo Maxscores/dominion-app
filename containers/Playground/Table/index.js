@@ -5,6 +5,7 @@ import {
   View,
   TouchableHighlight,
   ImageBackground,
+	Button
 } from 'react-native';
 import { responsiveHeight, responsiveWidth, responsiveFontSize } from 'react-native-responsive-dimensions';
 
@@ -26,6 +27,7 @@ export default class Table extends Component {
       cardImage: "copperFull",
 			turnPhase: 1,
 			popupAction: null,
+			hasBought: false,
 			playarea: [],
 			actions: 1,
 			buys: 1,
@@ -51,29 +53,33 @@ export default class Table extends Component {
 					currentPlayer: gameState.current_player,
 					supply: gameState.game_cards,
 					trash: gameState.trash,
-					hand: [...deck.hand, 'market'],
+					hand: [...deck.hand, 'market', 'market'],
 					draw: deck.draw,
 					discard: deck.discard,
 					turnOrder: gameState.turn_order,
-					attackStack: gameState.attack_stack,
-				}).then(this.resolveAttackStack)
+					attackStack: {"1": [], "2": []},
+				})
 			})
 	}
 
 	resolveAttackStack() {
 		let allAttacks = this.state.attackStack
 		let currentAttacks = allAttacks[`${this.state.currentPlayer}`]
-		while (currentAttacks > 0) {
-			this.playAttack(currentAttacks.shift())
+		if (currentAttacks.length === 0) {
+			alert("There were no pending attacks")
+		} else {
+			while (currentAttacks.length > 0) {
+				this.playAttack(currentAttacks.shift())
+			}
+			this.setState({
+				attackStack: allAttacks
+			})
 		}
-		this.setState({
-			turnPhase: this.nextPhase(),
-			attackStack: allAttacks
-		})
+		this.nextPhase()
 	}
 
 	nextPhase() {
-		return this.state.turnPhase + 1
+		this.setState({turnPhase: this.state.turnPhase + 1})
 	}
 
 	currentPlayerDeck(decks, currentPlayer) {
@@ -89,7 +95,8 @@ export default class Table extends Component {
 	}
 
 	playAttack(card) {
-		this.setState(dominionCards[card]['attack'](this.state))
+		console.warn(`Attack ${card} played`)
+		// this.setState(dominionCards[card]['attack'](this.state))
 	}
 
 	playCard(card) {
@@ -98,7 +105,10 @@ export default class Table extends Component {
 			let index = hand.indexOf(card)
 			if (index > -1) { hand.splice(index, 1) }
 			let playarea = [card, ...this.state.playarea]
-			this.setState({hand: hand, playarea: playarea})
+			this.setState({
+				hand: hand,
+				playarea: playarea
+			})
 			this.setState(dominionCards[card]['action'](this.state))
 		} else {
 			alert('You cannot play that right now')
@@ -107,11 +117,10 @@ export default class Table extends Component {
 	}
 
 	canPlayCard(cardName) {
-		if (!this.isActionPhase()) { return false }
 		let card = dominionCards[cardName]
-		if (card['type'].includes('action') && this.hasActions()) {
+		if (card['type'].includes('action') && this.hasActions() && this.isActionPhase()) {
 			return true
-		} else if (card['type'].includes('treasure')) {
+		} else if (card['type'].includes('treasure') && this.isBuyPhase() && !this.state.hasBought) {
 			return true
 		} else {
 			return false
@@ -127,15 +136,19 @@ export default class Table extends Component {
 	}
 
 	buyCard(card) {
-		if (this.canBuyCard()) {
+		if (this.canBuyCard(card)) {
 			let supply = this.state.supply
 			supply[card]--
 			let cardsBought = [...this.state.cardsBought, card]
 			this.setState({
 				coins: this.state.coins - dominionCards[card]['cost'],
 				cardsBought: cardsBought,
-				supply: supply
+				supply: supply,
+				buys: this.state.buys - 1,
+				hasBought: true
 			})
+		} else if (!this.isBuyPhase()) {
+			alert('It is not the buy phase')
 		} else {
 			alert('You do not have enough coins or buys')
 		}
@@ -178,7 +191,23 @@ export default class Table extends Component {
 			return "Finish Plays"
 		} else if (this.isBuyPhase()) {
 			return "Finish Buys"
+		} else {
+			return `Resolve Pending Attacks`
 		}
+	}
+
+	completePhase() {
+		if (this.isActionPhase()) {
+			this.nextPhase()
+		} else if (this.isBuyPhase()) {
+			this.finishTurn()
+		} else {
+			this.resolveAttackStack()
+		}
+	}
+
+	finishTurn() {
+		alert("Turn Completed")
 	}
 
   render() {
@@ -199,8 +228,9 @@ export default class Table extends Component {
 					/>
           <Scoreboard />
         </View>
-				<Button onClick={ () => this.setState({turnPhase: this.nextPhase()}) }>
-					{ this.nextPhaseButton() }
+				<Button
+					title={this.nextPhaseButton()}
+					onPress={ () => this.completePhase() }>
 				</Button>
         <View style={styles.playContainer}>
           <PlayArea
