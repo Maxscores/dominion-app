@@ -171,6 +171,14 @@ export default class Table extends Component {
 		return dominionCards[card]['cost'] <= this.state.coins
 	}
 
+	nextPhaseButton() {
+		if (this.isActionPhase()) {
+			return "Finish Plays"
+		} else if (this.isBuyPhase()) {
+			return "Finish Buys"
+		}
+	}
+
   render() {
     return (
       <View style={styles.container}>
@@ -189,7 +197,9 @@ export default class Table extends Component {
 					/>
           <Scoreboard />
         </View>
-				<Button onClick={ () => this.setState({turnPhase: this.nextPhase()}) }/>
+				<Button onClick={ () => this.setState({turnPhase: this.nextPhase()}) }>
+					{ this.nextPhaseButton() }
+				</Button>
         <View style={styles.playContainer}>
           <PlayArea
 						playareaCards={ this.state.playarea }
