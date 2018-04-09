@@ -24,6 +24,7 @@ export default class Table extends Component {
     this.state = {
 			gameId: 3,
       cardImage: "copperFull",
+			turnPhase: 1,
 			popupAction: null,
 			playarea: [],
 			actions: 1,
@@ -31,9 +32,7 @@ export default class Table extends Component {
 			coins: 0,
 			cardsBought: [],
 			competitors: [],
-			competitorsStack: [
-				{}
-			],
+			attackStack: {},
 			currentPlayer: null,
       supply: {},
       draw: [],
@@ -56,10 +55,22 @@ export default class Table extends Component {
 					draw: deck.draw,
 					discard: deck.discard,
 					turnOrder: gameState.turn_order,
-				})
+					attackStack: gameState.attack_stack,
+				}).then(this.resolveAttackStack)
 			})
 	}
 
+	resolveAttackStack() {
+		let allAttacks = this.state.attackStack
+		let currentAttacks = allAttacks[`${this.state.currentPlayer}`]
+		while (currentAttacks > 0) {
+			this.playAttack(currentAttacks.shift())
+		}
+		this.setState({
+			turnPhase: 2,
+			attackStack: allAttacks
+		})
+	}
 
 	currentPlayerDeck(decks, currentPlayer) {
 		let deck = decks.find((deck) => {
@@ -70,18 +81,20 @@ export default class Table extends Component {
 			draw: deck.draw,
 			discard: deck.discard
 		}
-
 		return result
 	}
 
+	playAttack(card) {
+		this.setState(dominionCards[card]['attack'](this.state))
+	}
+
 	playCard(card) {
-		// moveCard(card, hand, playarea)
 		let hand = this.state.hand
 		let index = hand.indexOf(card)
 		if (index > -1) { hand.splice(index, 1) }
 		let playarea = [card, ...this.state.playarea]
 		this.setState({hand: hand, playarea: playarea})
-		this.setState(dominonCards[card](this.state))
+		this.setState(dominionCards[card]['action'](this.state))
 		this.popupDialog.dismiss()
 	}
 
