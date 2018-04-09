@@ -19,29 +19,64 @@ const drawCards = (quantity, from, to) => {
 }
 
 export default dominonCards = {
-	"copper": (state) => {
-		return coins(state.coins, 1)
+	"copper": {
+		'type': 'treasure',
+		'action': (state) => {
+			return coins(state.coins, 1)
+		},
+		'cost': 0,
+		'attack': (state) => {
+			return state
+		}
 	},
-	"silver": (state) => {
-		return coins(state.coins, 2)
+	"silver": {
+		'type': 'treasure',
+		'action': (state) => {
+			return coins(state.coins, 2)
+		},
+		'cost': 3,
+		'attack': (state) => {
+			return state
+		}
 	},
-	"gold": (state) => {
-		return coins(state.coins, 3)
+	"gold": {
+		'type': 'treasure',
+		'action': (state) => {
+			return coins(state.coins, 3)
+		},
+		'cost': 6,
+		'attack': (state) => {
+			return state
+		}
 	},
-	"village": (state) => {
-		let draw = drawCards(1, state.draw, state.hand)
-		let newActions = actions(state.actions, 2)
-		let resultingState = _.merge(draw, newActions)
-		return resultingState
+	"village": {
+		'type': 'action',
+		'action': (state) => {
+			let draw = drawCards(1, state.draw, state.hand)
+			let newActions = actions(state.actions, 2)
+			let resultingState = _.merge(draw, newActions)
+			return resultingState
+		},
+		'cost': 3,
+		'attack': (state) => {
+			return state
+		}
 	},
-	"market": (state) => {
-		let newDraw = drawCards(1, state.draw, state.hand)
-		let newActions = actions(state.actions, 1)
-		let newCoins = coins(state.coins, 1)
-		let newBuys = buys(state.buys, 1)
-		let resultingState = _.merge(newDraw, newActions)
-		resultingState = _.merge(resultingState, newCoins)
-		resultingState = _.merge(resultingState, newBuys)
-		return resultingState
+	"market": {
+		'type': 'action',
+		'action': (state) => {
+			let newDraw = drawCards(1, state.draw, state.hand)
+			let newActions = actions(state.actions, 1)
+			let newCoins = coins(state.coins, 1)
+			let newBuys = buys(state.buys, 1)
+			let resultingState = _.merge(newDraw, newActions)
+			resultingState = _.merge(resultingState, newCoins)
+			resultingState = _.merge(resultingState, newBuys)
+			return resultingState
+		},
+		'cost': 5,
+		'attack': (state) => {
+			return state
+		}
 	}
 }
