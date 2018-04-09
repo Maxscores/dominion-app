@@ -36,40 +36,28 @@ export default dominonCards = {
 		'action': (state) => {
 			return coins(state.coins, 1)
 		},
-		'cost': 0,
-		'attack': (state) => {
-			return state
-		}
+		'cost': 0
 	},
 	'copper': {
 		'type': 'treasure',
 		'action': (state) => {
 			return coins(state.coins, 1)
 		},
-		'cost': 0,
-		'attack': (state) => {
-			return state
-		}
+		'cost': 0
 	},
 	'silver': {
 		'type': 'treasure',
 		'action': (state) => {
 			return coins(state.coins, 2)
 		},
-		'cost': 3,
-		'attack': (state) => {
-			return state
-		}
+		'cost': 3
 	},
 	'gold': {
 		'type': 'treasure',
 		'action': (state) => {
 			return coins(state.coins, 3)
 		},
-		'cost': 6,
-		'attack': (state) => {
-			return state
-		}
+		'cost': 6
 	},
 	'village': {
 		'type': 'action',
@@ -79,10 +67,7 @@ export default dominonCards = {
 			let resultingState = _.merge(draw, newActions)
 			return resultingState
 		},
-		'cost': 3,
-		'attack': (state) => {
-			return state
-		}
+		'cost': 3
 	},
 	'market': {
 		'type': 'action',
@@ -96,9 +81,6 @@ export default dominonCards = {
 			resultingState = _.merge(resultingState, newBuys)
 			return resultingState
 		},
-		'cost': 5,
-		'attack': (state) => {
-			return state
-		}
+		'cost': 5
 	}
 }
