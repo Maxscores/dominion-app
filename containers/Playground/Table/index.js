@@ -107,9 +107,17 @@ export default class Table extends Component {
 	}
 
 	canPlayCard(card) {
-		if (card['type'] === 'action' && this.state.turnPhase === 2 && this.state.actions > 1) {
+		if (dominionCards[card]['type'] === 'action' && this.isActionPhase() && this.hasActions()) {
 			return true
-		} else if (card['type'] === 'treasure') {
+		} else if (card['type'] === 'treasure' && this.isActionPhase()) {
+			return true
+		} else {
+			return false
+		}
+	}
+
+	canBuyCard(card) {
+		if (this.hasEnoughCoins(card) && this.isBuyPhase() && this.hasBuys()) {
 			return true
 		} else {
 			return false
@@ -117,11 +125,18 @@ export default class Table extends Component {
 	}
 
 	buyCard(card) {
-		let supply = this.state.supply
-		supply[card]--
-		let cardsBought = [...this.state.cardsBought, card]
-
-		this.setState({cardsBought: cardsBought, supply: supply})
+		if (this.canBuyCard()) {
+			let supply = this.state.supply
+			supply[card]--
+			let cardsBought = [...this.state.cardsBought, card]
+			this.setState({
+				coins: this.state.coins - dominionCards[card]['cost'],
+				cardsBought: cardsBought,
+				supply: supply
+			})
+		} else {
+			alert('You do not have enough coins or buys')
+		}
 		this.popupDialog.dismiss()
 	}
 
@@ -135,6 +150,26 @@ export default class Table extends Component {
       this.popupDialog.show()
     })
   }
+
+	isBuyPhase() {
+		return this.state.turnPhase === 3
+	}
+
+	isActionPhase() {
+		return this.state.turnPhase === 2
+	}
+
+	hasActions() {
+		return this.state.actions > 0
+	}
+
+	hasBuys() {
+		return this.state.buys > 0
+	}
+
+	hasEnoughCoins(card) {
+		return dominionCards[card]['cost'] <= this.state.coins
+	}
 
   render() {
     return (
@@ -154,6 +189,7 @@ export default class Table extends Component {
 					/>
           <Scoreboard />
         </View>
+				<Button onClick={ () => this.setState({turnPhase: this.nextPhase()}) }/>
         <View style={styles.playContainer}>
           <PlayArea
 						playareaCards={ this.state.playarea }
