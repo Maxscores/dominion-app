@@ -188,7 +188,7 @@ export default class Table extends Component {
 
 	nextPhaseButton() {
 		if (this.isActionPhase()) {
-			return "Finish Plays"
+			return "Finish Actions"
 		} else if (this.isBuyPhase()) {
 			return "Finish Buys"
 		} else {
