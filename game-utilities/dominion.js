@@ -56,7 +56,7 @@ export default dominonCards = {
 		'type': 'action',
 		'action': (state) => {
 			let draw = drawCards(1, state.draw, state.hand)
-			let newActions = actions(state.actions, 2)
+			let newActions = actions(state.actions, 1)
 			let resultingState = _.merge(draw, newActions)
 			return resultingState
 		},
@@ -66,7 +66,7 @@ export default dominonCards = {
 		'type': 'action',
 		'action': (state) => {
 			let newDraw = drawCards(1, state.draw, state.hand)
-			let newActions = actions(state.actions, 1)
+			let newActions = actions(state.actions, 0)
 			let newCoins = coins(state.coins, 1)
 			let newBuys = buys(state.buys, 1)
 			let resultingState = _.merge(newDraw, newActions)
