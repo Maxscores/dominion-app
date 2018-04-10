@@ -5,6 +5,7 @@ import {
   View,
   TouchableHighlight,
   ImageBackground,
+	Button
 } from 'react-native';
 import { responsiveHeight, responsiveWidth, responsiveFontSize } from 'react-native-responsive-dimensions';
 
@@ -24,16 +25,16 @@ export default class Table extends Component {
     this.state = {
 			gameId: 3,
       cardImage: "copperFull",
+			turnPhase: 1,
 			popupAction: null,
+			hasBought: false,
 			playarea: [],
 			actions: 1,
 			buys: 1,
 			coins: 0,
 			cardsBought: [],
 			competitors: [],
-			competitorsStack: [
-				{}
-			],
+			attackStack: {},
 			currentPlayer: null,
       supply: {},
       draw: [],
@@ -52,14 +53,34 @@ export default class Table extends Component {
 					currentPlayer: gameState.current_player,
 					supply: gameState.game_cards,
 					trash: gameState.trash,
-					hand: [...deck.hand, 'village', 'gold', 'gold', 'silver'],
+					hand: [...deck.hand, 'market', 'village', 'gold', 'gold', 'silver'],
 					draw: deck.draw,
 					discard: deck.discard,
 					turnOrder: gameState.turn_order,
+					attackStack: gameState.attack_stack,
 				})
 			})
 	}
 
+	resolveAttackStack() {
+		let allAttacks = this.state.attackStack
+		let currentAttacks = allAttacks[`${this.state.currentPlayer}`]
+		if (currentAttacks.length === 0) {
+			alert("There were no pending attacks")
+		} else {
+			while (currentAttacks.length > 0) {
+				this.playAttack(currentAttacks.shift())
+			}
+			this.setState({
+				attackStack: allAttacks
+			})
+		}
+		this.nextPhase()
+	}
+
+	nextPhase() {
+		this.setState({turnPhase: this.state.turnPhase + 1})
+	}
 
 	currentPlayerDeck(decks, currentPlayer) {
 		let deck = decks.find((deck) => {
@@ -70,26 +91,71 @@ export default class Table extends Component {
 			draw: deck.draw,
 			discard: deck.discard
 		}
-
 		return result
 	}
 
+	playAttack(card) {
+		console.warn(`Attack ${card} played`)
+		// this.setState(dominionCards[card]['attack'](this.state))
+	}
+
 	playCard(card) {
-		let hand = this.state.hand
-		let index = hand.indexOf(card)
-		if (index > -1) { hand.splice(index, 1) }
-		let playarea = [card, ...this.state.playarea]
-		this.setState({hand: hand, playarea: playarea})
-		this.setState(dominonCards[card](this.state))
+		if (this.canPlayCard(card)) {
+			let hand = this.state.hand
+			let index = hand.indexOf(card)
+			if (index > -1) { hand.splice(index, 1) }
+			let playarea = [card, ...this.state.playarea]
+			this.setState({
+				hand: hand,
+				playarea: playarea
+			})
+			/*
+			Using an action must be done inside the action card logic.
+			State doesn't get updated quickly enough to update actions before calling the card action method.
+			*/
+			this.setState(dominionCards[card]['action'](this.state))
+		} else {
+			alert('You cannot play that right now')
+		}
 		this.popupDialog.dismiss()
 	}
 
-	buyCard(card) {
-		let supply = this.state.supply
-		supply[card]--
-		let cardsBought = [...this.state.cardsBought, card]
+	canPlayCard(cardName) {
+		let card = dominionCards[cardName]
+		if (card['type'].includes('action') && this.hasActions() && this.isActionPhase()) {
+			return true
+		} else if (card['type'].includes('treasure') && this.isBuyPhase() && !this.state.hasBought) {
+			return true
+		} else {
+			return false
+		}
+	}
 
-		this.setState({cardsBought: cardsBought, supply: supply})
+	canBuyCard(card) {
+		if (this.hasEnoughCoins(card) && this.isBuyPhase() && this.hasBuys()) {
+			return true
+		} else {
+			return false
+		}
+	}
+
+	buyCard(card) {
+		if (this.canBuyCard(card)) {
+			let supply = this.state.supply
+			supply[card]--
+			let cardsBought = [...this.state.cardsBought, card]
+			this.setState({
+				coins: this.state.coins - dominionCards[card]['cost'],
+				cardsBought: cardsBought,
+				supply: supply,
+				buys: this.state.buys - 1,
+				hasBought: true
+			})
+		} else if (!this.isBuyPhase()) {
+			alert('It is not the buy phase')
+		} else {
+			alert('You do not have enough coins or buys')
+		}
 		this.popupDialog.dismiss()
 	}
 
@@ -103,6 +169,50 @@ export default class Table extends Component {
       this.popupDialog.show()
     })
   }
+
+	isBuyPhase() {
+		return this.state.turnPhase === 3
+	}
+
+	isActionPhase() {
+		return this.state.turnPhase === 2
+	}
+
+	hasActions() {
+		return this.state.actions > 0
+	}
+
+	hasBuys() {
+		return this.state.buys > 0
+	}
+
+	hasEnoughCoins(card) {
+		return dominionCards[card]['cost'] <= this.state.coins
+	}
+
+	nextPhaseButton() {
+		if (this.isActionPhase()) {
+			return "Finish Actions"
+		} else if (this.isBuyPhase()) {
+			return "Finish Buys"
+		} else {
+			return `Resolve Pending Attacks`
+		}
+	}
+
+	completePhase() {
+		if (this.isActionPhase()) {
+			this.nextPhase()
+		} else if (this.isBuyPhase()) {
+			this.finishTurn()
+		} else {
+			this.resolveAttackStack()
+		}
+	}
+
+	finishTurn() {
+		alert("Turn Completed")
+	}
 
   render() {
     return (
@@ -122,6 +232,10 @@ export default class Table extends Component {
 					/>
           <Scoreboard />
         </View>
+				<Button
+					title={this.nextPhaseButton()}
+					onPress={ () => this.completePhase() }>
+				</Button>
         <View style={styles.playContainer}>
           <PlayArea
 						playareaCards={ this.state.playarea }

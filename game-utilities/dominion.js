@@ -19,19 +19,61 @@ const drawCards = (quantity, from, to) => {
 }
 
 export default dominonCards = {
-	"copper": (state) => {
-		return coins(state.coins, 1)
+	'estate': {
+		'type': 'victory',
+		'cost': 2
 	},
-	"silver": (state) => {
-		return coins(state.coins, 2)
+	'duchy': {
+		'type': 'victory',
+		'cost': 5
 	},
-	"gold": (state) => {
-		return coins(state.coins, 3)
+	'province': {
+		'type': 'victory',
+		'cost': 8
 	},
-	"village": (state) => {
-		let draw = drawCards(1, state.draw, state.hand)
-		let newActions = actions(state.actions, 2)
-		let resultingState = _.merge(draw, newActions)
-		return resultingState
+	'copper': {
+		'type': 'treasure',
+		'action': (state) => {
+			return coins(state.coins, 1)
+		},
+		'cost': 0
+	},
+	'silver': {
+		'type': 'treasure',
+		'action': (state) => {
+			return coins(state.coins, 2)
+		},
+		'cost': 3
+	},
+	'gold': {
+		'type': 'treasure',
+		'action': (state) => {
+			return coins(state.coins, 3)
+		},
+		'cost': 6
+	},
+	'village': {
+		'type': 'action',
+		'action': (state) => {
+			let draw = drawCards(1, state.draw, state.hand)
+			let newActions = actions(state.actions, 1)
+			let resultingState = _.merge(draw, newActions)
+			return resultingState
+		},
+		'cost': 3
+	},
+	'market': {
+		'type': 'action',
+		'action': (state) => {
+			let newDraw = drawCards(1, state.draw, state.hand)
+			let newActions = actions(state.actions, 0)
+			let newCoins = coins(state.coins, 1)
+			let newBuys = buys(state.buys, 1)
+			let resultingState = _.merge(newDraw, newActions)
+			resultingState = _.merge(resultingState, newCoins)
+			resultingState = _.merge(resultingState, newBuys)
+			return resultingState
+		},
+		'cost': 5
 	}
 }
