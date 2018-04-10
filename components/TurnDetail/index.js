@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   turnDetail: {
     marginTop: responsiveHeight(4),
     height: responsiveHeight(5),
-    backgroundColor: 'maroon',
+    backgroundColor: '#abcdef',
     flexDirection: 'row',
     justifyContent: 'space-around',
 
