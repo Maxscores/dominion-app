@@ -213,18 +213,20 @@ export default class Table extends Component {
 
 	finishTurn() {
 	 	gameState = {
-		        supply: this.state.supply,
-						trash: this.state.trash,
-						attack_stack: this.state.attackStack,
-						draw: this.state.draw,
-						discard: this.state.discard,
-		        turn: {
-		          coins: this.state.coins,
-		          cards_played: this.state.playarea,
-		          cards_gained: this.state.cardsGained,
-		          cards_trashed: this.state.cardsTrashed
-		          }
-		        }
+      supply: this.state.supply,
+			trash: this.state.trash,
+			attack_stack: this.state.attackStack,
+			deck: {
+				draw: this.state.draw,
+				discard: this.state.discard
+			},
+      turn: {
+        coins: this.state.coins,
+        cards_played: this.state.playarea,
+        cards_gained: this.state.cardsGained,
+        cards_trashed: this.state.cardsTrashed
+        }
+    }
 		postTurn(this.state.gameId, gameState)
 			.then(alert('Turn completed'))
 	}
