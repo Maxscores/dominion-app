@@ -218,7 +218,12 @@ export default class Table extends Component {
 			attack_stack: this.state.attackStack,
 			deck: {
 				draw: this.state.draw,
-				discard: this.state.discard
+				discard: [
+					...this.state.discard,
+					...this.state.playarea,
+					...this.state.hand,
+					...this.staet.cardsGained
+				]
 			},
       turn: {
         coins: this.state.coins,
