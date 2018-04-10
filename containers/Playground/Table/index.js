@@ -57,7 +57,7 @@ export default class Table extends Component {
 					draw: deck.draw,
 					discard: deck.discard,
 					turnOrder: gameState.turn_order,
-					attackStack: {"1": [], "2": []},
+					attackStack: gameState.attack_stack,
 				})
 			})
 	}
