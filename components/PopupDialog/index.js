@@ -15,15 +15,6 @@ export default class Popup extends Component {
     super(props);
   }
 
-	performAction() {
-		let action = this.props.popupAction
-		if (action.toLowerCase() === 'buy') {
-			console.warn('Card Bought')
-		} else if (action.toLowerCase() === 'play') {
-			console.warn('Card Played')
-		}
-	}
-
 	showButton() {
 		if (this.props.popupAction) {
 			return (

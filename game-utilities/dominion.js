@@ -15,42 +15,94 @@ const buys = (current, add) => {
 const drawCards = (quantity, from, to) => {
 	let cards = from.splice(0, quantity)
 	let newHand = [...to, ...cards]
-	console.warn(`from ${from}`)
-	console.warn(`hand ${newHand}`)
 	return {draw: from, hand: newHand}
 }
 
 export default dominonCards = {
-	"copper": (state) => {
-		return coins(state.coins, 1)
+	'estate': {
+		'type': 'victory',
+		'cost': 2
 	},
-	"silver": (state) => {
-		return coins(state.coins, 2)
+	'duchy': {
+		'type': 'victory',
+		'cost': 5
 	},
-	"gold": (state) => {
-		return coins(state.coins, 3)
+	'province': {
+		'type': 'victory',
+		'cost': 8
 	},
-	"village": (state) => {
-		let draw = drawCards(1, state.draw, state.hand)
-		let newActions = actions(state.actions, 2)
-		let resultingState = _.merge(draw, newActions)
-		return resultingState
+	'laboratory': {
+		'type': 'action',
+		'action': (state) => {
+			let draw = drawCards(2, state.draw, state.hand)
+			let newActions = actions(state.actions, 0)
+			let resultingState = _.merge(draw, newActions)
+			return resultingState
+		},
+		'cost': 5
 	},
-	"laboratory": (state) => {
-		let draw = drawCards(2, state.draw, state.hand)
-		let newActions = actions(state.actions, 1)
-		let resultingState = _.merge(draw, newActions)
-		return resultingState
+	'festival': {
+		'type': 'action',
+		'action': (state) => {
+			let newActions = actions(state.actions, 1)
+			let newBuys = buys(state.buys, 1)
+			let newCoins = coins(state.coins, 2)
+			let resultingState = _.merge(newBuys, newActions)
+			resultingState = _.merge(resultingState, newCoins)
+			return resultingState
+		},
+		'cost': 5
 	},
-	"festival": (state) => {
-		let newActions = actions(state.actions, 2)
-		let newBuys = buys(state.buys, 1)
-		let newCoins = coins(state.coins, 2)
-		let resultingState = _.merge(newBuys, newActions)
-		resultingState = _.merge(resultingState, newCoins)
-		return resultingState
+	'smithy': {
+	'type': 'action',
+	 'action': (state) => {
+			return drawCards(3, state.draw, state.hand)
+		},
+		'cost': 4
 	},
-	"smithy": (state) => {
-		return drawCards(3, state.draw, state.hand)
+	'copper': {
+		'type': 'treasure',
+		'action': (state) => {
+			return coins(state.coins, 1)
+		},
+		'cost': 0
+	},
+	'silver': {
+		'type': 'treasure',
+		'action': (state) => {
+			return coins(state.coins, 2)
+		},
+		'cost': 3
+	},
+	'gold': {
+		'type': 'treasure',
+		'action': (state) => {
+			return coins(state.coins, 3)
+		},
+		'cost': 6
+	},
+	'village': {
+		'type': 'action',
+		'action': (state) => {
+			let draw = drawCards(1, state.draw, state.hand)
+			let newActions = actions(state.actions, 1)
+			let resultingState = _.merge(draw, newActions)
+			return resultingState
+		},
+		'cost': 3
+	},
+	'market': {
+		'type': 'action',
+		'action': (state) => {
+			let newDraw = drawCards(1, state.draw, state.hand)
+			let newActions = actions(state.actions, 0)
+			let newCoins = coins(state.coins, 1)
+			let newBuys = buys(state.buys, 1)
+			let resultingState = _.merge(newDraw, newActions)
+			resultingState = _.merge(resultingState, newCoins)
+			resultingState = _.merge(resultingState, newBuys)
+			return resultingState
+		},
+		'cost': 5
 	}
 }
