@@ -16,28 +16,26 @@ import TurnSummary from '../../../components/TurnSummary'
 
 
 export default class Turns extends Component {
+	renderTurns() {
+		return this.props.screenProps.state.turns.map((turn, index) => {
+			return (
+				<TurnSummary
+					turnNumber={index + 1}
+					playerId={turn.player_id}
+					coins={turn.coins}
+					cardsPlayed={turn.cards_played}
+					cardsGained={turn.cards_gained}
+				/>
+			)
+		})
+	}
+
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>Game Turns</Text>
         <ScrollView>
-          <TurnSummary />
-          <TurnSummary />
-          <TurnSummary />
-          <TurnSummary />
-          <TurnSummary />
-          <TurnSummary />
-          <TurnSummary />
-          <TurnSummary />
-          <TurnSummary />
-          <TurnSummary />
-          <TurnSummary />
-          <TurnSummary />
-          <TurnSummary />
-          <TurnSummary />
-          <TurnSummary />
-          <TurnSummary />
-          <TurnSummary />
+					{ this.renderTurns() }
         </ScrollView>
       </View>
     )
