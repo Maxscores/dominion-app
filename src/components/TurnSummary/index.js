@@ -15,13 +15,13 @@ export default class TurnSummary extends Component<Props> {
     return (
       <View style={styles.turn}>
         <View style={styles.turnSummary}>
-          <Text>Turn #</Text>
-          <Text>Player: </Text>
+          <Text>Turn # {this.props.turnNumber}</Text>
+          <Text>Player: {this.props.playerId}</Text>
         </View>
         <View style={styles.turnSummary}>
-          <Text style={styles.turnSummaryText}>Coins: 3</Text>
-          <Text style={styles.turnSummaryText}>Cards Played: 1</Text>
-          <Text style={styles.turnSummaryText}>Cards Bought: 1</Text>
+          <Text style={styles.turnSummaryText}>Coins: {this.props.coins}</Text>
+          <Text style={styles.turnSummaryText}>Cards Played: {this.props.cardsPlayed}</Text>
+          <Text style={styles.turnSummaryText}>Cards Bought: {this.props.cardsGained}</Text>
         </View>
       </View>
     )

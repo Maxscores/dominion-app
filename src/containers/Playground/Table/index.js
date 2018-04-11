@@ -8,6 +8,7 @@ import {
 	Button
 } from 'react-native';
 import { responsiveHeight, responsiveWidth, responsiveFontSize } from 'react-native-responsive-dimensions';
+import { getGameState, postTurn } from '../../../game-utilities/services'
 
 import Supply from './Supply';
 import Hand from './Hand';
@@ -18,65 +19,42 @@ import { images } from '@assets/images'
 import PopupDialog from '../../../components/PopupDialog'
 import CallbackWindow from '../../../components/CallbackWindow'
 import dominionCards from '../../../game-utilities/dominion'
-import { getGameState, postTurn } from '../../../game-utilities/services'
 
 export default class Table extends Component {
   constructor() {
     super();
-    this.state = {
-			gameId: 3,
-      cardImage: "copperFull",
-			turnPhase: 1,
-			popupAction: null,
-			hasBought: false,
-			playarea: [],
-			actions: 1,
-			buys: 1,
-			coins: 0,
-			cardsGained: [],
-			cardsTrashed: [],
-			competitors: [],
-			attackStack: {},
-			currentPlayer: null,
-      supply: {},
-      draw: [],
-      discard: [],
-      hand: [],
-      trash: [],
-			turnOrder: [],
-      displayWindow: true,
-      actionStack: [],
-
-    }
   }
 
 	componentDidMount() {
-		getGameState(this.state.gameId)
+		getGameState(this.props.screenProps.state.gameId)
 			.then((gameState) => {
 				let deck = this.currentPlayerDeck(gameState.decks, gameState.current_player);
-				this.setState({
+				this.props.screenProps.setParentState({
+					competitors: gameState.competitors,
 					currentPlayer: gameState.current_player,
 					supply: gameState.game_cards,
 					trash: gameState.trash,
+					decks: gameState.decks,
 					hand: [...deck.hand, 'festival', 'moneylender', 'council_room'],
 					draw: ['village', ...deck.draw],
 					discard: deck.discard,
 					turnOrder: gameState.turn_order,
 					attackStack: gameState.attack_stack,
+					turns: gameState.turns
 				})
 			})
 	}
 
 	resolveAttackStack() {
-		let allAttacks = this.state.attackStack
-		let currentAttacks = allAttacks[`${this.state.currentPlayer}`]
+		let allAttacks = this.props.screenProps.state.attackStack
+		let currentAttacks = allAttacks[`${this.props.screenProps.state.currentPlayer}`]
 		if (currentAttacks.length === 0) {
 			alert("There were no pending attacks")
 		} else {
 			while (currentAttacks.length > 0) {
 				this.playAttack(currentAttacks.shift())
 			}
-			this.setState({
+			this.props.screenProps.setParentState({
 				attackStack: allAttacks
 			})
 		}
@@ -84,7 +62,7 @@ export default class Table extends Component {
 	}
 
 	nextPhase() {
-		this.setState({turnPhase: this.state.turnPhase + 1})
+		this.props.screenProps.setParentState({turnPhase: this.props.screenProps.state.turnPhase + 1})
 	}
 
 	currentPlayerDeck(decks, currentPlayer) {
@@ -100,21 +78,21 @@ export default class Table extends Component {
 	}
 
 	playAttack(card) {
-		this.setState(dominionCards[card]['attack'](this.state))
+		this.props.screenProps.setParentState(dominionCards[card]['attack'](this.props.screenProps.state))
 	}
 
 	playCard(card) {
 		if (this.canPlayCard(card)) {
-			let hand = this.state.hand
+			let hand = this.props.screenProps.state.hand
 			let index = hand.indexOf(card)
 			if (index > -1) { hand.splice(index, 1) }
-			let playarea = [card, ...this.state.playarea]
-			this.setState({
+			let playarea = [card, ...this.props.screenProps.state.playarea]
+			this.props.screenProps.setParentState({
 				hand: hand,
 				playarea: playarea,
-        actions: this.state.actions - 1
+        actions: this.props.screenProps.state.actions - 1
 			},
-      () => {this.setState(dominionCards[card]['action'](this.state))}
+      () => {this.props.screenProps.setParentState(dominionCards[card]['action'](this.props.screenProps.state))}
     )
 			/*
 			Using an action must be done inside the action card logic.
@@ -130,7 +108,7 @@ export default class Table extends Component {
 		let card = dominionCards[cardName]
 		if (card['type'].includes('action') && this.hasActions() && this.isActionPhase()) {
 			return true
-		} else if (card['type'].includes('treasure') && this.isBuyPhase() && !this.state.hasBought) {
+		} else if (card['type'].includes('treasure') && this.isBuyPhase() && !this.props.screenProps.state.hasBought) {
 			return true
 		} else {
 			return false
@@ -147,14 +125,14 @@ export default class Table extends Component {
 
 	buyCard(card) {
 		if (this.canBuyCard(card)) {
-			let supply = this.state.supply
+			let supply = this.props.screenProps.state.supply
 			supply[card]--
-			let cardsGained = [...this.state.cardsGained, card]
-			this.setState({
-				coins: this.state.coins - dominionCards[card]['cost'],
+			let cardsGained = [...this.props.screenProps.state.cardsGained, card]
+			this.props.screenProps.setParentState({
+				coins: this.props.screenProps.state.coins - dominionCards[card]['cost'],
 				cardsGained: cardsGained,
 				supply: supply,
-				buys: this.state.buys - 1,
+				buys: this.props.screenProps.state.buys - 1,
 				hasBought: true
 			})
 		} else if (!this.isBuyPhase()) {
@@ -166,7 +144,7 @@ export default class Table extends Component {
 	}
 
   openDialog(cardName, actionName, method) {
-    this.setState({
+    this.props.screenProps.setParentState({
 				cardImage: `${cardName.replace(" ", "_")}Full`,
 				cardName: cardName,
 				popupAction: actionName,
@@ -177,23 +155,23 @@ export default class Table extends Component {
   }
 
 	isBuyPhase() {
-		return this.state.turnPhase === 3
+		return this.props.screenProps.state.turnPhase === 3
 	}
 
 	isActionPhase() {
-		return this.state.turnPhase === 2
+		return this.props.screenProps.state.turnPhase === 2
 	}
 
 	hasActions() {
-		return this.state.actions > 0
+		return this.props.screenProps.state.actions > 0
 	}
 
 	hasBuys() {
-		return this.state.buys > 0
+		return this.props.screenProps.state.buys > 0
 	}
 
 	hasEnoughCoins(card) {
-		return dominionCards[card]['cost'] <= this.state.coins
+		return dominionCards[card]['cost'] <= this.props.screenProps.state.coins
 	}
 
 	nextPhaseButton() {
@@ -218,31 +196,31 @@ export default class Table extends Component {
 
 	finishTurn() {
 	 	gameState = {
-      supply: this.state.supply,
-			trash: this.state.trash,
-			attack_stack: this.state.attackStack,
+      supply: this.props.screenProps.state.supply,
+			trash: this.props.screenProps.state.trash,
+			attack_stack: this.props.screenProps.state.attackStack,
 			deck: {
-				draw: this.state.draw,
+				draw: this.props.screenProps.state.draw,
 				discard: [
-					...this.state.discard,
-					...this.state.playarea,
-					...this.state.hand,
-					...this.staet.cardsGained
+					...this.props.screenProps.state.discard,
+					...this.props.screenProps.state.playarea,
+					...this.props.screenProps.state.hand,
+					...this.props.screenProps.state.cardsGained
 				]
 			},
       turn: {
-        coins: this.state.coins,
-        cards_played: this.state.playarea,
-        cards_gained: this.state.cardsGained,
-        cards_trashed: this.state.cardsTrashed
+        coins: this.props.screenProps.state.coins,
+        cards_played: this.props.screenProps.state.playarea,
+        cards_gained: this.props.screenProps.state.cardsGained,
+        cards_trashed: this.props.screenProps.state.cardsTrashed
         }
     }
-		postTurn(this.state.gameId, gameState)
+		postTurn(this.props.screenProps.state.gameId, gameState)
 			.then(alert('Turn completed'))
 	}
 
   displayWindow() {
-    return this.state.actionStack.length > 0
+    return this.props.screenProps.state.actionStack.length > 0
   }
 
   showCallbackWindow() {
@@ -250,7 +228,7 @@ export default class Table extends Component {
       return(
         <CallbackWindow
           playVassal={ this.playDiscard.bind(this) }
-          actionStack={ this.state.actionStack }
+          actionStack={ this.props.screenProps.state.actionStack }
           resolveActionStack={ this.resolveActionStack.bind(this) }
         />
       )
@@ -258,15 +236,15 @@ export default class Table extends Component {
   }
 
   resolveActionStack() {
-    this.setState({actionStack: this.state.actionStack.slice(1)})
+    this.props.screenProps.setParentState({actionStack: this.props.screenProps.state.actionStack.slice(1)})
   }
 
   playDiscard(card) {
-    let discard = this.state.discard
+    let discard = this.props.screenProps.state.discard
     let index = discard.indexOf(card)
     if (index > -1) { discard.splice(index, 1) }
-    let playarea = [card, ...this.state.playarea]
-    this.setState({
+    let playarea = [card, ...this.props.screenProps.state.playarea]
+    this.props.screenProps.setParentState({
       discard: discard,
       playarea: playarea
     })
@@ -274,7 +252,7 @@ export default class Table extends Component {
     Using an action must be done inside the action card logic.
     State doesn't get updated quickly enough to update actions before calling the card action method.
     */
-    this.setState(dominionCards[card]['action'](this.state))
+    this.props.screenProps.setParentState(dominionCards[card]['action'](this.props.screenProps.state))
 	}
 
 
@@ -282,13 +260,13 @@ export default class Table extends Component {
     return (
       <View style={styles.container}>
         <TurnDetail
-					actions={ this.state.actions }
-					coins={ this.state.coins }
-					buys={ this.state.buys }
+					actions={ this.props.screenProps.state.actions }
+					coins={ this.props.screenProps.state.coins }
+					buys={ this.props.screenProps.state.buys }
 				/>
         <View style={styles.topContainer}>
           <Supply
-						supplyCards={ this.state.supply }
+						supplyCards={ this.props.screenProps.state.supply }
 						openDialog={ this.openDialog.bind(this) }
 						popupMethod={ this.buyCard.bind(this) }
 						style={styles.supply}
@@ -302,23 +280,23 @@ export default class Table extends Component {
 				</Button>
         <View style={styles.playContainer}>
           <PlayArea
-						playareaCards={ this.state.playarea }
+						playareaCards={ this.props.screenProps.state.playarea }
 						openDialog={ this.openDialog.bind(this) }
 					/>
         </View>
         <View>
           <Hand
-						handCards={ this.state.hand }
+						handCards={ this.props.screenProps.state.hand }
 						openDialog={ this.openDialog.bind(this) }
 						popupAction="Play"
 						popupMethod={ this.playCard.bind(this) }
 					/>
         </View>
         <PopupDialog
-          cardImage={ this.state.cardImage }
-					cardName={ this.state.cardName }
-					popupAction={ this.state.popupAction }
-					popupMethod={ this.state.popupMethod }
+          cardImage={ this.props.screenProps.state.cardImage }
+					cardName={ this.props.screenProps.state.cardName }
+					popupAction={ this.props.screenProps.state.popupAction }
+					popupMethod={ this.props.screenProps.state.popupMethod }
           dialog={(popupDialog) => { this.popupDialog = popupDialog; }}
         />
         { this.showCallbackWindow() }

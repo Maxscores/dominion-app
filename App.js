@@ -7,7 +7,7 @@ import {
 import {
   TabNavigator
 } from 'react-navigation';
-import Playground from './containers/Playground'
+import Playground from './src/containers/Playground'
 
 const routeConfig = {
   Playground: {
