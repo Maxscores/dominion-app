@@ -44,9 +44,9 @@ export default class App extends Component {
 	constructor() {
 		super()
 		this.state = {
-			localPlayer: 1,
 			gameId: 3,
 			currentPlayer: null,
+			decks: {},
 			supply: {},
       draw: [],
       discard: [],

@@ -15,13 +15,21 @@ export default class Table extends Component {
   constructor() {
     super()
     this.state = {
-      cardImage: "copperFull",
-      deckComposition: {'copper': 7, 'estate': 3, 'vassal': 4, 'moat': 5, 'militia': 2},
-      discard: ['copper', 'copper', 'copper', 'copper'],
       trash: ['copper', 'copper'],
     }
     this.openDialog = this.openDialog.bind(this)
   }
+
+	currentPlayerDeck(decks, currentPlayer) {
+		let deck = decks.find((deck) => {
+			return deck.player_id === currentPlayer
+		})
+		let result = {
+			deckComposition: deck.deck_makeup,
+			discard: deck.discard
+		}
+		return result
+	}
 
   cardTile(card, quantity) {
     return (
@@ -38,10 +46,10 @@ export default class Table extends Component {
 
   renderDeck() {
     let deckRender = []
-
-    for(var card in this.state.deckComposition){
+		let deckComposition = this.currentPlayerDeck(this.props.screenProps.state.decks, this.props.screenProps.state.currentPlayer).deckComposition
+    for(var card in deckComposition){
       deckRender.push(
-        this.cardTile(card, this.state.deckComposition[card])
+        this.cardTile(card, deckComposition[card])
       )
     }
     return deckRender
@@ -56,7 +64,8 @@ export default class Table extends Component {
   }
 
   renderDiscard() {
-    let discardComposition = this.cardComposition(this.state.discard)
+		let discard = this.currentPlayerDeck(this.props.screenProps.state.decks, this.props.screenProps.state.currentPlayer).discard
+    let discardComposition = this.cardComposition(discard)
     let discardRender = []
 
     for(var card in discardComposition){
@@ -68,7 +77,7 @@ export default class Table extends Component {
   }
 
   renderTrash() {
-    let trashComposition = this.cardComposition(this.state.trash)
+    let trashComposition = this.cardComposition(this.props.screenProps.state.trash)
     let trashRender = []
 
     for(var card in trashComposition){
@@ -80,7 +89,7 @@ export default class Table extends Component {
   }
 
   openDialog(cardName) {
-		this.setState({
+		this.props.screenProps.setParentState({
 				cardImage: `${cardName}Full`,
 				cardName: cardName,
 			}, () => {

@@ -34,11 +34,13 @@ export default class Table extends Component {
 					currentPlayer: gameState.current_player,
 					supply: gameState.game_cards,
 					trash: gameState.trash,
+					decks: gameState.decks,
 					hand: [...deck.hand, 'festival', 'moneylender', 'council_room'],
 					draw: ['village', ...deck.draw],
 					discard: deck.discard,
 					turnOrder: gameState.turn_order,
 					attackStack: gameState.attack_stack,
+					turns: gameState.turns
 				})
 			})
 	}
