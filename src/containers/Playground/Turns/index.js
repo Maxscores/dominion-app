@@ -23,8 +23,8 @@ export default class Turns extends Component {
 					turnNumber={index + 1}
 					playerId={turn.player_id}
 					coins={turn.coins}
-					cardsPlayed={turn.cards_played}
-					cardsGained={turn.cards_gained}
+					cardsPlayed={turn.cards_played.length}
+					cardsGained={turn.cards_gained.length}
 				/>
 			)
 		})
