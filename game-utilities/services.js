@@ -20,11 +20,25 @@ const errorLog = (error) => {
 	console.error({ error })
 }
 
-const getGameState = (gameID) => {
-	return fetch(`${baseURL}/api/v1/games/${gameID}`)
+const getGameState = (gameId) => {
+	return fetch(`${baseURL}/api/v1/games/${gameId}`)
+		.then(handleResponse)
+		.catch(errorLog)
+}
+
+const postConfig = (gameState) => {
+	return {
+      method: 'POST',
+      headers: {'Content-Type': "application/json"},
+			body: JSON.stringify(gameState)
+    }
+}
+
+const postTurn = (gameId, gameState) => {
+	return fetch(`${baseURL}/api/v1/games/${gameId}/turns`, postConfig(gameState))
 		.then(handleResponse)
 		.catch(errorLog)
 }
 
 
-module.exports = { getGameState }
+module.exports = { getGameState, postTurn }
