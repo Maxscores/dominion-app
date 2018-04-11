@@ -18,7 +18,7 @@ import { images } from '@assets/images'
 import PopupDialog from '../../../components/PopupDialog'
 import CallbackWindow from '../../../components/CallbackWindow'
 import dominionCards from '../../../game-utilities/dominion'
-import { getGameState } from '../../../game-utilities/services'
+import { getGameState, postTurn } from '../../../game-utilities/services'
 
 export default class Table extends Component {
   constructor() {
@@ -33,7 +33,8 @@ export default class Table extends Component {
 			actions: 1,
 			buys: 1,
 			coins: 0,
-			cardsBought: [],
+			cardsGained: [],
+			cardsTrashed: [],
 			competitors: [],
 			attackStack: {},
 			currentPlayer: null,
@@ -149,10 +150,10 @@ export default class Table extends Component {
 		if (this.canBuyCard(card)) {
 			let supply = this.state.supply
 			supply[card]--
-			let cardsBought = [...this.state.cardsBought, card]
+			let cardsGained = [...this.state.cardsGained, card]
 			this.setState({
 				coins: this.state.coins - dominionCards[card]['cost'],
-				cardsBought: cardsBought,
+				cardsGained: cardsGained,
 				supply: supply,
 				buys: this.state.buys - 1,
 				hasBought: true
@@ -217,7 +218,28 @@ export default class Table extends Component {
 	}
 
 	finishTurn() {
-		alert("Turn Completed")
+	 	gameState = {
+      supply: this.state.supply,
+			trash: this.state.trash,
+			attack_stack: this.state.attackStack,
+			deck: {
+				draw: this.state.draw,
+				discard: [
+					...this.state.discard,
+					...this.state.playarea,
+					...this.state.hand,
+					...this.staet.cardsGained
+				]
+			},
+      turn: {
+        coins: this.state.coins,
+        cards_played: this.state.playarea,
+        cards_gained: this.state.cardsGained,
+        cards_trashed: this.state.cardsTrashed
+        }
+    }
+		postTurn(this.state.gameId, gameState)
+			.then(alert('Turn completed'))
 	}
 
   displayWindow() {

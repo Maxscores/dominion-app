@@ -65,8 +65,8 @@ export default dominonCards = {
 		'cost': 5
 	},
 	'smithy': {
-	'type': 'action',
-	 'action': (state) => {
+		'type': 'action',
+		'action': (state) => {
 			return drawCards(3, state.draw, state.hand)
 		},
 		'cost': 4
