@@ -56,10 +56,7 @@ export default dominonCards = {
 	'smithy': {
 		'type': 'action',
 		'action': (state) => {
-			let newActions = actions(state.actions, -1)
-			let draw = drawCards(3, state.draw, state.hand)
-			let resultingState = _.merge(draw, newActions)
-			return resultingState
+			return drawCards(3, state.draw, state.hand)
 		},
 		'cost': 4
 	},
