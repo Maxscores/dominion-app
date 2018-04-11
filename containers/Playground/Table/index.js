@@ -16,6 +16,7 @@ import Scoreboard from '../../../components/Scoreboard';
 import TurnDetail from '../../../components/TurnDetail';
 import { images } from '@assets/images'
 import PopupDialog from '../../../components/PopupDialog'
+import CallbackWindow from '../../../components/CallbackWindow'
 import dominionCards from '../../../game-utilities/dominion'
 import { getGameState, postTurn } from '../../../game-utilities/services'
 
@@ -43,6 +44,9 @@ export default class Table extends Component {
       hand: [],
       trash: [],
 			turnOrder: [],
+      displayWindow: true,
+      actionStack: [],
+
     }
   }
 
@@ -54,8 +58,8 @@ export default class Table extends Component {
 					currentPlayer: gameState.current_player,
 					supply: gameState.game_cards,
 					trash: gameState.trash,
-					hand: [...deck.hand, 'smithy', 'laboratory', 'gold', 'gold', 'festival'],
-					draw: deck.draw,
+					hand: [...deck.hand, 'vassal', 'laboratory', 'gold'],
+					draw: ['village', ...deck.draw],
 					discard: deck.discard,
 					turnOrder: gameState.turn_order,
 					attackStack: gameState.attack_stack,
@@ -108,13 +112,15 @@ export default class Table extends Component {
 			let playarea = [card, ...this.state.playarea]
 			this.setState({
 				hand: hand,
-				playarea: playarea
-			})
+				playarea: playarea,
+        actions: this.state.actions - 1
+			},
+      () => {this.setState(dominionCards[card]['action'](this.state))}
+    )
 			/*
 			Using an action must be done inside the action card logic.
 			State doesn't get updated quickly enough to update actions before calling the card action method.
 			*/
-			this.setState(dominionCards[card]['action'](this.state))
 		} else {
 			alert('You cannot play that right now')
 		}
@@ -236,6 +242,43 @@ export default class Table extends Component {
 			.then(alert('Turn completed'))
 	}
 
+  displayWindow() {
+    return this.state.actionStack.length > 0
+  }
+
+  showCallbackWindow() {
+    if (this.displayWindow()) {
+      return(
+        <CallbackWindow
+          playVassal={ this.playDiscard.bind(this) }
+          actionStack={ this.state.actionStack }
+          resolveActionStack={ this.resolveActionStack.bind(this) }
+        />
+      )
+    }
+  }
+
+  resolveActionStack() {
+    this.setState({actionStack: this.state.actionStack.slice(1)})
+  }
+
+  playDiscard(card) {
+    let discard = this.state.discard
+    let index = discard.indexOf(card)
+    if (index > -1) { discard.splice(index, 1) }
+    let playarea = [card, ...this.state.playarea]
+    this.setState({
+      discard: discard,
+      playarea: playarea
+    })
+    /*
+    Using an action must be done inside the action card logic.
+    State doesn't get updated quickly enough to update actions before calling the card action method.
+    */
+    this.setState(dominionCards[card]['action'](this.state))
+	}
+
+
   render() {
     return (
       <View style={styles.container}>
@@ -279,6 +322,7 @@ export default class Table extends Component {
 					popupMethod={ this.state.popupMethod }
           dialog={(popupDialog) => { this.popupDialog = popupDialog; }}
         />
+        { this.showCallbackWindow() }
       </View>
     )
   }

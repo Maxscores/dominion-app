@@ -18,6 +18,17 @@ const drawCards = (quantity, from, to) => {
 	return {draw: from, hand: newHand}
 }
 
+const discardCards = (quantity, from, to) => {
+	let cards = from.splice(0, quantity)
+	let newDiscard = [...to, ...cards]
+	return {draw: from, discard: newDiscard}
+}
+
+const actionStack = (current, options) => {
+	let newStack = [...current, options]
+	return {actionStack: newStack}
+}
+
 export default dominonCards = {
 	'estate': {
 		'type': 'victory',
@@ -35,7 +46,7 @@ export default dominonCards = {
 		'type': 'action',
 		'action': (state) => {
 			let draw = drawCards(2, state.draw, state.hand)
-			let newActions = actions(state.actions, 0)
+			let newActions = actions(state.actions, 1)
 			let resultingState = _.merge(draw, newActions)
 			return resultingState
 		},
@@ -44,7 +55,7 @@ export default dominonCards = {
 	'festival': {
 		'type': 'action',
 		'action': (state) => {
-			let newActions = actions(state.actions, 1)
+			let newActions = actions(state.actions, 2)
 			let newBuys = buys(state.buys, 1)
 			let newCoins = coins(state.coins, 2)
 			let resultingState = _.merge(newBuys, newActions)
@@ -85,7 +96,7 @@ export default dominonCards = {
 		'type': 'action',
 		'action': (state) => {
 			let draw = drawCards(1, state.draw, state.hand)
-			let newActions = actions(state.actions, 1)
+			let newActions = actions(state.actions, 2)
 			let resultingState = _.merge(draw, newActions)
 			return resultingState
 		},
@@ -95,7 +106,7 @@ export default dominonCards = {
 		'type': 'action',
 		'action': (state) => {
 			let newDraw = drawCards(1, state.draw, state.hand)
-			let newActions = actions(state.actions, 0)
+			let newActions = actions(state.actions, 1)
 			let newCoins = coins(state.coins, 1)
 			let newBuys = buys(state.buys, 1)
 			let resultingState = _.merge(newDraw, newActions)
@@ -104,5 +115,15 @@ export default dominonCards = {
 			return resultingState
 		},
 		'cost': 5
+	},
+	'vassal': {
+		'type': 'action',
+		'action': (state) => {
+			let newCoins = coins(state.coins, 2)
+			let newActionStack = actionStack(state.actionStack, {card: 'vassal', revealedCard: `${state.draw[0]}` })
+			let resultingState = _.merge(resultingState, newActionStack)
+			return resultingState
+		},
+		'cost': 3
 	}
 }
