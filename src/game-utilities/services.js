@@ -36,7 +36,6 @@ const postConfig = (gameState) => {
 
 const postTurn = (gameId, gameState) => {
 	return fetch(`${baseURL}/api/v1/games/${gameId}/turns`, postConfig(gameState))
-		.then(handleResponse)
 		.catch(errorLog)
 }
 
