@@ -58,7 +58,7 @@ export default class Table extends Component {
 					currentPlayer: gameState.current_player,
 					supply: gameState.game_cards,
 					trash: gameState.trash,
-					hand: [...deck.hand, 'vassal', 'laboratory', 'gold'],
+					hand: [...deck.hand, 'festival', 'moneylender', 'council_room'],
 					draw: ['village', ...deck.draw],
 					discard: deck.discard,
 					turnOrder: gameState.turn_order,
@@ -100,8 +100,7 @@ export default class Table extends Component {
 	}
 
 	playAttack(card) {
-		console.warn(`Attack ${card} played`)
-		// this.setState(dominionCards[card]['attack'](this.state))
+		this.setState(dominionCards[card]['attack'](this.state))
 	}
 
 	playCard(card) {
