@@ -220,10 +220,6 @@ export default class Table extends Component {
       discard: discard,
       playarea: playarea
     })
-    /*
-    Using an action must be done inside the action card logic.
-    State doesn't get updated quickly enough to update actions before calling the card action method.
-    */
     this.props.screenProps.setParentState(dominionCards[card]['action'](this.props.screenProps.state))
 	}
 
