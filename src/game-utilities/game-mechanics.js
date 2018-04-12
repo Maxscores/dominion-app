@@ -35,18 +35,18 @@ const discardCards = (quantity, from, to) => {
 	return {draw: from, discard: newDiscard}
 }
 
-const actionStack = (current, options) => {
-	let newStack = [...current, options]
-	return {actionStack: newStack}
+const actionQueue = (current, options) => {
+	let newQueue = [...current, options]
+	return {actionQueue: newQueue}
 }
 
-const attackStack = (currentPlayer, currentAttacks, newAttack) => {
+const attackQueue = (currentPlayer, currentAttacks, newAttack) => {
 	for (let player in currentAttacks) {
 		if (+player !== +currentPlayer) {
 			currentAttacks[player].push(newAttack)
 		}
 	}
-	return {attackStack: currentAttacks}
+	return {attackQueue: currentAttacks}
 }
 
 const trash = (trash, cardName) => {
@@ -98,8 +98,8 @@ module.exports = {
 	buys,
 	drawCards,
 	discardCards,
-	actionStack,
-	attackStack,
+	actionQueue,
+	attackQueue,
 	trash,
 	isBuyPhase,
 	isActionPhase,

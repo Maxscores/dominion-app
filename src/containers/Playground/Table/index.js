@@ -27,7 +27,8 @@ import {
 	isActionPhase
 } from '../../../game-utilities/game-mechanics'
 import {
-	resolveAttackStack,
+	resolveAttackQueue,
+	resolveActionQueue,
 	finishTurn
 } from '../../../game-utilities/game-engine'
 
@@ -49,12 +50,12 @@ export default class Table extends Component {
 					trash: gameState.trash,
 					decks: gameState.decks,
 					hand: [...deck.hand],
-					draw: ['village', ...deck.draw],
+					draw: [...deck.draw],
 					discard: deck.discard,
 					turnOrder: gameState.turn_order,
-					attackStack: gameState.attack_stack,
+					attackQueue: gameState.attack_stack,
 					turns: gameState.turns
-				}, () => {resolveAttackStack(this.props.screenProps)})
+				}, () => {resolveAttackQueue(this.props.screenProps)})
 			})
 	}
 
@@ -140,10 +141,8 @@ export default class Table extends Component {
 		}
 	}
 
-
-
   displayWindow() {
-    return this.props.screenProps.state.actionStack.length > 0
+    return this.props.screenProps.state.actionQueue.length > 0
   }
 
   showCallbackWindow() {
@@ -151,16 +150,14 @@ export default class Table extends Component {
       return(
         <CallbackWindow
           playVassal={ this.playDiscard.bind(this) }
-          actionStack={ this.props.screenProps.state.actionStack }
-          resolveActionStack={ this.resolveActionStack.bind(this) }
+          actionQueue={ this.props.screenProps.state.actionQueue }
+          resolveActionQueue={ () => resolveActionQueue(this.props.screenProps) }
         />
       )
     }
   }
 
-  resolveActionStack() {
-    this.props.screenProps.setParentState({actionStack: this.props.screenProps.state.actionStack.slice(1)})
-  }
+
 
   playDiscard(card) {
     let discard = this.props.screenProps.state.discard
