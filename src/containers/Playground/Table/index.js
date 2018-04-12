@@ -24,7 +24,8 @@ import {
 	canBuyCard,
 	canPlayCard,
 	isBuyPhase,
-	isActionPhase
+	isActionPhase,
+	playerDeck
 } from '../../../game-utilities/game-mechanics'
 import {
 	resolveAttackQueue,
@@ -41,7 +42,7 @@ export default class Table extends Component {
 		getGameState(this.props.screenProps.state.gameId)
 			.then((gameState) => {
 				// can change this to gameState.local_player, so that players only see their deck
-				let deck = this.playerDeck(gameState.decks, gameState.current_player);
+				let deck = playerDeck(gameState.decks, gameState.current_player);
 				this.props.screenProps.setParentState({
 					competitors: gameState.competitors,
 					// permissions around doings by gameState.current_player === gameState.local_player
@@ -61,13 +62,6 @@ export default class Table extends Component {
 
 	nextPhase() {
 		this.props.screenProps.setParentState({turnPhase: this.props.screenProps.state.turnPhase + 1})
-	}
-
-	playerDeck(decks, player) {
-		let deck = decks.find((deck) => {
-			return deck.player_id === player
-		})
-		return drawCards(5, deck)
 	}
 
 	playCard(card) {

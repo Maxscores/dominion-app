@@ -92,6 +92,13 @@ const canPlayCard = (state, cardName) => {
 	}
 }
 
+const playerDeck = (decks, player) => {
+	let deck = decks.find((deck) => {
+		return deck.player_id === player
+	})
+	return drawCards(5, deck)
+}
+
 module.exports = {
 	coins,
 	actions,
@@ -104,5 +111,6 @@ module.exports = {
 	isBuyPhase,
 	isActionPhase,
 	canBuyCard,
-	canPlayCard
+	canPlayCard,
+	playerDeck
 }
