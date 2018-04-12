@@ -1,46 +1,15 @@
 var _ = require('lodash')
+import {
+	coins,
+	actions,
+	buys,
+	drawCards,
+	discardCards,
+	actionStack,
+	attackStack,
+	trash
+} from './game-mechanics'
 
-const coins = (current, add) => {
-	return {coins: current + add}
-}
-
-const actions = (current, add) => {
-	return {actions: current + add}
-}
-
-const buys = (current, add) => {
-	return {buys: current + add}
-}
-
-const drawCards = (quantity, from, to) => {
-	let cards = from.splice(0, quantity)
-	let newHand = [...to, ...cards]
-	return {draw: from, hand: newHand}
-}
-
-const discardCards = (quantity, from, to) => {
-	let cards = from.splice(0, quantity)
-	let newDiscard = [...to, ...cards]
-	return {draw: from, discard: newDiscard}
-}
-
-const actionStack = (current, options) => {
-	let newStack = [...current, options]
-	return {actionStack: newStack}
-}
-
-const attackStack = (currentPlayer, currentAttacks, newAttack) => {
-	for (let player in currentAttacks) {
-		if (+player !== +currentPlayer) {
-			currentAttacks[player].push(newAttack)
-		}
-	}
-	return {attackStack: currentAttacks}
-}
-
-const trash = (trash, cardName) => {
-	return [...trash, cardName]
-}
 
 export default dominonCards = {
 	'estate': {
@@ -58,7 +27,7 @@ export default dominonCards = {
 	'laboratory': {
 		'type': 'action',
 		'action': (state) => {
-			let draw = drawCards(2, state.draw, state.hand)
+			let draw = drawCards(2, state)
 			let newActions = actions(state.actions, 1)
 			let resultingState = _.merge(draw, newActions)
 			return resultingState
@@ -80,7 +49,7 @@ export default dominonCards = {
 	'smithy': {
 		'type': 'action',
 		'action': (state) => {
-			return drawCards(3, state.draw, state.hand)
+			return drawCards(3, state)
 		},
 		'cost': 4
 	},
@@ -108,7 +77,7 @@ export default dominonCards = {
 	'village': {
 		'type': 'action',
 		'action': (state) => {
-			let draw = drawCards(1, state.draw, state.hand)
+			let draw = drawCards(1, state)
 			let newActions = actions(state.actions, 2)
 			let resultingState = _.merge(draw, newActions)
 			return resultingState
@@ -118,7 +87,7 @@ export default dominonCards = {
 	'market': {
 		'type': 'action',
 		'action': (state) => {
-			let newDraw = drawCards(1, state.draw, state.hand)
+			let newDraw = drawCards(1, state)
 			let newActions = actions(state.actions, 1)
 			let newCoins = coins(state.coins, 1)
 			let newBuys = buys(state.buys, 1)
@@ -142,7 +111,7 @@ export default dominonCards = {
 	'council_room': {
 		'type': 'action',
 		'action': (state) => {
-			let draw = drawCards(4, state.draw, state.hand)
+			let draw = drawCards(4, state)
 			let newBuys = buys(state.buys, 1)
 			let attacks = attackStack(state.currentPlayer, state.attackStack, 'council_room')
 			let resultingState = _.merge(draw, newBuys)
@@ -150,7 +119,7 @@ export default dominonCards = {
 			return resultingState
 		},
 		'attack': (state) => {
-			return drawCards(1, state.draw, state.hand)
+			return drawCards(1, state)
 		},
 		'cost': 5
 	},
