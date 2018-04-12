@@ -19,7 +19,13 @@ import { images } from '@assets/images'
 import PopupDialog from '../../../components/PopupDialog'
 import CallbackWindow from '../../../components/CallbackWindow'
 import dominionCards from '../../../game-utilities/dominion'
-import { drawCards } from '../../../game-utilities/game-mechanics'
+import {
+	drawCards,
+	canBuyCard,
+	canPlayCard,
+	isBuyPhase,
+	isActionPhase
+} from '../../../game-utilities/game-mechanics'
 
 export default class Table extends Component {
   constructor() {
@@ -78,7 +84,7 @@ export default class Table extends Component {
 	}
 
 	playCard(card) {
-		if (this.canPlayCard(card)) {
+		if (canPlayCard(this.props.screenProps.state, card)) {
 			let hand = this.props.screenProps.state.hand
 			let index = hand.indexOf(card)
 			if (index > -1) { hand.splice(index, 1) }
@@ -98,27 +104,9 @@ export default class Table extends Component {
 		this.popupDialog.dismiss()
 	}
 
-	canPlayCard(cardName) {
-		let card = dominionCards[cardName]
-		if (card['type'].includes('action') && this.hasActions() && this.isActionPhase()) {
-			return true
-		} else if (card['type'].includes('treasure') && this.isBuyPhase() && !this.props.screenProps.state.hasBought) {
-			return true
-		} else {
-			return false
-		}
-	}
-
-	canBuyCard(card) {
-		if (this.hasEnoughCoins(card) && this.isBuyPhase() && this.hasBuys()) {
-			return true
-		} else {
-			return false
-		}
-	}
 
 	buyCard(card) {
-		if (this.canBuyCard(card)) {
+		if (canBuyCard(this.props.screenProps.state , card)) {
 			let supply = this.props.screenProps.state.supply
 			supply[card]--
 			let cardsGained = [...this.props.screenProps.state.cardsGained, card]
@@ -129,7 +117,7 @@ export default class Table extends Component {
 				buys: this.props.screenProps.state.buys - 1,
 				hasBought: true
 			})
-		} else if (!this.isBuyPhase()) {
+		} else if (!isBuyPhase(this.props.screenProps.state)) {
 			alert('It is not the buy phase')
 		} else {
 			alert('You do not have enough coins or buys')
@@ -148,30 +136,10 @@ export default class Table extends Component {
     })
   }
 
-	isBuyPhase() {
-		return this.props.screenProps.state.turnPhase === 3
-	}
-
-	isActionPhase() {
-		return this.props.screenProps.state.turnPhase === 2
-	}
-
-	hasActions() {
-		return this.props.screenProps.state.actions > 0
-	}
-
-	hasBuys() {
-		return this.props.screenProps.state.buys > 0
-	}
-
-	hasCoins(card) {
-		return dominionCards[card]['cost'] <= this.props.screenProps.state.coins
-	}
-
 	nextPhaseButton() {
-		if (this.isActionPhase()) {
+		if (isActionPhase(this.props.screenProps.state)) {
 			return "Finish Actions"
-		} else if (this.isBuyPhase()) {
+		} else if (isBuyPhase(this.props.screenProps.state)) {
 			return "Finish Buys"
 		} else {
 			return "loading"
@@ -179,9 +147,9 @@ export default class Table extends Component {
 	}
 
 	completePhase() {
-		if (this.isActionPhase()) {
+		if (isActionPhase(this.props.screenProps.state)) {
 			this.nextPhase()
-		} else if (this.isBuyPhase()) {
+		} else if (isBuyPhase(this.props.screenProps.state)) {
 			this.finishTurn()
 		}
 	}
