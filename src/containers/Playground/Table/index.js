@@ -29,9 +29,11 @@ export default class Table extends Component {
 	componentDidMount() {
 		getGameState(this.props.screenProps.state.gameId)
 			.then((gameState) => {
-				let deck = this.currentPlayerDeck(gameState.decks, gameState.current_player);
+				// can change this to gameState.local_player, so that players only see their deck
+				let deck = this.playerDeck(gameState.decks, gameState.current_player);
 				this.props.screenProps.setParentState({
 					competitors: gameState.competitors,
+					// permissions around doings by gameState.current_player === gameState.local_player
 					currentPlayer: gameState.current_player,
 					supply: gameState.game_cards,
 					trash: gameState.trash,
@@ -42,7 +44,7 @@ export default class Table extends Component {
 					turnOrder: gameState.turn_order,
 					attackStack: gameState.attack_stack,
 					turns: gameState.turns
-				})
+				}, this.resolveAttackStack.bind(this))
 			})
 	}
 
@@ -50,8 +52,6 @@ export default class Table extends Component {
 		let allAttacks = this.props.screenProps.state.attackStack
 		let currentAttacks = allAttacks[`${this.props.screenProps.state.currentPlayer}`]
 		if (currentAttacks.length === 0) {
-			alert("There were no pending attacks")
-		} else {
 			while (currentAttacks.length > 0) {
 				this.playAttack(currentAttacks.shift())
 			}
@@ -66,9 +66,9 @@ export default class Table extends Component {
 		this.props.screenProps.setParentState({turnPhase: this.props.screenProps.state.turnPhase + 1})
 	}
 
-	currentPlayerDeck(decks, currentPlayer) {
+	playerDeck(decks, player) {
 		let deck = decks.find((deck) => {
-			return deck.player_id === currentPlayer
+			return deck.player_id === player
 		})
 		return drawCards(5, deck)
 	}
@@ -164,7 +164,7 @@ export default class Table extends Component {
 		return this.props.screenProps.state.buys > 0
 	}
 
-	hasEnoughCoins(card) {
+	hasCoins(card) {
 		return dominionCards[card]['cost'] <= this.props.screenProps.state.coins
 	}
 
@@ -174,7 +174,7 @@ export default class Table extends Component {
 		} else if (this.isBuyPhase()) {
 			return "Finish Buys"
 		} else {
-			return `Resolve Pending Attacks`
+			return "loading"
 		}
 	}
 
@@ -183,33 +183,11 @@ export default class Table extends Component {
 			this.nextPhase()
 		} else if (this.isBuyPhase()) {
 			this.finishTurn()
-		} else {
-			this.resolveAttackStack()
 		}
 	}
 
 	finishTurn() {
-	 	gameState = {
-      supply: this.props.screenProps.state.supply,
-			trash: this.props.screenProps.state.trash,
-			attack_stack: this.props.screenProps.state.attackStack,
-			deck: {
-				draw: this.props.screenProps.state.draw,
-				discard: [
-					...this.props.screenProps.state.discard,
-					...this.props.screenProps.state.playarea,
-					...this.props.screenProps.state.hand,
-					...this.props.screenProps.state.cardsGained
-				]
-			},
-      turn: {
-        coins: this.props.screenProps.state.coins,
-        cards_played: this.props.screenProps.state.playarea,
-        cards_gained: this.props.screenProps.state.cardsGained,
-        cards_trashed: this.props.screenProps.state.cardsTrashed
-        }
-    }
-		postTurn(this.props.screenProps.state.gameId, gameState)
+		postTurn(this.props.screenProps.state.gameId, this.props.screenProps.state)
 			.then(alert('Turn completed'))
 	}
 
