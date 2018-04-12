@@ -47,24 +47,24 @@ const resolveActionQueue = (screenProps) => {
 
 
 const	playCard = (screenProps, card) => {
-		if (canPlayCard(screenProps.state, card)) {
-			let hand = screenProps.state.hand
-			let index = hand.indexOf(card)
-			if (index > -1) { hand.splice(index, 1) }
-			let playarea = [card, ...screenProps.state.playarea]
-			let playCost = 0
-			if (dominionCards[card]['type'].includes('action')) {playCost = 1}
-			screenProps.setParentState({
-					hand: hand,
-					playarea: playarea,
-	        actions: screenProps.state.actions - playCost
-				},
-	      () => {screenProps.setParentState(dominionCards[card]['action'](screenProps.state))}
-	    )
-		} else {
-			alert('You cannot play that right now')
-		}
+	if (canPlayCard(screenProps.state, card)) {
+		let hand = screenProps.state.hand
+		let index = hand.indexOf(card)
+		if (index > -1) { hand.splice(index, 1) }
+		let playarea = [card, ...screenProps.state.playarea]
+		let playCost = 0
+		if (dominionCards[card]['type'].includes('action')) {playCost = 1}
+		screenProps.setParentState({
+				hand: hand,
+				playarea: playarea,
+        actions: screenProps.state.actions - playCost
+			},
+      () => {screenProps.setParentState(dominionCards[card]['action'](screenProps.state))}
+    )
+	} else {
+		alert('You cannot play that right now')
 	}
+}
 
 module.exports = {
 	resolveAttackQueue,

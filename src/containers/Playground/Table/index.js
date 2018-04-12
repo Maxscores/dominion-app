@@ -68,28 +68,6 @@ export default class Table extends Component {
 		playCard(this.props.screenProps, card)
 		this.popupDialog.dismiss()
 	}
-	//
-	// playCard(card) {
-	// 	if (canPlayCard(this.props.screenProps.state, card)) {
-	// 		let hand = this.props.screenProps.state.hand
-	// 		let index = hand.indexOf(card)
-	// 		if (index > -1) { hand.splice(index, 1) }
-	// 		let playarea = [card, ...this.props.screenProps.state.playarea]
-	// 		let playCost = 0
-	// 		if (dominionCards[card]['type'].includes('action')) {playCost = 1}
-	// 		this.props.screenProps.setParentState({
-	// 				hand: hand,
-	// 				playarea: playarea,
-	//         actions: this.props.screenProps.state.actions - playCost
-	// 			},
-	//       () => {this.props.screenProps.setParentState(dominionCards[card]['action'](this.props.screenProps.state))}
-	//     )
-	// 	} else {
-	// 		alert('You cannot play that right now')
-	// 	}
-	// 	this.popupDialog.dismiss()
-	// }
-
 
 	buyCard(card) {
 		if (canBuyCard(this.props.screenProps.state , card)) {
