@@ -35,7 +35,7 @@ const postConfig = (gameState) => {
 }
 
 const gameStatePrep = (gameStateRaw) => {
-	gameState = {
+	return gameState = {
 		supply: gameStateRaw.supply,
 		trash: gameStateRaw.trash,
 		attack_stack: gameStateRaw.attackStack,

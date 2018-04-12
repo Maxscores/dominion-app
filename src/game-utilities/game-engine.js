@@ -9,6 +9,8 @@ import {
 	trash
 } from './game-mechanics'
 import dominionCards from './dominion'
+import { postTurn } from './services'
+
 import _ from 'lodash'
 
 const resolveAttackStack = (screenProps) => {
@@ -33,6 +35,12 @@ const nextPhase = (screenProps) => {
 	screenProps.setParentState({turnPhase: screenProps.state.turnPhase + 1})
 }
 
+const finishTurn = (state) => {
+	postTurn(state.gameId, state)
+		.then(alert('Turn completed'))
+}
+
 module.exports = {
-	resolveAttackStack
+	resolveAttackStack,
+	finishTurn
 }

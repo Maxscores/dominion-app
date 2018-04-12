@@ -27,7 +27,8 @@ import {
 	isActionPhase
 } from '../../../game-utilities/game-mechanics'
 import {
-	resolveAttackStack
+	resolveAttackStack,
+	finishTurn
 } from '../../../game-utilities/game-engine'
 
 export default class Table extends Component {
@@ -135,14 +136,11 @@ export default class Table extends Component {
 		if (isActionPhase(this.props.screenProps.state)) {
 			this.nextPhase()
 		} else if (isBuyPhase(this.props.screenProps.state)) {
-			this.finishTurn()
+			finishTurn(this.props.screenProps.state)
 		}
 	}
 
-	finishTurn() {
-		postTurn(this.props.screenProps.state.gameId, this.props.screenProps.state)
-			.then(alert('Turn completed'))
-	}
+
 
   displayWindow() {
     return this.props.screenProps.state.actionStack.length > 0
