@@ -53,7 +53,7 @@ export default class Table extends Component {
 					turnOrder: gameState.turn_order,
 					attackStack: gameState.attack_stack,
 					turns: gameState.turns
-				}, resolveAttackStack(this.props.screenProps))
+				}, () => {resolveAttackStack(this.props.screenProps)})
 			})
 	}
 
