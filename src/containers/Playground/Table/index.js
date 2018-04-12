@@ -26,6 +26,9 @@ import {
 	isBuyPhase,
 	isActionPhase
 } from '../../../game-utilities/game-mechanics'
+import {
+	resolveAttackStack
+} from '../../../game-utilities/game-engine'
 
 export default class Table extends Component {
   constructor() {
@@ -50,22 +53,8 @@ export default class Table extends Component {
 					turnOrder: gameState.turn_order,
 					attackStack: gameState.attack_stack,
 					turns: gameState.turns
-				}, this.resolveAttackStack.bind(this))
+				}, resolveAttackStack(this.props.screenProps))
 			})
-	}
-
-	resolveAttackStack() {
-		let allAttacks = this.props.screenProps.state.attackStack
-		let currentAttacks = allAttacks[`${this.props.screenProps.state.currentPlayer}`]
-		if (currentAttacks.length === 0) {
-			while (currentAttacks.length > 0) {
-				this.playAttack(currentAttacks.shift())
-			}
-			this.props.screenProps.setParentState({
-				attackStack: allAttacks
-			})
-		}
-		this.nextPhase()
 	}
 
 	nextPhase() {
@@ -77,10 +66,6 @@ export default class Table extends Component {
 			return deck.player_id === player
 		})
 		return drawCards(5, deck)
-	}
-
-	playAttack(card) {
-		this.props.screenProps.setParentState(dominionCards[card]['attack'](this.props.screenProps.state))
 	}
 
 	playCard(card) {
