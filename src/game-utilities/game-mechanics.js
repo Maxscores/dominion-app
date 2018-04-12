@@ -1,5 +1,5 @@
 import dominionCards from './dominion'
-var _ = require('lodash')
+import _ from 'lodash'
 
 const coins = (current, add) => {
 	return {coins: current + add}
