@@ -66,9 +66,31 @@ const	playCard = (screenProps, card) => {
 	}
 }
 
+const buyCard = (screenProps, card) => {
+	if (canBuyCard(screenProps.state , card)) {
+		let supply = screenProps.state.supply
+		supply[card]--
+		let cardsGained = [...screenProps.state.cardsGained, card]
+		screenProps.setParentState({
+			coins: screenProps.state.coins - dominionCards[card]['cost'],
+			cardsGained: cardsGained,
+			supply: supply,
+			buys: screenProps.state.buys - 1,
+			hasBought: true
+		})
+	} else if (!isBuyPhase(screenProps.state)) {
+		alert('It is not the buy phase')
+	} else {
+		alert('You do not have enough coins or buys')
+	}
+}
+
+
 module.exports = {
 	resolveAttackQueue,
 	resolveActionQueue,
 	finishTurn,
-	playCard
+	playCard,
+	nextPhase,
+	buyCard
 }

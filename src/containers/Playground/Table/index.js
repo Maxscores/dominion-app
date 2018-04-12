@@ -30,7 +30,9 @@ import {
 	resolveAttackQueue,
 	resolveActionQueue,
 	finishTurn,
-	playCard
+	playCard,
+	buyCard,
+	nextPhase
 } from '../../../game-utilities/game-engine'
 
 export default class Table extends Component {
@@ -60,32 +62,13 @@ export default class Table extends Component {
 			})
 	}
 
-	nextPhase() {
-		this.props.screenProps.setParentState({turnPhase: this.props.screenProps.state.turnPhase + 1})
-	}
-
 	playCardFromHand(card) {
 		playCard(this.props.screenProps, card)
 		this.popupDialog.dismiss()
 	}
 
-	buyCard(card) {
-		if (canBuyCard(this.props.screenProps.state , card)) {
-			let supply = this.props.screenProps.state.supply
-			supply[card]--
-			let cardsGained = [...this.props.screenProps.state.cardsGained, card]
-			this.props.screenProps.setParentState({
-				coins: this.props.screenProps.state.coins - dominionCards[card]['cost'],
-				cardsGained: cardsGained,
-				supply: supply,
-				buys: this.props.screenProps.state.buys - 1,
-				hasBought: true
-			})
-		} else if (!isBuyPhase(this.props.screenProps.state)) {
-			alert('It is not the buy phase')
-		} else {
-			alert('You do not have enough coins or buys')
-		}
+	buyCardFromSupply(card) {
+		buyCard(this.props.screenProps, card)
 		this.popupDialog.dismiss()
 	}
 
@@ -112,7 +95,7 @@ export default class Table extends Component {
 
 	completePhase() {
 		if (isActionPhase(this.props.screenProps.state)) {
-			this.nextPhase()
+			nextPhase(this.props.screenProps)
 		} else if (isBuyPhase(this.props.screenProps.state)) {
 			finishTurn(this.props.screenProps.state)
 		}
@@ -161,7 +144,7 @@ export default class Table extends Component {
           <Supply
 						supplyCards={ this.props.screenProps.state.supply }
 						openDialog={ this.openDialog.bind(this) }
-						popupMethod={ this.buyCard.bind(this) }
+						popupMethod={ this.buyCardFromSupply.bind(this) }
 						style={styles.supply}
 						popupAction="Buy"
 					/>
