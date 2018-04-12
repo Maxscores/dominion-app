@@ -19,6 +19,7 @@ import { images } from '@assets/images'
 import PopupDialog from '../../../components/PopupDialog'
 import CallbackWindow from '../../../components/CallbackWindow'
 import dominionCards from '../../../game-utilities/dominion'
+import { drawCards } from '../../../game-utilities/game-mechanics'
 
 export default class Table extends Component {
   constructor() {
@@ -35,7 +36,7 @@ export default class Table extends Component {
 					supply: gameState.game_cards,
 					trash: gameState.trash,
 					decks: gameState.decks,
-					hand: [...deck.hand, 'festival', 'moneylender', 'council_room'],
+					hand: [...deck.hand],
 					draw: ['village', ...deck.draw],
 					discard: deck.discard,
 					turnOrder: gameState.turn_order,
@@ -69,12 +70,7 @@ export default class Table extends Component {
 		let deck = decks.find((deck) => {
 			return deck.player_id === currentPlayer
 		})
-		let result = {
-			hand: deck.draw.splice(0,5),
-			draw: deck.draw,
-			discard: deck.discard
-		}
-		return result
+		return drawCards(5, deck)
 	}
 
 	playAttack(card) {
@@ -87,17 +83,15 @@ export default class Table extends Component {
 			let index = hand.indexOf(card)
 			if (index > -1) { hand.splice(index, 1) }
 			let playarea = [card, ...this.props.screenProps.state.playarea]
+			let playCost = 0
+			if (dominionCards[card]['type'].includes('action')) {playCost = 1}
 			this.props.screenProps.setParentState({
-				hand: hand,
-				playarea: playarea,
-        actions: this.props.screenProps.state.actions - 1
-			},
-      () => {this.props.screenProps.setParentState(dominionCards[card]['action'](this.props.screenProps.state))}
-    )
-			/*
-			Using an action must be done inside the action card logic.
-			State doesn't get updated quickly enough to update actions before calling the card action method.
-			*/
+					hand: hand,
+					playarea: playarea,
+	        actions: this.props.screenProps.state.actions - playCost
+				},
+	      () => {this.props.screenProps.setParentState(dominionCards[card]['action'](this.props.screenProps.state))}
+	    )
 		} else {
 			alert('You cannot play that right now')
 		}
