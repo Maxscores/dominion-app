@@ -22,7 +22,6 @@ import dominionCards from '../../../game-utilities/dominion'
 import {
 	drawCards,
 	canBuyCard,
-	canPlayCard,
 	isBuyPhase,
 	isActionPhase,
 	playerDeck
@@ -30,7 +29,8 @@ import {
 import {
 	resolveAttackQueue,
 	resolveActionQueue,
-	finishTurn
+	finishTurn,
+	playCard
 } from '../../../game-utilities/game-engine'
 
 export default class Table extends Component {
@@ -64,26 +64,31 @@ export default class Table extends Component {
 		this.props.screenProps.setParentState({turnPhase: this.props.screenProps.state.turnPhase + 1})
 	}
 
-	playCard(card) {
-		if (canPlayCard(this.props.screenProps.state, card)) {
-			let hand = this.props.screenProps.state.hand
-			let index = hand.indexOf(card)
-			if (index > -1) { hand.splice(index, 1) }
-			let playarea = [card, ...this.props.screenProps.state.playarea]
-			let playCost = 0
-			if (dominionCards[card]['type'].includes('action')) {playCost = 1}
-			this.props.screenProps.setParentState({
-					hand: hand,
-					playarea: playarea,
-	        actions: this.props.screenProps.state.actions - playCost
-				},
-	      () => {this.props.screenProps.setParentState(dominionCards[card]['action'](this.props.screenProps.state))}
-	    )
-		} else {
-			alert('You cannot play that right now')
-		}
+	playCardFromHand(card) {
+		playCard(this.props.screenProps, card)
 		this.popupDialog.dismiss()
 	}
+	//
+	// playCard(card) {
+	// 	if (canPlayCard(this.props.screenProps.state, card)) {
+	// 		let hand = this.props.screenProps.state.hand
+	// 		let index = hand.indexOf(card)
+	// 		if (index > -1) { hand.splice(index, 1) }
+	// 		let playarea = [card, ...this.props.screenProps.state.playarea]
+	// 		let playCost = 0
+	// 		if (dominionCards[card]['type'].includes('action')) {playCost = 1}
+	// 		this.props.screenProps.setParentState({
+	// 				hand: hand,
+	// 				playarea: playarea,
+	//         actions: this.props.screenProps.state.actions - playCost
+	// 			},
+	//       () => {this.props.screenProps.setParentState(dominionCards[card]['action'](this.props.screenProps.state))}
+	//     )
+	// 	} else {
+	// 		alert('You cannot play that right now')
+	// 	}
+	// 	this.popupDialog.dismiss()
+	// }
 
 
 	buyCard(card) {
@@ -199,7 +204,7 @@ export default class Table extends Component {
 						handCards={ this.props.screenProps.state.hand }
 						openDialog={ this.openDialog.bind(this) }
 						popupAction="Play"
-						popupMethod={ this.playCard.bind(this) }
+						popupMethod={ this.playCardFromHand.bind(this) }
 					/>
         </View>
         <PopupDialog
