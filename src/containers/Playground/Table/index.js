@@ -127,8 +127,7 @@ export default class Table extends Component {
     this.props.screenProps.setParentState({
       discard: discard,
       playarea: playarea
-    })
-    this.props.screenProps.setParentState(dominionCards[card]['action'](this.props.screenProps.state))
+    }, this.props.screenProps.setParentState(dominionCards[card]['action'](this.props.screenProps.state)))
 	}
 
 
