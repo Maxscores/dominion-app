@@ -15,7 +15,8 @@ import {
 	playerDeck,
 	hasActions,
 	hasBuys,
-	hasCoins
+	hasCoins,
+	clearAttackQueue
 } from '../src/game-utilities/game-mechanics'
 import dominionCards from '../src/game-utilities/dominion'
 
@@ -117,6 +118,16 @@ describe("Game Mechanics", () => {
 			expected = {attackQueue: {1: [], 2: ['attack', 'attack', 'attack'], 3: ['attack'], 4: ['attack']}}
 
 			assert.deepEqual(expected, attackQueue(currentPlayer, currentAttacks, 'attack'))
+		})
+	})
+
+	context("clearAttackQueue", () => {
+		it('clears attack queue for current player', () => {
+			currentPlayer = 1
+			currentAttacks = {1: ['attack', 'attack'], 2: ['attack', 'attack'], 3: [], 4: []}
+			expected = {attackQueue: {1: [], 2: ['attack', 'attack'], 3: [], 4: []}}
+
+			assert.deepEqual(expected, clearAttackQueue(currentPlayer, currentAttacks))
 		})
 	})
 

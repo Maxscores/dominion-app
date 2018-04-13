@@ -342,5 +342,34 @@ describe('Dominion Cards', () => {
 			})
 		})
 
+		context('moat', () => {
+			it('returns expected', () => {
+				let moat = dominonCards['moat']
+				let stateCopy = JSON.parse(JSON.stringify(state))
+				let stateCopy2 = JSON.parse(JSON.stringify(state))
+				stateCopy2.attackQueue = {'1': ['militia', 'witch'], '2': []}
+				let expected = {
+					'discard': [],
+					'draw': [
+						'card3',
+						'card4',
+						'card5'
+					],
+					'hand': [
+						'card1',
+						'card2',
+					]
+				}
+				let expectedAttack = {
+					attackQueue: {'1': [], '2': []}
+				}
+
+				assert.deepEqual(['action', 'reaction'], moat.type)
+				assert.equal(2, moat.cost)
+				assert.deepEqual(expected, moat.action(stateCopy))
+				assert.deepEqual(expectedAttack, moat.reaction(stateCopy2))
+			})
+		})
+
 	})
 })

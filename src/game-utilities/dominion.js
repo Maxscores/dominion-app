@@ -7,7 +7,8 @@ import {
 	discardCards,
 	actionQueue,
 	attackQueue,
-	trashCard
+	trashCard,
+	clearAttackQueue
 } from './game-mechanics'
 
 
@@ -167,6 +168,16 @@ export default dominonCards = {
 			let cardsGained = {cardsGained: [...state.cardsGained, 'curse']}
 			let resultingState = _.merge(cardsGained, newSupply)
 			return resultingState
+		}
+	},
+	'moat': {
+		'type': ['action', 'reaction'],
+		'cost': 2,
+		'action': (state) => {
+			return drawCards(2, state)
+		},
+		'reaction': (state) => {
+			return clearAttackQueue(state.currentPlayer, state.attackQueue)
 		}
 	}
 }
