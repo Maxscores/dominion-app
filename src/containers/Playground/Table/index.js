@@ -19,20 +19,12 @@ import { images } from '@assets/images'
 import PopupDialog from '../../../components/PopupDialog'
 import CallbackWindow from '../../../components/CallbackWindow'
 import dominionCards from '../../../game-utilities/dominion'
-import {
-	drawCards,
-	canBuyCard,
-	isBuyPhase,
-	isActionPhase,
-	playerDeck
-} from '../../../game-utilities/game-mechanics'
+import { playerDeck } from '../../../game-utilities/game-mechanics'
 import {
 	resolveAttackQueue,
 	resolveActionQueue,
-	finishTurn,
 	playCard,
-	buyCard,
-	nextPhase
+	buyCard
 } from '../../../game-utilities/game-engine'
 
 export default class Table extends Component {
