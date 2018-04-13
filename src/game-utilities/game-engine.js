@@ -41,7 +41,7 @@ const resolveActionQueue = (screenProps) => {
 
 
 const	playCard = (screenProps, card) => {
-	if (canPlayCard(screenProps.state, card)) {
+	if (canPlayCard(screenProps.state, dominionCards[card])) {
 		let hand = screenProps.state.hand
 		let index = hand.indexOf(card)
 		if (index > -1) { hand.splice(index, 1) }
@@ -61,7 +61,7 @@ const	playCard = (screenProps, card) => {
 }
 
 const buyCard = (screenProps, card) => {
-	if (canBuyCard(screenProps.state , card)) {
+	if (canBuyCard(screenProps.state, dominionCards[card])) {
 		let supply = screenProps.state.supply
 		supply[card]--
 		let cardsGained = [...screenProps.state.cardsGained, card]
