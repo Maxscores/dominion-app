@@ -143,7 +143,7 @@ export default dominonCards = {
 			let hand = state.hand.map((card, index) => {
 				return {label: card, value: index}
 			})
-			return actionStack(state.actionStack, {card: 'chapel', handCards: hand })
+			return actionQueue(state.actionQueue, {card: 'chapel', handCards: hand })
 		},
 		'cost': 2
 	}
