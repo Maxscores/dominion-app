@@ -49,8 +49,8 @@ const attackQueue = (currentPlayer, currentAttacks, newAttack) => {
 	return {attackQueue: currentAttacks}
 }
 
-const trash = (trash, cardName) => {
-	return [...trash, cardName]
+const trashCard = (trash, cardName) => {
+	return {trash: [...trash, cardName]}
 }
 
 const isBuyPhase = (state) => {
@@ -107,10 +107,13 @@ module.exports = {
 	discardCards,
 	actionQueue,
 	attackQueue,
-	trash,
+	trashCard,
 	isBuyPhase,
 	isActionPhase,
 	canBuyCard,
 	canPlayCard,
-	playerDeck
+	playerDeck,
+	hasActions,
+	hasBuys,
+	hasCoins
 }

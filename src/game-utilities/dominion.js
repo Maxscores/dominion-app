@@ -7,7 +7,7 @@ import {
 	discardCards,
 	actionQueue,
 	attackQueue,
-	trash
+	trashCard
 } from './game-mechanics'
 
 
@@ -129,7 +129,7 @@ export default dominonCards = {
 			let hand = state.hand
 			let cardIndex = hand.indexOf('copper')
 			hand.splice(cardIndex, 1)
-			let newTrash = trash(state.trash, 'copper')
+			let newTrash = trashCard(state.trash, 'copper')
 			let newCoins = coins(state.coins, 3)
 			let resultingState = _.merge(hand, newTrash)
 			resultingState = _.merge(resultingState, newCoins)

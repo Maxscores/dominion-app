@@ -13,7 +13,7 @@
     "eject": "react-native-scripts eject",
     "android": "react-native-scripts android",
     "ios": "react-native-scripts ios",
-    "test": "jest"
+    "test": "mocha --compilers js:babel-core/register"
   },
   "jest": {
     "preset": "jest-expo"
