@@ -37,7 +37,7 @@ export default class CallbackWindow extends Component {
         return card.label
       })
       this.props.playChapel(cards)
-      this.props.resolveActionStack()
+      this.props.resolveActionQueue()
     } else {
       alert(`Please select ${maxCount} cards or fewer`)
     }
@@ -50,43 +50,43 @@ export default class CallbackWindow extends Component {
 
   cardCallbacks = {
     "vassal": () => {
-      if (dominionCards[this.props.actionStack[0].revealedCard].type.includes('action')) {
+      if (dominionCards[this.props.actionQueue[0].revealedCard].type.includes('action')) {
         return(
           <View>
-            <Text>Do you want to play {this.props.actionStack[0].revealedCard}?</Text>
+            <Text>Do you want to play {this.props.actionQueue[0].revealedCard}?</Text>
             <Button
               title='Yes'
               onPress={
                 () => {
-                      this.props.playVassal(this.props.actionStack[0].revealedCard);
-                      this.props.resolveActionStack();
+                      this.props.playVassal(this.props.actionQueue[0].revealedCard);
+                      this.props.resolveActionQueue();
                       }
               }>
             </Button>
             <Button
               title='No'
-              onPress={ () => {this.props.resolveActionStack()} }>
+              onPress={ () => {this.props.resolveActionQueue()} }>
             </Button>
           </View>
         )
       } else {
         return(
           <View>
-            <Text>{this.props.actionStack[0].revealedCard} was discarded.</Text>
+            <Text>{this.props.actionQueue[0].revealedCard} was discarded.</Text>
             <Button
               title='Ok'
-              onPress={ () => {this.props.resolveActionStack()} }>
+              onPress={ () => {this.props.resolveActionQueue()} }>
             </Button>
           </View>
         )
       }
     },
     "chapel": () => {
-      if (this.props.actionStack[0].handCards.length > 0) {
+      if (this.props.actionQueue[0].handCards.length > 0) {
         return (
           <View>
           <SelectMultiple
-            items={this.props.actionStack[0].handCards}
+            items={this.props.actionQueue[0].handCards}
             renderLabel={renderLabel}
             selectedItems={this.state.selectedCards}
             onSelectionsChange={this.onSelectedCardsChange.bind(this)}
@@ -104,7 +104,7 @@ export default class CallbackWindow extends Component {
           </View>
               )
       } else {
-        () => {this.props.resolveActionStack()}
+        () => {this.props.resolveActionQueue()}
       }
     }
   }
@@ -112,7 +112,7 @@ export default class CallbackWindow extends Component {
   render() {
     return (
       <View style={styles.overlay}>
-        { this.cardCallbacks[this.props.actionStack[0].card]() }
+        { this.cardCallbacks[this.props.actionQueue[0].card]() }
       </View>
     )
   }
