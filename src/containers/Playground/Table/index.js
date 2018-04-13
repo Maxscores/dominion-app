@@ -83,23 +83,7 @@ export default class Table extends Component {
     })
   }
 
-	nextPhaseButton() {
-		if (isActionPhase(this.props.screenProps.state)) {
-			return "Finish Actions"
-		} else if (isBuyPhase(this.props.screenProps.state)) {
-			return "Finish Buys"
-		} else {
-			return "loading"
-		}
-	}
 
-	completePhase() {
-		if (isActionPhase(this.props.screenProps.state)) {
-			nextPhase(this.props.screenProps)
-		} else if (isBuyPhase(this.props.screenProps.state)) {
-			finishTurn(this.props.screenProps.state)
-		}
-	}
 
   displayWindow() {
     return this.props.screenProps.state.actionQueue.length > 0
@@ -117,8 +101,6 @@ export default class Table extends Component {
     }
   }
 
-
-
   playDiscard(card) {
     let discard = this.props.screenProps.state.discard
     let index = discard.indexOf(card)
@@ -129,7 +111,6 @@ export default class Table extends Component {
       playarea: playarea
     }, this.props.screenProps.setParentState(dominionCards[card]['action'](this.props.screenProps.state)))
 	}
-
 
   render() {
     return (
@@ -149,10 +130,7 @@ export default class Table extends Component {
 					/>
           <Scoreboard />
         </View>
-				<Button
-					title={this.nextPhaseButton()}
-					onPress={ () => this.completePhase() }>
-				</Button>
+				<PhaseButton screenProps={this.props.screenProps}/>
         <View style={styles.playContainer}>
           <PlayArea
 						playareaCards={ this.props.screenProps.state.playarea }
