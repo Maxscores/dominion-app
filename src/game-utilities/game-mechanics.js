@@ -1,4 +1,5 @@
-var _ = require('lodash')
+import dominionCards from './dominion'
+import _ from 'lodash'
 
 const coins = (current, add) => {
 	return {coins: current + add}
@@ -34,22 +35,85 @@ const discardCards = (quantity, from, to) => {
 	return {draw: from, discard: newDiscard}
 }
 
-const actionStack = (current, options) => {
-	let newStack = [...current, options]
-	return {actionStack: newStack}
+const actionQueue = (current, options) => {
+	let newQueue = [...current, options]
+	return {actionQueue: newQueue}
 }
 
-const attackStack = (currentPlayer, currentAttacks, newAttack) => {
+const attackQueue = (currentPlayer, currentAttacks, newAttack) => {
 	for (let player in currentAttacks) {
 		if (+player !== +currentPlayer) {
 			currentAttacks[player].push(newAttack)
 		}
 	}
-	return {attackStack: currentAttacks}
+	return {attackQueue: currentAttacks}
 }
 
-const trash = (trash, cardName) => {
-	return [...trash, cardName]
+const trashCard = (trash, cardName) => {
+	return {trash: [...trash, cardName]}
 }
 
-module.exports = {coins, actions, buys, drawCards, discardCards, actionStack, attackStack, trash}
+const isBuyPhase = (state) => {
+	return state.turnPhase === 3
+}
+
+const isActionPhase = (state) => {
+	return state.turnPhase === 2
+}
+
+const hasActions = (state) => {
+	return state.actions > 0
+}
+
+const hasBuys = (state) => {
+	return state.buys > 0
+}
+
+const hasCoins = (state, card) => {
+	return dominionCards[card]['cost'] <= state.coins
+}
+
+const canBuyCard = (state, card) => {
+	if (hasCoins(state, card) && isBuyPhase(state) && hasBuys(state)) {
+		return true
+	} else {
+		return false
+	}
+}
+
+const canPlayCard = (state, cardName) => {
+	let card = dominionCards[cardName]
+	if (card['type'].includes('action') && hasActions(state) && isActionPhase(state)) {
+		return true
+	} else if (card['type'].includes('treasure') && isBuyPhase(state) && !state.hasBought) {
+		return true
+	} else {
+		return false
+	}
+}
+
+const playerDeck = (decks, player) => {
+	let deck = decks.find((deck) => {
+		return deck.player_id === player
+	})
+	return drawCards(5, deck)
+}
+
+module.exports = {
+	coins,
+	actions,
+	buys,
+	drawCards,
+	discardCards,
+	actionQueue,
+	attackQueue,
+	trashCard,
+	isBuyPhase,
+	isActionPhase,
+	canBuyCard,
+	canPlayCard,
+	playerDeck,
+	hasActions,
+	hasBuys,
+	hasCoins
+}

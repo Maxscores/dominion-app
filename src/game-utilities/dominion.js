@@ -1,13 +1,13 @@
-var _ = require('lodash')
+import _ from 'lodash'
 import {
 	coins,
 	actions,
 	buys,
 	drawCards,
 	discardCards,
-	actionStack,
-	attackStack,
-	trash
+	actionQueue,
+	attackQueue,
+	trashCard
 } from './game-mechanics'
 
 
@@ -102,8 +102,8 @@ export default dominonCards = {
 		'type': 'action',
 		'action': (state) => {
 			let newCoins = coins(state.coins, 2)
-			let newActionStack = actionStack(state.actionStack, {card: 'vassal', revealedCard: `${state.draw[0]}` })
-			let resultingState = _.merge(resultingState, newActionStack)
+			let newActionQueue = actionQueue(state.actionQueue, {card: 'vassal', revealedCard: `${state.draw[0]}` })
+			let resultingState = _.merge(resultingState, newActionQueue)
 			return resultingState
 		},
 		'cost': 3
@@ -113,7 +113,7 @@ export default dominonCards = {
 		'action': (state) => {
 			let draw = drawCards(4, state)
 			let newBuys = buys(state.buys, 1)
-			let attacks = attackStack(state.currentPlayer, state.attackStack, 'council_room')
+			let attacks = attackQueue(state.currentPlayer, state.attackQueue, 'council_room')
 			let resultingState = _.merge(draw, newBuys)
 			resultingState = _.merge(resultingState, attacks)
 			return resultingState
@@ -129,7 +129,7 @@ export default dominonCards = {
 			let hand = state.hand
 			let cardIndex = hand.indexOf('copper')
 			hand.splice(cardIndex, 1)
-			let newTrash = trash(state.trash, 'copper')
+			let newTrash = trashCard(state.trash, 'copper')
 			let newCoins = coins(state.coins, 3)
 			let resultingState = _.merge(hand, newTrash)
 			resultingState = _.merge(resultingState, newCoins)
