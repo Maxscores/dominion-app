@@ -216,6 +216,7 @@ describe('Dominion Cards', () => {
 			it('returns expected', () => {
 				let council_room = dominonCards['council_room']
 				let stateCopy = JSON.parse(JSON.stringify(state))
+				let stateCopy2 = JSON.parse(JSON.stringify(state))
 				let expected = {
 					'buys': 1,
 					'discard': [],
@@ -230,10 +231,23 @@ describe('Dominion Cards', () => {
 					],
 					'attackQueue': {'1': [], '2': ['council_room']}
 				}
+				let expectedAttack = {
+					'discard': [],
+					'draw': [
+						'card2',
+						'card3',
+						'card4',
+						'card5'
+					],
+					'hand': [
+						'card1'
+					]
+				}
 
 				assert.equal('action', council_room.type)
 				assert.equal(5, council_room.cost)
 				assert.deepEqual(expected, council_room.action(stateCopy))
+				assert.deepEqual(expectedAttack, council_room.attack(state))
 			})
 		})
 
