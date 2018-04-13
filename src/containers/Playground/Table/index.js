@@ -49,7 +49,7 @@ export default class Table extends Component {
 					draw: [...deck.draw],
 					discard: deck.discard,
 					turnOrder: gameState.turn_order,
-					attackQueue: gameState.attack_stack,
+					attackQueue: gameState.attack_queue,
 					turns: gameState.turns
 				}, () => {resolveAttackQueue(this.props.screenProps)})
 			})
