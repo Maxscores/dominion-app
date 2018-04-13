@@ -1,4 +1,3 @@
-import dominionCards from './dominion'
 import _ from 'lodash'
 
 const coins = (current, add) => {
@@ -70,7 +69,7 @@ const hasBuys = (state) => {
 }
 
 const hasCoins = (state, card) => {
-	return dominionCards[card]['cost'] <= state.coins
+	return card['cost'] <= state.coins
 }
 
 const canBuyCard = (state, card) => {
@@ -81,8 +80,7 @@ const canBuyCard = (state, card) => {
 	}
 }
 
-const canPlayCard = (state, cardName) => {
-	let card = dominionCards[cardName]
+const canPlayCard = (state, card) => {
 	if (card['type'].includes('action') && hasActions(state) && isActionPhase(state)) {
 		return true
 	} else if (card['type'].includes('treasure') && isBuyPhase(state) && !state.hasBought) {
