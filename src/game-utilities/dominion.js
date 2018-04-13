@@ -24,6 +24,10 @@ export default dominonCards = {
 		'type': 'victory',
 		'cost': 8
 	},
+	'curse': {
+		'type': 'curse',
+		'cost': 0
+	},
 	'laboratory': {
 		'type': 'action',
 		'action': (state) => {
@@ -103,7 +107,7 @@ export default dominonCards = {
 		'action': (state) => {
 			let newCoins = coins(state.coins, 2)
 			let newActionQueue = actionQueue(state.actionQueue, {card: 'vassal', revealedCard: `${state.draw[0]}` })
-			let resultingState = _.merge(resultingState, newActionQueue)
+			let resultingState = _.merge(newCoins, newActionQueue)
 			return resultingState
 		},
 		'cost': 3
@@ -131,7 +135,8 @@ export default dominonCards = {
 			hand.splice(cardIndex, 1)
 			let newTrash = trashCard(state.trash, 'copper')
 			let newCoins = coins(state.coins, 3)
-			let resultingState = _.merge(hand, newTrash)
+			let newHand = {hand: hand}
+			let resultingState = _.merge(newHand, newTrash)
 			resultingState = _.merge(resultingState, newCoins)
 			return resultingState
 		},
