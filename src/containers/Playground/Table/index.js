@@ -83,14 +83,8 @@ export default class Table extends Component {
     })
   }
 
-
-
-  displayWindow() {
-    return this.props.screenProps.state.actionQueue.length > 0
-  }
-
   showCallbackWindow() {
-    if (this.displayWindow()) {
+    if (this.props.screenProps.state.actionQueue.length > 0) {
       return(
         <CallbackWindow
           playVassal={ this.playDiscard.bind(this) }
