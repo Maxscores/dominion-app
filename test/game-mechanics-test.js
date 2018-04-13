@@ -17,6 +17,9 @@ import {
 	hasBuys,
 	hasCoins
 } from '../src/game-utilities/game-mechanics'
+import dominionCards from '../src/game-utilities/dominion'
+
+
 
 describe("Game Mechanics", () => {
 	context("Coins", () => {
@@ -154,9 +157,10 @@ describe("Game Mechanics", () => {
 
 	context("hasCoins", () => {
 		it("returns expected", () => {
-			assert.isOk(hasCoins({coins: 3}, 'silver'))
+			let silver = dominionCards['silver']
+			assert.isOk(hasCoins({coins: 3}, silver))
 
-			assert.isNotOk(hasCoins({coins: 0}, 'silver'))
+			assert.isNotOk(hasCoins({coins: 0}, silver))
 		})
 	})
 
@@ -170,69 +174,79 @@ describe("Game Mechanics", () => {
 
 	context("canBuyCard", () => {
 		it("can buy card", () => {
+			let silver = dominionCards['silver']
 			state = {buys: 1, turnPhase: 3, coins: 3}
 
-			assert.isOk(canBuyCard(state, 'silver'))
+			assert.isOk(canBuyCard(state, silver))
 		})
 
 		it("cannot buy card with no buys", () => {
+			let silver = dominionCards['silver']
 			state = {buys: 0, turnPhase: 3, coins: 3}
 
-			assert.isNotOk(canBuyCard(state, 'silver'))
+			assert.isNotOk(canBuyCard(state, silver))
 		})
 
 		it("cannot buy card during action phase", () => {
+			let silver = dominionCards['silver']
 			state = {buys: 1, turnPhase: 2, coins: 3}
 
-			assert.isNotOk(canBuyCard(state, 'silver'))
+			assert.isNotOk(canBuyCard(state, silver))
 		})
 
 		it("cannot buy card with no coins", () => {
+			let silver = dominionCards['silver']
 			state = {buys: 1, turnPhase: 3, coins: 0}
 
-			assert.isNotOk(canBuyCard(state, 'silver'))
+			assert.isNotOk(canBuyCard(state, silver))
 		})
 	})
 
 	context("canPlayCard", () => {
 		it("can play Action card", () => {
+			let village = dominionCards['village']
 			state = {actions: 1, turnPhase: 2}
 
-			assert.isOk(canPlayCard(state, 'village'))
+			assert.isOk(canPlayCard(state, village))
 		})
 
 		it("cannot play Action card without actions", () => {
+			let village = dominionCards['village']
 			state = {actions: 0, turnPhase: 2}
 
-			assert.isNotOk(canPlayCard(state, 'village'))
+			assert.isNotOk(canPlayCard(state, village))
 		})
 
 		it("cannot play Action card on other phases", () => {
+			let village = dominionCards['village']
 			state = {actions: 1, turnPhase: 1}
-			assert.isNotOk(canPlayCard(state, 'village'))
+			assert.isNotOk(canPlayCard(state, village))
 
 			state = {actions: 1, turnPhase: 3}
-			assert.isNotOk(canPlayCard(state, 'village'))
+			assert.isNotOk(canPlayCard(state, village))
 		})
 
 		it("can play Treasure card", () => {
+			let copper = dominionCards['copper']
 			state = {turnPhase: 3, hasBought: false}
 
-			assert.isOk(canPlayCard(state, 'copper'))
+			assert.isOk(canPlayCard(state, copper))
 		})
 
 		it("cannot play Treasure card on other phases", () => {
+			let copper = dominionCards['copper']
 			state = {turnPhase: 1, hasBought: false}
-			assert.isNotOk(canPlayCard(state, 'copper'))
+			assert.isNotOk(canPlayCard(state, copper))
 
 			state = {turnPhase: 2, hasBought: false}
-			assert.isNotOk(canPlayCard(state, 'copper'))
+			assert.isNotOk(canPlayCard(state, copper))
 		})
 
 		it("cannot play Treasure card after buying", () => {
+			let copper = dominionCards['copper']
 			state = {turnPhase: 3, hasBought: true}
 
-			assert.isNotOk(canPlayCard(state, 'copper'))
+			assert.isNotOk(canPlayCard(state, copper))
 		})
 	})
 
