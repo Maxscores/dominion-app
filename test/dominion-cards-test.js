@@ -3,6 +3,10 @@ import dominionCards from '../src/game-utilities/dominion'
 
 describe('Dominion Cards', () => {
 	let state = {
+		supply: {
+			'curse': 10
+		},
+		cardsGained:[],
 		coins: 0,
 		actions: 0,
 		buys: 0,
@@ -247,7 +251,7 @@ describe('Dominion Cards', () => {
 				assert.equal('action', council_room.type)
 				assert.equal(5, council_room.cost)
 				assert.deepEqual(expected, council_room.action(stateCopy))
-				assert.deepEqual(expectedAttack, council_room.attack(state))
+				assert.deepEqual(expectedAttack, council_room.attack(stateCopy2))
 			})
 		})
 
@@ -302,6 +306,39 @@ describe('Dominion Cards', () => {
 				assert.equal('action', chapel.type)
 				assert.equal(2, chapel.cost)
 				assert.deepEqual(expected, chapel.action(stateCopy))
+			})
+		})
+
+		context('witch', () => {
+			it('returns expected', () => {
+				let witch = dominonCards['witch']
+				let stateCopy = JSON.parse(JSON.stringify(state))
+				let stateCopy2 = JSON.parse(JSON.stringify(state))
+				let expected = {
+					'discard': [],
+					'draw': [
+						'card3',
+						'card4',
+						'card5'
+					],
+					'hand': [
+						'card1',
+						'card2',
+					],
+					'attackQueue': {'1': [], '2': ['witch']}
+				}
+
+				let expectedAttack = {
+					'supply': {
+						'curse': 9
+					},
+					'cardsGained': ['curse']
+				}
+
+				assert.deepEqual(['action', 'attack'], witch.type)
+				assert.equal(4, witch.cost)
+				assert.deepEqual(expected, witch.action(stateCopy))
+				assert.deepEqual(expectedAttack, witch.attack(stateCopy2))
 			})
 		})
 

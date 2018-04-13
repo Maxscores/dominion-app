@@ -151,5 +151,22 @@ export default dominonCards = {
 			return actionQueue(state.actionQueue, {card: 'chapel', handCards: hand })
 		},
 		'cost': 2
+	},
+	'witch': {
+		'type': ['action', 'attack'],
+		'cost': 4,
+		'action': (state) => {
+			let newDraw = drawCards(2, state)
+			let newAttackQueue = attackQueue(state.currentPlayer, state.attackQueue, 'witch')
+			let resultingState = _.merge(newDraw, newAttackQueue)
+			return resultingState
+		},
+		'attack': (state) => {
+			state.supply['curse']--
+			let newSupply = {supply: state.supply}
+			let cardsGained = {cardsGained: [...state.cardsGained, 'curse']}
+			let resultingState = _.merge(cardsGained, newSupply)
+			return resultingState
+		}
 	}
 }
