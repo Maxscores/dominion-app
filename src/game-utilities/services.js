@@ -34,7 +34,31 @@ const postConfig = (gameState) => {
     }
 }
 
-const postTurn = (gameId, gameState) => {
+const gameStatePrep = (gameStateRaw) => {
+	return gameState = {
+		supply: gameStateRaw.supply,
+		trash: gameStateRaw.trash,
+		attack_stack: gameStateRaw.attackStack,
+		deck: {
+			draw: gameStateRaw.draw,
+			discard: [
+				...gameStateRaw.discard,
+				...gameStateRaw.playarea,
+				...gameStateRaw.hand,
+				...gameStateRaw.cardsGained
+			]
+		},
+		turn: {
+			coins: gameStateRaw.coins,
+			cards_played: gameStateRaw.playarea,
+			cards_gained: gameStateRaw.cardsGained,
+			cards_trashed: gameStateRaw.cardsTrashed
+			}
+	}
+}
+
+const postTurn = (gameId, gameStateRaw) => {
+	let gameState = gameStatePrep(gameStateRaw)
 	return fetch(`${baseURL}/api/v1/games/${gameId}/turns`, postConfig(gameState))
 		.catch(errorLog)
 }
