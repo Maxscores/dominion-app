@@ -268,5 +268,42 @@ describe('Dominion Cards', () => {
 			})
 		})
 
+		context('chapel', () => {
+			it('returns expected', () => {
+				let chapel = dominonCards['chapel']
+				let stateCopy = JSON.parse(JSON.stringify(state))
+				stateCopy.hand = ['card1', 'card2', 'card3', 'card4']
+				let expected = {
+					'actionQueue': [
+						{
+							card: 'chapel',
+							handCards: [
+								{
+				          "label": "card1",
+				          "value": 0
+				        },
+				        {
+				          "label": "card2",
+				          "value": 1
+				        },
+				        {
+				          "label": "card3",
+				          "value": 2
+				        },
+				        {
+				          "label": "card4",
+				          "value": 3
+				        }
+							]
+						}
+					]
+				}
+
+				assert.equal('action', chapel.type)
+				assert.equal(2, chapel.cost)
+				assert.deepEqual(expected, chapel.action(stateCopy))
+			})
+		})
+
 	})
 })
