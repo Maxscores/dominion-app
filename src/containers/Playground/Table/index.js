@@ -35,8 +35,8 @@ export default class Table extends Component {
 					supply: gameState.game_cards,
 					trash: gameState.trash,
 					decks: gameState.decks,
-					hand: [...deck.hand, 'festival', 'moneylender', 'council_room'],
-					draw: ['village', ...deck.draw],
+					hand: [...deck.hand, 'chapel', 'vassal', 'vassal', 'vassal', 'vassal', 'vassal'],
+					draw: ['copper', 'village', 'village', ...deck.draw],
 					discard: deck.discard,
 					turnOrder: gameState.turn_order,
 					attackStack: gameState.attack_stack,
@@ -92,7 +92,9 @@ export default class Table extends Component {
 				playarea: playarea,
         actions: this.props.screenProps.state.actions - 1
 			},
-      () => {this.props.screenProps.setParentState(dominionCards[card]['action'](this.props.screenProps.state))}
+      () => {
+        this.props.screenProps.setParentState(dominionCards[card]['action'](this.props.screenProps.state))
+      }
     )
 			/*
 			Using an action must be done inside the action card logic.
@@ -228,6 +230,8 @@ export default class Table extends Component {
       return(
         <CallbackWindow
           playVassal={ this.playDiscard.bind(this) }
+          discardVassal={ this.discardCardFromDraw.bind(this) }
+          playChapel={ this.trashFromHand.bind(this) }
           actionStack={ this.props.screenProps.state.actionStack }
           resolveActionStack={ this.resolveActionStack.bind(this) }
         />
@@ -237,6 +241,36 @@ export default class Table extends Component {
 
   resolveActionStack() {
     this.props.screenProps.setParentState({actionStack: this.props.screenProps.state.actionStack.slice(1)})
+  }
+
+  trashFromHand(cards) {
+    let hand = this.props.screenProps.state.hand
+    let trash = this.props.screenProps.state.trash
+    let cardsTrashed = this.props.screenProps.state.cardsTrashed
+    let cardBeingTrashed;
+    cards.forEach((card) => {
+      let index = hand.indexOf(card)
+      if (index > -1) {
+        cardBeingTrashed = hand.splice(index, 1)
+        trash.push(cardBeingTrashed)
+        cardsTrashed.push(cardBeingTrashed)
+      }
+    })
+    this.props.screenProps.setParentState({
+      hand: hand,
+      trash: trash,
+      cardsTrashed: cardsTrashed
+    })
+  }
+
+  discardCardFromDraw(count) {
+    let discard = this.props.screenProps.state.discard
+    let draw = this.props.screenProps.state.draw
+    discard.push(draw.splice(0, count))
+    this.props.screenProps.setParentState({
+      discard: discard,
+      draw: draw
+    })
   }
 
   playDiscard(card) {

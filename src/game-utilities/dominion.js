@@ -24,8 +24,8 @@ const discardCards = (quantity, from, to) => {
 	return {draw: from, discard: newDiscard}
 }
 
-const actionStack = (current, options) => {
-	let newStack = [...current, options]
+const actionStack = (current, add) => {
+	let newStack = [...current, add]
 	return {actionStack: newStack}
 }
 
@@ -167,5 +167,15 @@ export default dominonCards = {
 			return resultingState
 		},
 		'cost': 4
+	},
+	'chapel': {
+		'type': 'action',
+		'action': (state) => {
+			let hand = state.hand.map((card, index) => {
+				return {label: card, value: index}
+			})
+			return actionStack(state.actionStack, {card: 'chapel', handCards: hand })
+		},
+		'cost': 2
 	}
 }
