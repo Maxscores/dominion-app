@@ -81,11 +81,43 @@ export default class Table extends Component {
       return(
         <CallbackWindow
           playVassal={ this.playDiscard.bind(this) }
+          discardVassal={ this.discardCardFromDraw.bind(this) }
+          playChapel={ this.trashFromHand.bind(this) }
           actionQueue={ this.props.screenProps.state.actionQueue }
           resolveActionQueue={ () => resolveActionQueue(this.props.screenProps) }
         />
       )
     }
+  }
+
+  trashFromHand(cards) {
+    let hand = this.props.screenProps.state.hand
+    let trash = this.props.screenProps.state.trash
+    let cardsTrashed = this.props.screenProps.state.cardsTrashed
+    let cardBeingTrashed;
+    cards.forEach((card) => {
+      let index = hand.indexOf(card)
+      if (index > -1) {
+        cardBeingTrashed = hand.splice(index, 1)
+        trash.push(cardBeingTrashed)
+        cardsTrashed.push(cardBeingTrashed)
+      }
+    })
+    this.props.screenProps.setParentState({
+      hand: hand,
+      trash: trash,
+      cardsTrashed: cardsTrashed
+    })
+  }
+
+  discardCardFromDraw(count) {
+    let discard = this.props.screenProps.state.discard
+    let draw = this.props.screenProps.state.draw
+    discard.push(draw.splice(0, count))
+    this.props.screenProps.setParentState({
+      discard: discard,
+      draw: draw
+    })
   }
 
   playDiscard(card) {

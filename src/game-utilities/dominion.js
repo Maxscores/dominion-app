@@ -141,5 +141,15 @@ export default dominonCards = {
 			return resultingState
 		},
 		'cost': 4
+	},
+	'chapel': {
+		'type': 'action',
+		'action': (state) => {
+			let hand = state.hand.map((card, index) => {
+				return {label: card, value: index}
+			})
+			return actionQueue(state.actionQueue, {card: 'chapel', handCards: hand })
+		},
+		'cost': 2
 	}
 }
