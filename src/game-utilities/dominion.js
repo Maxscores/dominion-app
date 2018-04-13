@@ -10,50 +10,6 @@ import {
 	trashCard
 } from './game-mechanics'
 
-<<<<<<< HEAD
-const coins = (current, add) => {
-	return {coins: current + add}
-}
-
-const actions = (current, add) => {
-	return {actions: current + add}
-}
-
-const buys = (current, add) => {
-	return {buys: current + add}
-}
-
-const drawCards = (quantity, from, to) => {
-	let cards = from.splice(0, quantity)
-	let newHand = [...to, ...cards]
-	return {draw: from, hand: newHand}
-}
-
-const discardCards = (quantity, from, to) => {
-	let cards = from.splice(0, quantity)
-	let newDiscard = [...to, ...cards]
-	return {draw: from, discard: newDiscard}
-}
-
-const actionStack = (current, add) => {
-	let newStack = [...current, add]
-	return {actionStack: newStack}
-}
-
-const attackStack = (currentPlayer, currentAttacks, newAttack) => {
-	for (let player in currentAttacks) {
-		if (+player !== +currentPlayer) {
-			currentAttacks[player].push(newAttack)
-		}
-	}
-	return {attackStack: currentAttacks}
-}
-
-const trash = (trash, cardName) => {
-	return [...trash, cardName]
-}
-=======
->>>>>>> master
 
 export default dominonCards = {
 	'estate': {
