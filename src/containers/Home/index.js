@@ -5,15 +5,36 @@ import {
   View
 } from 'react-native';
 import {
-  TabNavigator
+  TabNavigator,
+	StackNavigator
 } from 'react-navigation';
-import Games from './Games'
 import Friends from './Friends'
 import NewGame from './NewGame'
+import Playground from '../Playground'
+import GamesList from './GamesList'
 
-const routeConfig = {
+
+const stackRouteConfig = {
+	GamesList: {
+		screen: GamesList,
+		navigationOptions: {
+			title: 'Games List',
+		},
+	},
+	Playground: {
+		screen: Playground,
+		navigationOptions: ({navigation}) => ({
+			title: '',
+			tabBarVisible: false
+		})
+	}
+}
+
+const GamesNav = StackNavigator(stackRouteConfig)
+
+const tabRouteConfig = {
   Games: {
-    screen: Games,
+    screen: GamesNav,
   },
   Friends: {
     screen: Friends,
@@ -23,7 +44,7 @@ const routeConfig = {
   },
 }
 
-const navConfig = {
+const tabNavConfig = {
   tabBarOptions: {
     labelStyle: {
       fontSize: 22,
@@ -35,13 +56,9 @@ const navConfig = {
   }
 }
 
-const RootNav = TabNavigator(routeConfig, navConfig)
+const RootNav = TabNavigator(tabRouteConfig, tabNavConfig)
 
-export default class App extends Component {
-	static navigationOptions = ({navigation, screenProps}) => ({
-		tabBarVisible: navigation.state.params.hideTabBar != undefined ? !navigation.state.params.hideTabBar: true
-	})
-
+export default class Home extends Component {
 	constructor() {
 		super()
 		this.state = {
@@ -59,7 +76,6 @@ export default class App extends Component {
 
 
   render() {
-		console.warn(RootNav)
     return (
       <RootNav screenProps={this.state}/>
     );
