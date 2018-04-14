@@ -12,7 +12,9 @@ import Playground from './src/containers/Playground'
 import LoginForm from './src/components/LoginForm'
 import SignUpForm from './src/components/SignUpForm'
 import { images } from '@assets/images'
-
+import {
+  responsiveHeight,
+} from 'react-native-responsive-dimensions';
 
 const routeConfig = {
   Playground: {
@@ -89,6 +91,7 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#bfa891',
+    height: responsiveHeight(100)
   },
   logo: {
     marginLeft: -10,
