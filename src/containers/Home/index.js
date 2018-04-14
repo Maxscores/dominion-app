@@ -38,6 +38,10 @@ const navConfig = {
 const RootNav = TabNavigator(routeConfig, navConfig)
 
 export default class App extends Component {
+	static navigationOptions = ({navigation, screenProps}) => ({
+		tabBarVisible: navigation.state.params.hideTabBar != undefined ? !navigation.state.params.hideTabBar: true
+	})
+
 	constructor() {
 		super()
 		this.state = {
@@ -52,7 +56,10 @@ export default class App extends Component {
 		}
 	}
 
+
+
   render() {
+		console.warn(RootNav)
     return (
       <RootNav screenProps={this.state}/>
     );

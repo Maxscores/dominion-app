@@ -6,7 +6,6 @@ import {
   View,
 	Button
 } from 'react-native';
-import FriendsList from './FriendsList'
 import AddFriendForm from './AddFriendForm'
 
 export default class Friends extends Component {
@@ -18,7 +17,13 @@ export default class Friends extends Component {
 	}
 
 	friendsList() {
-		return <FriendsList friends={this.props.screenProps.friends} />
+		return this.props.screenProps.friends.map((friend, index) => {
+			return (
+				<View key={index}>
+					<Text>{friend.username}</Text>
+				</View>
+			)
+		})
 	}
 
 	addFriendForm() {
