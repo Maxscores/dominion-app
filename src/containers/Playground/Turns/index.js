@@ -45,7 +45,6 @@ export default class Turns extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: responsiveHeight(4),
     flex: 1,
     textAlign: 'center',
     backgroundColor: '#abcdef'
