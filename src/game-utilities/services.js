@@ -26,11 +26,11 @@ const getGameState = (gameId) => {
 		.catch(errorLog)
 }
 
-const postConfig = (gameState) => {
+const postConfig = (info) => {
 	return {
       method: 'POST',
       headers: {'Content-Type': "application/json"},
-			body: JSON.stringify(gameState)
+			body: JSON.stringify(info)
     }
 }
 
@@ -57,11 +57,32 @@ const gameStatePrep = (gameStateRaw) => {
 	}
 }
 
+const userInfoPrep = (userInfoRaw) => {
+	return {
+		username: userInfoRaw.username,
+		password: userInfoRaw.password,
+		phone_number: userInfoRaw.phoneNumber
+	}
+}
+
 const postTurn = (gameId, gameStateRaw) => {
 	let gameState = gameStatePrep(gameStateRaw)
 	return fetch(`${baseURL}/api/v1/games/${gameId}/turns`, postConfig(gameState))
 		.catch(errorLog)
 }
 
+const postPlayer = (userInfo) => {
+	let userState = userInfoPrep(userInfo)
+	return fetch(`${baseURL}/api/v1/signup`, postConfig(userState))
+		.then(handleResponse)
+		.catch(errorLog)
+}
 
-module.exports = { getGameState, postTurn }
+const getPlayer = (userInfo) => {
+	return fetch(`${baseURL}/api/v1/login?username=${userInfo.username}&password=${userInfo.password}`)
+		.then(handleResponse)
+		.catch(errorLog)
+}
+
+
+module.exports = { getGameState, postTurn, postPlayer, getPlayer }
