@@ -22,7 +22,8 @@ const options = {
       error: 'Please enter a valid username'
     },
     password: {
-      error: 'Pleae enter a valid password'
+      error: 'Pleae enter a valid password',
+      secureTextEntry: true
     },
   },
 }
@@ -42,8 +43,12 @@ export default class LoginForm extends Component {
   }
 
   handleSubmit = () => {
-    getPlayer(this.state)
+    if (this.state.username.length === 0 || this.state.password.length === 0 || this.state.phoneNumber.length < 10) {
+      alert('Please enter both a username and password')
+    } else {
+      getPlayer(this.state)
       .then((response) => this.props.loginUser(response))
+    }
   }
 
   render() {

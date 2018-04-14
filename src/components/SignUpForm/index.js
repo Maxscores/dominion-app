@@ -7,8 +7,8 @@ import {
  } from 'react-native'
 
 import t from 'tcomb-form-native'
+import u from 'tcomb-validation'
 import { postPlayer } from '../../game-utilities/services'
-
 
 const Form = t.form.Form
 
@@ -24,10 +24,14 @@ const options = {
       error: 'Please enter a valid username'
     },
     phoneNumber: {
-      error: 'Please enter a valid phone number'
+      error: 'Please enter a valid phone number',
+      label: 'Phone Number',
+      placeholder: 'Format: 5558675309',
+      maxLength: 10
     },
     password: {
-      error: 'Pleae enter a valid password'
+      error: 'Pleae enter a valid password',
+      secureTextEntry: true
     },
   },
 }
@@ -48,8 +52,12 @@ export default class SignUpForm extends Component {
   }
 
   handleSubmit = () => {
-    postPlayer(this.state)
+    if (this.state.username.length === 0 || this.state.password.length === 0 || this.state.phoneNumber.length < 10) {
+      alert('Please enter username, 10 digit phone number, and password')
+    } else {
+      postPlayer(this.state)
       .then((response) => this.props.signUpUser(response))
+    }
   }
 
   render() {
