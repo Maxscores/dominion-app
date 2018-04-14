@@ -47,6 +47,14 @@ const attackQueue = (currentPlayer, currentAttacks, newAttack) => {
 	}
 	return {attackQueue: currentAttacks}
 }
+const clearAttackQueue = (currentPlayer, currentAttacks, newAttack) => {
+	for (let player in currentAttacks) {
+		if (+player === +currentPlayer) {
+			currentAttacks[player] = []
+		}
+	}
+	return {attackQueue: currentAttacks}
+}
 
 const trashCard = (trash, cardName) => {
 	return {trash: [...trash, cardName]}
@@ -113,5 +121,6 @@ module.exports = {
 	playerDeck,
 	hasActions,
 	hasBuys,
-	hasCoins
+	hasCoins,
+	clearAttackQueue
 }

@@ -7,7 +7,8 @@ import {
 	discardCards,
 	actionQueue,
 	attackQueue,
-	trashCard
+	trashCard,
+	clearAttackQueue
 } from './game-mechanics'
 
 
@@ -23,6 +24,10 @@ export default dominonCards = {
 	'province': {
 		'type': 'victory',
 		'cost': 8
+	},
+	'curse': {
+		'type': 'curse',
+		'cost': 0
 	},
 	'laboratory': {
 		'type': 'action',
@@ -103,7 +108,7 @@ export default dominonCards = {
 		'action': (state) => {
 			let newCoins = coins(state.coins, 2)
 			let newActionQueue = actionQueue(state.actionQueue, {card: 'vassal', revealedCard: `${state.draw[0]}` })
-			let resultingState = _.merge(resultingState, newActionQueue)
+			let resultingState = _.merge(newCoins, newActionQueue)
 			return resultingState
 		},
 		'cost': 3
@@ -131,7 +136,8 @@ export default dominonCards = {
 			hand.splice(cardIndex, 1)
 			let newTrash = trashCard(state.trash, 'copper')
 			let newCoins = coins(state.coins, 3)
-			let resultingState = _.merge(hand, newTrash)
+			let newHand = {hand: hand}
+			let resultingState = _.merge(newHand, newTrash)
 			resultingState = _.merge(resultingState, newCoins)
 			return resultingState
 		},
@@ -146,5 +152,32 @@ export default dominonCards = {
 			return actionQueue(state.actionQueue, {card: 'chapel', handCards: hand })
 		},
 		'cost': 2
+	},
+	'witch': {
+		'type': ['action', 'attack'],
+		'cost': 4,
+		'action': (state) => {
+			let newDraw = drawCards(2, state)
+			let newAttackQueue = attackQueue(state.currentPlayer, state.attackQueue, 'witch')
+			let resultingState = _.merge(newDraw, newAttackQueue)
+			return resultingState
+		},
+		'attack': (state) => {
+			state.supply['curse']--
+			let newSupply = {supply: state.supply}
+			let cardsGained = {cardsGained: [...state.cardsGained, 'curse']}
+			let resultingState = _.merge(cardsGained, newSupply)
+			return resultingState
+		}
+	},
+	'moat': {
+		'type': ['action', 'reaction'],
+		'cost': 2,
+		'action': (state) => {
+			return drawCards(2, state)
+		},
+		'reaction': (state) => {
+			return clearAttackQueue(state.currentPlayer, state.attackQueue)
+		}
 	}
 }

@@ -38,7 +38,7 @@ const gameStatePrep = (gameStateRaw) => {
 	return gameState = {
 		supply: gameStateRaw.supply,
 		trash: gameStateRaw.trash,
-		attack_stack: gameStateRaw.attackStack,
+		attack_queue: gameStateRaw.attackQueue,
 		deck: {
 			draw: gameStateRaw.draw,
 			discard: [
