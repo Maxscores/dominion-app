@@ -14,7 +14,7 @@ export default class GamesList extends Component {
 	}
 
 	navigateToGame(game) {
-		this.props.navigation.navigate('Playground', game)
+		this.props.navigation.navigate('Playground', {gameId: game})
 	}
 
 	games() {
@@ -22,6 +22,7 @@ export default class GamesList extends Component {
 			return (
 				<Text
 					key={game}
+					style={styles.text}
 					onPress={ () => this.navigateToGame(game)}>
 					{ game }
 				</Text>
@@ -32,9 +33,21 @@ export default class GamesList extends Component {
 
 	render() {
 		return (
-			<View>
+			<View style={styles.container}>
 				{this.games()}
 			</View>
 		)
 	}
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#abcdef',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+	text: {
+		fontSize: 24
+	}
+});
