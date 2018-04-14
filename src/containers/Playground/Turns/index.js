@@ -21,6 +21,7 @@ export default class Turns extends Component {
 			return (
 				<TurnSummary
 					turnNumber={index + 1}
+          key={index + 1}
 					playerId={turn.player_id}
 					coins={turn.coins}
 					cardsPlayed={turn.cards_played.length}
