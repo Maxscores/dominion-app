@@ -40,11 +40,11 @@ const navConfig = {
 
 const RootNav = TabNavigator(routeConfig, navConfig)
 
-export default class App extends Component {
-	constructor() {
-		super()
+export default class Playground extends Component {
+	constructor(props) {
+		super(props)
 		this.state = {
-			gameId: 3,
+			gameId: props.navigation.state.params.gameId,
 			currentPlayer: null,
 			decks: {},
 			supply: {},
