@@ -41,15 +41,20 @@ export default class App extends Component {
 	constructor() {
 		super()
 		this.state = {
-			currentPlayer: null,
-			games: [],
-			friends: []
+			currentPlayer: 1,
+			games: [1, 2, 3, 4, 5],
+			friends: [
+				{username: 'tyler', id: 2},
+				{username: 'dorothy', id: 3},
+				{username: 'gave', id: 4},
+				{username: 'sam', id: 5}
+			]
 		}
 	}
 
   render() {
     return (
-      <RootNav />
+      <RootNav screenProps={this.state}/>
     );
   }
 }
