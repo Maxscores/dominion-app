@@ -147,7 +147,7 @@ export default class Table extends Component {
 						style={styles.supply}
 						popupAction="Buy"
 					/>
-          <Scoreboard />
+          <Scoreboard players={this.props.screenProps.state.usernames}/>
         </View>
 				<PhaseButton screenProps={this.props.screenProps}/>
         <View style={styles.playContainer}>
