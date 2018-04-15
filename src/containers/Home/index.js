@@ -5,6 +5,11 @@ import {
   View
 } from 'react-native';
 import {
+  responsiveHeight,
+  responsiveWidth,
+  responsiveFontSize
+} from 'react-native-responsive-dimensions';
+import {
   TabNavigator,
 	StackNavigator
 } from 'react-navigation';
@@ -53,7 +58,8 @@ const tabNavConfig = {
       height: 36,
       bottom: 6,
     }
-  }
+  },
+	lazy: false
 }
 
 const RootNav = TabNavigator(tabRouteConfig, tabNavConfig)
@@ -90,7 +96,7 @@ export default class Home extends Component {
 
   render() {
     return (
-      <RootNav screenProps={this.state}/>
+      <RootNav style={styles.container} screenProps={this.state}/>
     );
   }
 }
@@ -100,6 +106,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#bfa891',
     alignItems: 'center',
+		height: responsiveHeight(100),
     justifyContent: 'center',
   },
 });
