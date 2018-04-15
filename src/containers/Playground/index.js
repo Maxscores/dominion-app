@@ -44,7 +44,8 @@ export default class Playground extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			gameId: props.navigation.state.params.gameId,
+			gameId: props.navigation.state.params.game.id,
+			usernames: props.navigation.state.params.game.players,
 			currentPlayer: null,
 			decks: {},
 			supply: {},
