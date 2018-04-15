@@ -7,6 +7,7 @@ import {
 	FlatList,
 	Button
 } from 'react-native';
+import GameCard from '../../../components/GameCard'
 
 export default class GamesList extends Component {
 	constructor() {
@@ -14,18 +15,19 @@ export default class GamesList extends Component {
 	}
 
 	navigateToGame(game) {
-		this.props.navigation.navigate('Playground', {gameId: game})
+		this.props.navigation.navigate('Playground', {game: game})
 	}
 
 	games() {
 		return this.props.screenProps.games.map((game) => {
 			return (
-				<Text
+				<GameCard
 					key={game}
 					style={styles.text}
-					onPress={ () => this.navigateToGame(game)}>
-					{ game }
-				</Text>
+					navigateToGame={ () => this.navigateToGame(game)}
+					game={ game }
+					>
+				</GameCard>
 			)
 		})
 
@@ -43,7 +45,7 @@ export default class GamesList extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#abcdef',
+    backgroundColor: '#bfa891',
     alignItems: 'center',
     justifyContent: 'center',
   },
