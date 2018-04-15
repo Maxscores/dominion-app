@@ -4,6 +4,7 @@ import {
   Text,
   View,
   Image,
+	ScrollView
 } from 'react-native';
 import {
   TabNavigator
@@ -14,6 +15,7 @@ import SignUpForm from './src/components/SignUpForm'
 import { images } from '@assets/images'
 import {
   responsiveHeight,
+  responsiveWidth,
 } from 'react-native-responsive-dimensions';
 
 export default class App extends Component {
@@ -21,9 +23,9 @@ export default class App extends Component {
   constructor() {
     super()
     this.state = {
-      username: "",
-      id: 0,
-      token: "",
+      username: "maxscores",
+      id: 4,
+      token: "jiMa8SKXCdwURt837bTvLwtt",
       games: [],
       formType: 'login',
     }
@@ -53,33 +55,32 @@ export default class App extends Component {
     if (this.state.username !== "") {
       return (<Home />)
     } else {
-      return (
-        <View style={styles.container}>
-          <Image
-            source={images['dominionLogo']}
-            style={styles.logo}
-          >
-          </Image>
-          <Text style={styles.friends}>with Friends</Text>
-          { this.renderForm() }
-        </View>
-      )
+      return this.renderForm()
     }
   }
 
   render() {
-    return this.renderView();
+    return (
+			<ScrollView style={styles.container}>
+				<Image
+					source={images['dominionLogo']}
+					style={styles.logo}
+				>
+				</Image>
+				{ this.renderView() }
+			</ScrollView>
+		);
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#bfa891',
-    height: responsiveHeight(100)
+    height: responsiveHeight(100),
   },
   logo: {
-    marginLeft: -10,
     marginTop: 40,
+		width: responsiveWidth(100),
   },
   friends: {
     textAlign: 'center',
