@@ -18,7 +18,7 @@ const stackRouteConfig = {
 	GamesList: {
 		screen: GamesList,
 		navigationOptions: {
-			title: 'Games List',
+			header: null,
 		},
 	},
 	Playground: {
@@ -63,7 +63,20 @@ export default class Home extends Component {
 		super()
 		this.state = {
 			currentPlayer: 1,
-			games: [1, 2, 3, 4, 5],
+			games: [
+				{
+					id: 3,
+					players: ['max', 'tyler', 'dorothy']
+				},
+				{
+					id: 4,
+					players: ['max', 'tyler']
+				},
+				{
+					id: 5,
+					players: ['max', 'dorothy', 'tyler', 'tori']
+				}
+			],
 			friends: [
 				{username: 'tyler', id: 2},
 				{username: 'dorothy', id: 3},
@@ -85,7 +98,7 @@ export default class Home extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#abcdef',
+    backgroundColor: '#bfa891',
     alignItems: 'center',
     justifyContent: 'center',
   },
