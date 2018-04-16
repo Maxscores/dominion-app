@@ -32,6 +32,16 @@ export default class NewGame extends Component {
 		}
 	}
 
+	checkMaxSelected(maxCount) {
+		if (this.state.selectedFriends.length <= maxCount && this.state.selectedFriends.length > 0) {
+			let players = this.state.selectedFriends.map((friend) => {
+				return friend.id
+			})
+		} else {
+			alert(`Please select 1 to ${maxCount} friends`)
+		}
+	}
+
 	onSelectedFriendsChange(selectedFriends) {
 		this.setState({selectedFriends: selectedFriends})
 	}
@@ -43,11 +53,10 @@ export default class NewGame extends Component {
 	}
 
 	render() {
-		console.warn(this.friends())
 		return (
 			<View style={styles.container}>
 				<Text style={styles.title}>New Game</Text>
-				<Text>Select Up to 3 Friends</Text>
+				<Text>Select 1 to 3 Friends</Text>
 				<ScrollView>
 					<SelectMultiple
 						items={this.friends()}
@@ -59,7 +68,7 @@ export default class NewGame extends Component {
 				</ScrollView>
 				<Button
 					title='Start New Game'
-					onPress={() => alert(this.props.screenProps.currentPlayer)}
+					onPress={() => this.checkMaxSelected(3)}
 				/>
 			</View>
 		)
