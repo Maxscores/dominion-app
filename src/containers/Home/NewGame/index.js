@@ -40,7 +40,11 @@ export default class NewGame extends Component {
 			})
 			players.unshift(this.props.screenProps.state.currentPlayer)
 			postNewGame(players)
-				.then((response) => console.warn(response))
+				.then((response) => {
+					let game = {id: response.game_id, players: ['maxscores', 'ty']}
+					this.props.screenProps.setParentState({games: [...this.props.screenProps.state.games, game]})
+					this.props.navigation.navigate('Playground', {game: game})
+				})
 		} else {
 			alert(`Please select 1 to ${maxCount} friends`)
 		}
