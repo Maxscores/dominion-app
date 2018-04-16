@@ -91,9 +91,8 @@ const postNewGame = (players) => {
 		.catch(errorLog)
 }
 
-const postAddFriend = (currentPlayer, username) => {
-	let addFriend = {player_id: currentPlayer, friend_name: username}
-	return fetch(`${baseURL}/api/v1/friends`, postConfig(addFriend))
+const postAddFriend = (body) => {
+	return fetch(`${baseURL}/api/v1/friends`, postConfig(body))
 		.then(handleResponse)
 		.catch(errorLog)
 }
