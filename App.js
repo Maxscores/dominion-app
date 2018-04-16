@@ -55,18 +55,22 @@ export default class App extends Component {
     if (this.state.username !== "") {
       return (<Home />)
     } else {
-      return this.renderForm()
+      return (
+				<View>
+				<Image
+					source={images['dominionLogo']}
+					style={styles.logo}
+				>
+				</Image>
+				{ this.renderForm() }
+				</View>
+			)
     }
   }
 
   render() {
     return (
 			<ScrollView style={styles.container}>
-				<Image
-					source={images['dominionLogo']}
-					style={styles.logo}
-				>
-				</Image>
 				{ this.renderView() }
 			</ScrollView>
 		);
