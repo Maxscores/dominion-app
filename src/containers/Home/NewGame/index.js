@@ -41,7 +41,7 @@ export default class NewGame extends Component {
 			players.unshift(this.props.screenProps.state.currentPlayer)
 			postNewGame(players)
 				.then((response) => {
-					let game = {id: response.game_id, players: ['maxscores', 'ty']}
+					let game = {id: response.game_id, players: response.players}
 					this.props.screenProps.setParentState({games: [...this.props.screenProps.state.games, game]})
 					this.props.navigation.navigate('Playground', {game: game})
 				})
