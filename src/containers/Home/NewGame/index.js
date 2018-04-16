@@ -10,122 +10,81 @@ import {
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
-import t from 'tcomb-form-native'
+import SelectMultiple from 'react-native-select-multiple'
+
 import _ from 'lodash'
 
-const Form = t.form.Form
-
-const Player = t.struct({
-  usernameOne: t.enums({
-		2: 'tyler',
-		3: 'dorothy',
-		4: 'gabe',
-		5: 'sam'
-	}),
-	usernameTwo: t.enums({
-		2: 'tyler',
-		3: 'dorothy',
-		4: 'gabe',
-		5: 'sam'
-	}),
-	usernameThree: t.enums({
-		2: 'tyler',
-		3: 'dorothy',
-		4: 'gabe',
-		5: 'sam'
-	}),
-})
-
-const options = {}
+const renderLabel = (label, style) => {
+  return (
+    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+      <View style={{marginLeft: 10}}>
+        <Text style={style}>{label}</Text>
+      </View>
+    </View>
+  )
+}
 
 export default class NewGame extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			opponentOne: '',
-			opponentTwo: '',
-			opponentThree: '',
-			availableFriends: this.props.screenProps.friends
+			selectedFriends: []
 		}
 	}
-	onChange(value) {
-		this.updateAvailableFriends(value)
+
+	onSelectedFriendsChange(selectedFriends) {
+		this.setState({selectedFriends: selectedFriends})
 	}
 
-	updateAvailableFriends(value) {
-		let availableFriends = this.state.availableFriends
-		if (value.opponentOne !== '') {
-			const findOpponentOne = (element) => {
-				return +element.id === +value.opponentOne
-			}
-			let indexOppOne = availableFriends.findIndex(findOpponentOne)
-			availableFriends.splice(indexOppOne, 1)
-		}
-		if (value.opponentTwo !== '') {
-			const findOpponentTwo = (element) => {
-				return +element.id === +value.opponentTwo
-			}
-			let indexOppTwo = availableFriends.findIndex(findOpponentTwo)
-			availableFriends.splice(indexOppTwo, 1)
-		}
-		if (value.opponentThree !== '') {
-			const findOpponentThree = (element) => {
-				return +element.id === +value.opponentThree
-			}
-			let indexOppThree = availableFriends.findIndex(findOpponentThree)
-			availableFriends.splice(indexOppThree, 1)
-		}
-		let resultingState = _.merge(value, {availableFriends: availableFriends} )
-		// console.warn(resultingState)
-		this.setState(resultingState)
-	}
-
-	players() {
-		let friends = this.state.availableFriends.reduce((result, friend) => {
-			result[friend.id] = friend.username
-			return result
-		}, {})
-
-		return t.struct({
-		  opponentOne: t.enums(friends),
-			opponentTwo: t.enums(friends),
-			opponentThree: t.enums(friends),
+	friends() {
+		return this.props.screenProps.friends.map((friend) => {
+			return {label: friend.username, value: friend.id}
 		})
 	}
 
-	selectedPlayers() {
-		let value = {
-			opponentOne: this.state.opponentOne,
-			opponentTwo: this.state.opponentTwo,
-			opponentThree: this.state.opponentThree
-		}
-		return value
-	}
-
 	render() {
+		console.warn(this.friends())
 		return (
-			<ScrollView style={styles.container}>
-				<Text>NewGame</Text>
+			<View style={styles.container}>
+				<Text style={styles.title}>New Game</Text>
 				<Text>Select Up to 3 Friends</Text>
-				<Form
-					ref={c => this._form = c}
-					type={this.players()}
-					value={this.selectedPlayers()}
-					onChange={this.onChange.bind(this)}
-					options={options}
-				/>
+				<ScrollView>
+					<SelectMultiple
+						items={this.friends()}
+						rowStyle={styles.row}
+						renderLabel={renderLabel}
+						selectedItems={this.state.selectedFriends}
+						onSelectionsChange={this.onSelectedFriendsChange.bind(this)}
+					/>
+				</ScrollView>
 				<Button
 					title='Start New Game'
 					onPress={() => alert(this.props.screenProps.currentPlayer)}
 				/>
-			</ScrollView>
+			</View>
 		)
 	}
 }
 
 const styles = StyleSheet.create({
   container: {
+		paddingTop: responsiveHeight(7),
+    flex: 1,
     backgroundColor: '#bfa891',
-    height: responsiveHeight(60),
-  }
+    alignItems: 'center',
+  },
+	text: {
+		fontSize: 24,
+	},
+	title: {
+		fontSize: 36,
+		marginBottom: responsiveHeight(7)
+	},
+	row: {
+		width: responsiveWidth(80),
+		borderRadius: 4,
+		borderWidth: 0.5,
+		borderColor: 'white',
+		backgroundColor: '#bfa891',
+	}
 });

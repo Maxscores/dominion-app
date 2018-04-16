@@ -35,7 +35,13 @@ const stackRouteConfig = {
 	}
 }
 
-const GamesNav = StackNavigator(stackRouteConfig)
+const stackNavConfig = {
+	headerStyle: {
+		height: responsiveHeight(10),
+	}
+}
+
+const GamesNav = StackNavigator(stackRouteConfig, stackNavConfig)
 
 const tabRouteConfig = {
   Games: {
@@ -50,13 +56,14 @@ const tabRouteConfig = {
 }
 
 const tabNavConfig = {
+	tabBarPosition: 'top',
   tabBarOptions: {
     labelStyle: {
       fontSize: 22,
     },
     style: {
-      height: 36,
-      bottom: 6,
+			paddingTop: responsiveHeight(2),
+      height: responsiveHeight(11),
     }
   },
 	lazy: false

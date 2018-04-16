@@ -4,9 +4,14 @@ import {
   Text,
   TextInput,
   View,
+  ScrollView,
 	Button
 } from 'react-native';
 import AddFriendForm from './AddFriendForm'
+import {
+  responsiveHeight,
+  responsiveWidth,
+} from 'react-native-responsive-dimensions';
 
 export default class Friends extends Component {
 	constructor() {
@@ -37,10 +42,29 @@ export default class Friends extends Component {
 
 	render() {
 		return (
-			<View>
+			<View style={styles.container}>
+				<Text style={styles.title}>Friends List</Text>
 				{ this.addFriendForm() }
-				{ this.friendsList() }
+				<ScrollView>
+					{ this.friendsList() }
+				</ScrollView>
 			</View>
 		)
 	}
 }
+
+const styles = StyleSheet.create({
+  container: {
+		paddingTop: responsiveHeight(7),
+    flex: 1,
+    backgroundColor: '#bfa891',
+    alignItems: 'center',
+  },
+	text: {
+		fontSize: 24,
+	},
+	title: {
+		fontSize: 36,
+		marginBottom: responsiveHeight(7)
+	}
+});

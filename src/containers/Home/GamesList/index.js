@@ -4,10 +4,14 @@ import {
   Text,
   TextInput,
   View,
-	FlatList,
+  ScrollView,
 	Button
 } from 'react-native';
 import GameCard from '../../../components/GameCard'
+import {
+  responsiveHeight,
+  responsiveWidth,
+} from 'react-native-responsive-dimensions';
 
 export default class GamesList extends Component {
 	constructor() {
@@ -36,7 +40,10 @@ export default class GamesList extends Component {
 	render() {
 		return (
 			<View style={styles.container}>
+				<Text style={styles.title}>Active Games</Text>
+				<ScrollView>
 				{this.games()}
+				</ScrollView>
 			</View>
 		)
 	}
@@ -44,12 +51,16 @@ export default class GamesList extends Component {
 
 const styles = StyleSheet.create({
   container: {
+		paddingTop: responsiveHeight(7),
     flex: 1,
     backgroundColor: '#bfa891',
     alignItems: 'center',
-    justifyContent: 'center',
   },
 	text: {
-		fontSize: 24
+		fontSize: 24,
+	},
+	title: {
+		fontSize: 36,
+		marginBottom: responsiveHeight(7)
 	}
 });
