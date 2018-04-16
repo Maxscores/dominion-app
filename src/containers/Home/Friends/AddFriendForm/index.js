@@ -48,7 +48,10 @@ export default class AddFriendForm extends Component {
       alert('Please enter a username')
     } else {
 			postAddFriend(this.postConfig())
-				.then(console.warn('sent friend request'))
+				.then((response) => {
+					let friends = [...this.props.friends, {id: response.id, username: response.username}]
+					this.props.addFriend({friends: friends})
+				})
     }
   }
 

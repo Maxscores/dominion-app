@@ -22,7 +22,7 @@ export default class Friends extends Component {
 	}
 
 	friendsList() {
-		return this.props.screenProps.friends.map((friend, index) => {
+		return this.props.screenProps.state.friends.map((friend, index) => {
 			return (
 				<View key={index}>
 					<Text>{friend.username}</Text>
@@ -36,7 +36,9 @@ export default class Friends extends Component {
 			<AddFriendForm
 				onChangeMethod={(text) => {this.setState({text}).bind(this)}}
 				text={this.state.text}
-				currentPlayer={this.props.screenProps.currentPlayer}
+				currentPlayer={this.props.screenProps.state.currentPlayer}
+				friends={this.props.screenProps.state.friends}
+				addFriend={this.props.screenProps.setParentState.bind(this)}
 			/>
 		)
 	}
