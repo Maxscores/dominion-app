@@ -30,12 +30,15 @@ export default class Popup extends Component {
     return (
       <PopupDialog
         ref={this.props.dialog}
-        height={0.75}
-        width={.95}
+        height={0.60}
+        width={0.60}
+				containerStyle={styles.popup}
       >
 				{ this.showButton() }
         <Image
           source={images[this.props.cardImage]}
+					style={styles.image}
+					resizeMode='contain'
         >
         </Image>
       </PopupDialog>
@@ -44,4 +47,9 @@ export default class Popup extends Component {
 }
 
 const styles = StyleSheet.create({
+	image: {
+		flex: 1,
+		height: undefined,
+		width: undefined,
+	}
 })

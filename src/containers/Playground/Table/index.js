@@ -180,7 +180,7 @@ export default class Table extends Component {
 
 const styles = StyleSheet.create({
   playContainer: {
-    height: responsiveWidth(60),
+    height: responsiveWidth(50),
   },
   container: {
     flex: 1,
