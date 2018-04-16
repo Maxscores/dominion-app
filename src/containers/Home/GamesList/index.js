@@ -41,7 +41,9 @@ export default class GamesList extends Component {
 		return (
 			<View style={styles.container}>
 				<Text style={styles.title}>Active Games</Text>
-					{this.games()}
+					<ScrollView>
+						{this.games()}
+					</ScrollView>
 			</View>
 		)
 	}
