@@ -23,9 +23,9 @@ export default class App extends Component {
   constructor() {
     super()
     this.state = {
-      username: "maxscores",
-      id: 4,
-      token: "jiMa8SKXCdwURt837bTvLwtt",
+      username: "",
+      id: null,
+      token: "",
       games: [],
       formType: 'login',
     }
