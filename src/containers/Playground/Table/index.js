@@ -83,11 +83,25 @@ export default class Table extends Component {
           playVassal={ this.playDiscard.bind(this) }
           discardVassal={ this.discardCardFromDraw.bind(this) }
           playChapel={ this.trashFromHand.bind(this) }
+          playHarbinger={ this.discardToHand.bind(this) }
           actionQueue={ this.props.screenProps.state.actionQueue }
           resolveActionQueue={ () => resolveActionQueue(this.props.screenProps) }
         />
       )
     }
+  }
+
+  discardToHand(cards) {
+    let discard = this.props.screenProps.state.discard
+    let draw = this.props.screenProps.state.draw
+    cards.forEach((card) => {
+      let index = discard.indexOf(card)
+      draw.unshift(discard.splice(index, 1))
+    })
+    this.props.screenProps.setParentState({
+      discard: discard,
+      draw: draw
+    })
   }
 
   trashFromHand(cards) {
