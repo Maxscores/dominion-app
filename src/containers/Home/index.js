@@ -72,30 +72,12 @@ const tabNavConfig = {
 const RootNav = TabNavigator(tabRouteConfig, tabNavConfig)
 
 export default class Home extends Component {
-	constructor() {
-		super()
+	constructor(props) {
+		super(props)
 		this.state = {
-			currentPlayer: 1,
-			games: [
-				{
-					id: 3,
-					players: ['max', 'tyler', 'dorothy']
-				},
-				{
-					id: 4,
-					players: ['max', 'tyler']
-				},
-				{
-					id: 5,
-					players: ['max', 'dorothy', 'tyler', 'tori']
-				}
-			],
-			friends: [
-				{username: 'tyler', id: 2},
-				{username: 'dorothy', id: 3},
-				{username: 'gave', id: 4},
-				{username: 'sam', id: 5}
-			]
+			currentPlayer: props.screenProps.id,
+			games: props.screenProps.games,
+			friends: props.screenProps.friends
 		}
 	}
 
@@ -103,7 +85,10 @@ export default class Home extends Component {
 
   render() {
     return (
-      <RootNav style={styles.container} screenProps={this.state}/>
+      <RootNav
+				style={styles.container}
+				screenProps={{state: this.state, setParentState: this.setState.bind(this)}}
+			/>
     );
   }
 }

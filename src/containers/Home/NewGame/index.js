@@ -38,7 +38,7 @@ export default class NewGame extends Component {
 			let players = this.state.selectedFriends.map((friend) => {
 				return friend.value
 			})
-			players.unshift(this.props.screenProps.currentPlayer)
+			players.unshift(this.props.screenProps.state.currentPlayer)
 			postNewGame(players)
 				.then((response) => console.warn(response))
 		} else {
@@ -51,7 +51,7 @@ export default class NewGame extends Component {
 	}
 
 	friends() {
-		return this.props.screenProps.friends.map((friend) => {
+		return this.props.screenProps.state.friends.map((friend) => {
 			return {label: friend.username, value: friend.id}
 		})
 	}
