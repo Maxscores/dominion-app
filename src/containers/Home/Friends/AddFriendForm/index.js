@@ -6,6 +6,7 @@ import {
   Text,
  } from 'react-native'
 
+import {postAddFriend} from '../../../../game-utilities/services'
 import t from 'tcomb-form-native'
 
 const Form = t.form.Form
@@ -35,11 +36,19 @@ export default class AddFriendForm extends Component {
     this.setState(value)
   }
 
+	postConfig() {
+		return {
+			player_id: this.props.currentPlayer,
+			friend_name: this.state.username
+		}
+	}
+
   handleSubmit = () => {
     if (this.state.username.length === 0) {
       alert('Please enter a username')
     } else {
-			console.warn('send friend request')
+			postAddFriend(this.postConfig())
+				.then(console.warn('sent friend request'))
     }
   }
 
