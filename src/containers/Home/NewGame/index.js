@@ -11,6 +11,7 @@ import {
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import SelectMultiple from 'react-native-select-multiple'
+import {postNewGame} from '../../../game-utilities/services'
 
 import _ from 'lodash'
 
@@ -35,8 +36,11 @@ export default class NewGame extends Component {
 	checkMaxSelected(maxCount) {
 		if (this.state.selectedFriends.length <= maxCount && this.state.selectedFriends.length > 0) {
 			let players = this.state.selectedFriends.map((friend) => {
-				return friend.id
+				return friend.value
 			})
+			players.unshift(this.props.screenProps.currentPlayer)
+			postNewGame(players)
+				.then((response) => console.warn(response))
 		} else {
 			alert(`Please select 1 to ${maxCount} friends`)
 		}
