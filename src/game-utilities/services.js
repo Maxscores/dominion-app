@@ -84,5 +84,12 @@ const getPlayer = (userInfo) => {
 		.catch(errorLog)
 }
 
+const postNewGame = (players) => {
+	let gamePlayers = {competitors: players}
+	return fetch(`${baseURL}/api/v1/games`, postConfig(gamePlayers))
+		.then(handleResponse)
+		.catch(errorLog)
+}
 
-module.exports = { getGameState, postTurn, postPlayer, getPlayer }
+
+module.exports = { getGameState, postTurn, postPlayer, getPlayer, postNewGame }
