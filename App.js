@@ -27,6 +27,7 @@ export default class App extends Component {
       id: null,
       token: "",
       games: [],
+			friends: [],
       formType: 'login',
     }
   }
@@ -53,7 +54,7 @@ export default class App extends Component {
 
   renderView() {
     if (this.state.username !== "") {
-      return (<Home />)
+      return (<Home screenProps={this.state}/>)
     } else {
       return (
 				<View>
