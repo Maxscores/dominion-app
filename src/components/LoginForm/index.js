@@ -43,7 +43,7 @@ export default class LoginForm extends Component {
   }
 
   handleSubmit = () => {
-    if (this.state.username.length === 0 || this.state.password.length === 0 || this.state.phoneNumber.length < 10) {
+    if (this.state.username.length === 0 || this.state.password.length === 0) {
       alert('Please enter both a username and password')
     } else {
       getPlayer(this.state)

@@ -31,15 +31,23 @@ export default class CallbackWindow extends Component {
     }
   }
 
-  checkMaxSelected(maxCount) {
+  whichMaxSelected(cards, cardType) {
+    if (cardType === "chapel") {
+      this.props.playChapel(cards)
+    } else if (cardType === "harbinger") {
+      this.props.playHarbinger(cards)
+    }
+  }
+
+  checkMaxSelected(maxCount, cardType) {
     if (this.state.selectedCards.length <= maxCount) {
       let cards =  this.state.selectedCards.map((card) => {
         return card.label
       })
-      this.props.playChapel(cards)
+      this.whichMaxSelected(cards, cardType)
       this.props.resolveActionQueue()
     } else {
-      alert(`Please select ${maxCount} cards or fewer`)
+      alert(`Please select ${maxCount} card(s) or fewer`)
     }
   }
 
@@ -85,26 +93,73 @@ export default class CallbackWindow extends Component {
       if (this.props.actionQueue[0].handCards.length > 0) {
         return (
           <View>
-          <SelectMultiple
-            items={this.props.actionQueue[0].handCards}
-            renderLabel={renderLabel}
-            selectedItems={this.state.selectedCards}
-            onSelectionsChange={this.onSelectedCardsChange.bind(this)}
-          />
+            <SelectMultiple
+              items={this.props.actionQueue[0].handCards}
+              renderLabel={renderLabel}
+              selectedItems={this.state.selectedCards}
+              onSelectionsChange={this.onSelectedCardsChange.bind(this)}
+            />
+            <Button
+              style={{marginBottom: 2}}
+              title="Trash"
+              onPress={
+                () => {
+                  this.checkMaxSelected(4, 'chapel')
+                }
+              }
+            >
+            </Button>
+          </View>
+              )
+      } else {
+        <View>
+          <Text>There are no cards in your hand.</Text>
           <Button
             style={{marginBottom: 2}}
-            title="Trash"
+            title="Ok"
             onPress={
-              () => {
-                this.checkMaxSelected(4)
+              () => {this.props.resolveActionQueue()
               }
             }
           >
           </Button>
+        </View>
+      }
+    },
+    'harbinger': () => {
+      if (this.props.actionQueue[0].discardCards.length > 0) {
+        return (
+          <View>
+            <SelectMultiple
+              items={this.props.actionQueue[0].discardCards}
+              renderLabel={renderLabel}
+              selectedItems={this.state.selectedCards}
+              onSelectionsChange={this.onSelectedCardsChange.bind(this)}
+            />
+            <Button
+              style={{marginBottom: 2}}
+              title="Add to Deck"
+              onPress={
+                () => {
+                  this.checkMaxSelected(1, 'harbinger')
+                }
+              }
+            >
+            </Button>
           </View>
               )
       } else {
-        () => {this.props.resolveActionQueue()}
+        <View>
+          <Text>There are no cards in your discard pile.</Text>
+          <Button
+            style={{marginBottom: 2}}
+            title="Ok"
+            onPress={
+              () => {this.props.resolveActionQueue()}
+            }
+          >
+          </Button>
+        </View>
       }
     }
   }

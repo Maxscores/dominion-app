@@ -179,5 +179,20 @@ export default dominonCards = {
 		'reaction': (state) => {
 			return clearAttackQueue(state.currentPlayer, state.attackQueue)
 		}
+	},
+	'harbinger': {
+		'type': 'action',
+		'action': (state) => {
+			let discard = state.discard.map((card, index) => {
+				return {label: card, value: index}
+			})
+			let cardsGained = drawCards(1, state)
+			let newActions = actions(state.actions, 1)
+			let newActionQueue = actionQueue(state.actionQueue, {card: 'harbinger', discardCards: discard })
+			let resultingState = _.merge(cardsGained, newActions)
+			resultingState = _.merge(resultingState, newActionQueue)
+			return resultingState
+		},
+		'cost': 3
 	}
 }
