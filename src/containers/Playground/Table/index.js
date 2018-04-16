@@ -55,12 +55,14 @@ export default class Table extends Component {
 			})
 	}
 
+	isLocalPlayerTurn() {
+		let currentPlayer = this.props.screenProps.state.currentPlayer
+		let localPlayer = this.props.screenProps.state.localPlayer
+		return currentPlayer === localPlayer
+	}
+
 	playCardFromHand(card) {
-		if (this.state.currentPlayer === this.props.screenProps.state.localPlayer) {
-			playCard(this.props.screenProps, card)
-		} else {
-			alert("it is not your turn")
-		}
+		playCard(this.props.screenProps, card)
 		this.popupDialog.dismiss()
 	}
 
@@ -70,14 +72,23 @@ export default class Table extends Component {
 	}
 
   openDialog(cardName, actionName, method) {
-    this.props.screenProps.setParentState({
+		if (this.isLocalPlayerTurn()) {
+			this.props.screenProps.setParentState({
 				cardImage: `${cardName.replace(" ", "_")}Full`,
 				cardName: cardName,
 				popupAction: actionName,
 				popupMethod: method
 			}, () => {
-      this.popupDialog.show()
-    })
+				this.popupDialog.show()
+			})
+		} else {
+			this.props.screenProps.setParentState({
+				cardImage: `${cardName.replace(" ", "_")}Full`,
+				cardName: cardName
+			}, () => {
+				this.popupDialog.show()
+			})
+		}
   }
 
   showCallbackWindow() {
@@ -149,6 +160,14 @@ export default class Table extends Component {
     }, this.props.screenProps.setParentState(dominionCards[card]['action'](this.props.screenProps.state)))
 	}
 
+	showPhaseButton() {
+		if (this.isLocalPlayerTurn()) {
+			return <PhaseButton screenProps={this.props.screenProps}/>
+		} else {
+			return <Text>It is not your turn</Text>
+		}
+	}
+
   render() {
     return (
       <View style={styles.container}>
@@ -167,7 +186,7 @@ export default class Table extends Component {
 					/>
           <Scoreboard players={this.props.screenProps.state.usernames}/>
         </View>
-				<PhaseButton screenProps={this.props.screenProps}/>
+				{this.showPhaseButton()}
         <View style={styles.playContainer}>
           <PlayArea
 						playareaCards={ this.props.screenProps.state.playarea }

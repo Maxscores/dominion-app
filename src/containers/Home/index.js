@@ -29,7 +29,7 @@ const stackRouteConfig = {
 	Playground: {
 		screen: Playground,
 		navigationOptions: ({navigation}) => ({
-			title: '',
+			title: 'Active Game',
 			tabBarVisible: false
 		})
 	}
