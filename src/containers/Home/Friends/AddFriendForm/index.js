@@ -38,7 +38,7 @@ export default class AddFriendForm extends Component {
 
 	postConfig() {
 		return {
-			player_id: this.props.currentPlayer,
+			player_id: this.props.localPlayer,
 			friend_name: this.state.username
 		}
 	}
