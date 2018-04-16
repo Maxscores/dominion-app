@@ -24,7 +24,6 @@ export default class TurnDetail extends Component<Props> {
 
 const styles = StyleSheet.create({
   turnDetail: {
-    marginTop: responsiveHeight(4),
     height: responsiveHeight(5),
     backgroundColor: '#abcdef',
     flexDirection: 'row',

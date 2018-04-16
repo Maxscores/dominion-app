@@ -123,7 +123,6 @@ export default class Table extends Component {
 
 const styles = StyleSheet.create({
   scrollContainer: {
-    marginTop: 20,
     backgroundColor: '#abcdef',
   },
   textCenter: {

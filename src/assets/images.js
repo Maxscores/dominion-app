@@ -15,7 +15,7 @@ export const images = {
 	'council_roomFull': require('./images/council_room.jpg'),
 	'curseTile': require('./images/curse_tile.png'),
 	'curseFull': require('./images/curse.jpg'),
-	'dominionLogo': require('./images/dominion_logo.png'),
+	'dominionLogo': require('./images/logo-herlulenum.png'),
 	'duchyTile': require('./images/duchy_tile.png'),
 	'duchyFull': require('./images/duchy.jpg'),
 	'estateTile': require('./images/estate_tile.png'),

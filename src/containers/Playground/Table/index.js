@@ -161,7 +161,7 @@ export default class Table extends Component {
 						style={styles.supply}
 						popupAction="Buy"
 					/>
-          <Scoreboard />
+          <Scoreboard players={this.props.screenProps.state.usernames}/>
         </View>
 				<PhaseButton screenProps={this.props.screenProps}/>
         <View style={styles.playContainer}>
@@ -194,7 +194,7 @@ export default class Table extends Component {
 
 const styles = StyleSheet.create({
   playContainer: {
-    height: responsiveWidth(60),
+    height: responsiveWidth(50),
   },
   container: {
     flex: 1,
