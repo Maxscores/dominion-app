@@ -41,9 +41,7 @@ export default class GamesList extends Component {
 		return (
 			<View style={styles.container}>
 				<Text style={styles.title}>Active Games</Text>
-				<ScrollView>
-				{this.games()}
-				</ScrollView>
+					{this.games()}
 			</View>
 		)
 	}
@@ -52,9 +50,9 @@ export default class GamesList extends Component {
 const styles = StyleSheet.create({
   container: {
 		paddingTop: responsiveHeight(7),
-    flex: 1,
     backgroundColor: '#bfa891',
     alignItems: 'center',
+		height: responsiveHeight(90),
   },
 	text: {
 		fontSize: 24,

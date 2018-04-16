@@ -38,7 +38,7 @@ const stackRouteConfig = {
 const stackNavConfig = {
 	headerStyle: {
 		height: responsiveHeight(10),
-	}
+	},
 }
 
 const GamesNav = StackNavigator(stackRouteConfig, stackNavConfig)
@@ -110,10 +110,9 @@ export default class Home extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#bfa891',
     alignItems: 'center',
-		height: responsiveHeight(100),
     justifyContent: 'center',
+		height: responsiveHeight(100)
   },
 });

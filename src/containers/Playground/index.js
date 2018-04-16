@@ -79,9 +79,13 @@ export default class Playground extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#abcdef',
     alignItems: 'center',
     justifyContent: 'center',
+		position: 'absolute',
+		top: 0,
+		bottom: 0,
+		left: 0,
+		right: 0,
   },
 });

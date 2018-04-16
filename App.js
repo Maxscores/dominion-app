@@ -70,7 +70,10 @@ export default class App extends Component {
 
   render() {
     return (
-			<ScrollView style={styles.container}>
+			<ScrollView
+				style={styles.container}
+				contentContainerStyle={{flex: 1}}
+			>
 				{ this.renderView() }
 			</ScrollView>
 		);
@@ -85,12 +88,5 @@ const styles = StyleSheet.create({
   logo: {
     marginTop: 40,
 		width: responsiveWidth(100),
-  },
-  friends: {
-    textAlign: 'center',
-    fontFamily: 'Trebuchet MS',
-    fontSize: 20,
-    marginTop: -10,
-    marginBottom: -40,
   }
 });
