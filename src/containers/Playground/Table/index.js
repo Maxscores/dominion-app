@@ -37,7 +37,7 @@ export default class Table extends Component {
 		getGameState(this.props.screenProps.state.gameId)
 			.then((gameState) => {
 				// can change this to gameState.local_player, so that players only see their deck
-				let deck = playerDeck(gameState.decks, gameState.current_player);
+				let deck = playerDeck(gameState.decks, this.props.screenProps.state.localPlayer);
 				this.props.screenProps.setParentState({
 					competitors: gameState.competitors,
 					// permissions around doings by gameState.current_player === gameState.local_player
@@ -56,7 +56,11 @@ export default class Table extends Component {
 	}
 
 	playCardFromHand(card) {
-		playCard(this.props.screenProps, card)
+		if (this.state.currentPlayer === this.props.screenProps.state.localPlayer) {
+			playCard(this.props.screenProps, card)
+		} else {
+			alert("it is not your turn")
+		}
 		this.popupDialog.dismiss()
 	}
 
