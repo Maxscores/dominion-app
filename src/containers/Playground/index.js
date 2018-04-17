@@ -47,6 +47,7 @@ export default class Playground extends Component {
 			gameId: props.navigation.state.params.game.id,
 			usernames: props.navigation.state.params.game.players,
 			localPlayer: props.screenProps.state.localPlayer,
+			localUsername: props.screenProps.state.username,
 			currentPlayer: null,
 			score: {},
 			decks: {},

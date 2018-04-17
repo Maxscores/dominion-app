@@ -67,13 +67,18 @@ const buyCard = (screenProps, card) => {
 		supply[card]--
 		let cardsGained = [...screenProps.state.cardsGained, card]
 		let playarea = [card, ...screenProps.state.playarea]
+		let score = screenProps.state.score
+		if (dominionCards[card].type.includes('victory')) {
+			score[screenProps.state.localUsername] += dominionCards[card].vp
+		}
 		screenProps.setParentState({
 			coins: screenProps.state.coins - dominionCards[card]['cost'],
 			cardsGained: cardsGained,
 			playarea: playarea,
 			supply: supply,
 			buys: screenProps.state.buys - 1,
-			hasBought: true
+			hasBought: true,
+			score: score
 		})
 	} else if (!isBuyPhase(screenProps.state)) {
 		alert('It is not the buy phase')
