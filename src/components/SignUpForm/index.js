@@ -5,7 +5,10 @@ import {
   TouchableHighlight,
   Text,
  } from 'react-native'
-
+ import {
+   responsiveHeight,
+   responsiveWidth,
+ } from 'react-native-responsive-dimensions';
 import t from 'tcomb-form-native'
 import u from 'tcomb-validation'
 import { postPlayer, registerForPushNotifications } from '../../game-utilities/services'
@@ -92,9 +95,10 @@ export default class SignUpForm extends Component {
           <Text style={styles.buttonText}>Sign Up</Text>
         </TouchableHighlight>
         <TouchableHighlight onPress={() => this.props.updateForm('login')}>
-          <Text style={styles.buttonText}>Already have an account? Login.</Text>
+          <Text style={styles.text}>Already have an account? Login.</Text>
         </TouchableHighlight>
       </View>
+
     );
   }
 }
@@ -102,7 +106,6 @@ export default class SignUpForm extends Component {
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
-    marginTop: 50,
     padding: 20,
   },
   buttonText: {
@@ -119,5 +122,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     alignSelf: 'stretch',
     justifyContent: 'center'
-  }
+  },
+	text: {
+		fontSize: 16,
+    color: 'white',
+    alignSelf: 'center'
+	}
 });

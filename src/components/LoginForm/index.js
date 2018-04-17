@@ -5,7 +5,10 @@ import {
   TouchableHighlight,
   Text,
  } from 'react-native'
-
+ import {
+   responsiveHeight,
+   responsiveWidth,
+ } from 'react-native-responsive-dimensions';
 import t from 'tcomb-form-native'
 import { loginPlayer } from '../../game-utilities/services'
 
@@ -78,7 +81,7 @@ export default class LoginForm extends Component {
           <Text style={styles.buttonText}>Login</Text>
         </TouchableHighlight>
         <TouchableHighlight onPress={() => {this.props.updateForm('signup')}}>
-          <Text style={styles.buttonText}>Want an account? Sign Up.</Text>
+          <Text style={styles.text}>Want an account? Sign Up.</Text>
         </TouchableHighlight>
       </View>
     );
@@ -88,7 +91,6 @@ export default class LoginForm extends Component {
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
-    marginTop: 50,
     padding: 20,
   },
   buttonText: {
@@ -105,5 +107,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     alignSelf: 'stretch',
     justifyContent: 'center'
-  }
+  },
+	text: {
+		fontSize: 16,
+    color: 'white',
+    alignSelf: 'center'
+	}
 });
