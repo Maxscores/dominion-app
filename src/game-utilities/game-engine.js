@@ -30,9 +30,10 @@ const nextPhase = (screenProps) => {
 	screenProps.setParentState({turnPhase: screenProps.state.turnPhase + 1})
 }
 
-const finishTurn = (state) => {
-	postTurn(state.gameId, state)
+const finishTurn = (props) => {
+	postTurn(props.state.gameId, props.state)
 		.then(alert('Turn completed'))
+		.then(props.goBack())
 }
 
 const resolveActionQueue = (screenProps) => {
