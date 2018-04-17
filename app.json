@@ -4,5 +4,13 @@
 		"slug": "dominion-with-friends",
     "sdkVersion": "26.0.0",
 		"orientation": "portrait",
+    "icon": "./src/assets/images/dominion-icon.png",
+    "version": "1.0.0",
+    "ios": {
+      "bundleIdentifier": "com.dominion.dominion-with-friends"
+    },
+    "android": {
+      "package": "com.dominion.dominion-with-friends"
+    }
   }
 }
