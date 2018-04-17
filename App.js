@@ -4,7 +4,6 @@ import {
   Text,
   View,
   Image,
-  KeyboardAvoidingView,
 } from 'react-native';
 import {
   TabNavigator
@@ -17,6 +16,8 @@ import {
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+
 
 export default class App extends Component {
 
@@ -71,12 +72,14 @@ export default class App extends Component {
 
   render() {
     return (
-			<KeyboardAvoidingView
+			<KeyboardAwareScrollView
 				style={styles.container}
-        behavior="padding"
+        resetScrollToCoords={{ x: 0, y: 0 }}
+        contentContainerStyle={styles.container}
+        scrollEnabled={true}
 			>
-				{ this.renderView() }
-			</KeyboardAvoidingView>
+        { this.renderView() }
+			</KeyboardAwareScrollView>
 		);
   }
 }
