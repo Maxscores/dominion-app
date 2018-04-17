@@ -14,9 +14,6 @@ export default class Table extends Component {
 
   constructor() {
     super()
-    this.state = {
-      trash: ['copper', 'copper'],
-    }
     this.openDialog = this.openDialog.bind(this)
   }
 
@@ -46,7 +43,7 @@ export default class Table extends Component {
 
   renderDeck() {
     let deckRender = []
-		let deckComposition = this.currentPlayerDeck(this.props.screenProps.state.decks, this.props.screenProps.state.currentPlayer).deckComposition
+		let deckComposition = this.currentPlayerDeck(this.props.screenProps.state.decks, this.props.screenProps.state.localPlayer).deckComposition
     for(var card in deckComposition){
       deckRender.push(
         this.cardTile(card, deckComposition[card])
@@ -64,7 +61,14 @@ export default class Table extends Component {
   }
 
   renderDiscard() {
-		let discard = this.currentPlayerDeck(this.props.screenProps.state.decks, this.props.screenProps.state.currentPlayer).discard
+		let localPlayer = this.props.screenProps.state.localPlayer
+		let currentPlayer = this.props.screenProps.state.currentPlayer
+		let discard
+		if (localPlayer === currentPlayer) {
+			discard = this.props.screenProps.state.discard
+		} else {
+			discard = this.currentPlayerDeck(this.props.screenProps.state.decks, this.props.screenProps.state.localPlayer).discard
+		}
     let discardComposition = this.cardComposition(discard)
     let discardRender = []
 
@@ -112,7 +116,7 @@ export default class Table extends Component {
           { this.renderTrash() }
         </View>
         <PopupDialog
-          cardImage={ this.state.cardImage }
+          cardImage={ this.props.screenProps.state.cardImage }
           dialog={(popupDialog) => { this.popupDialog = popupDialog; }}
         />
       </ScrollView>
