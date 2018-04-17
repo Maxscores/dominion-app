@@ -28,7 +28,7 @@ export default class App extends Component {
       username: "",
       id: null,
       token: "",
-      games: [],
+      active_games: [],
 			friends: [],
       formType: 'login',
     }

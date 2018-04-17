@@ -80,7 +80,7 @@ export default class Home extends Component {
 		super(props)
 		this.state = {
 			localPlayer: props.screenProps.state.id,
-			games: props.screenProps.state.games,
+			active_games: props.screenProps.state.active_games,
 			friends: props.screenProps.state.friends,
 			username: props.screenProps.state.username
 		}
