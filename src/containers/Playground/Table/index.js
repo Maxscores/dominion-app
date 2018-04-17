@@ -58,7 +58,7 @@ export default class Table extends Component {
 	isLocalPlayerTurn() {
 		let currentPlayer = this.props.screenProps.state.currentPlayer
 		let localPlayer = this.props.screenProps.state.localPlayer
-		return currentPlayer === localPlayer
+		return +currentPlayer === +localPlayer
 	}
 
 	playCardFromHand(card) {
