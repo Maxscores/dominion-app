@@ -44,6 +44,7 @@ export default class Table extends Component {
 					currentPlayer: gameState.current_player,
 					supply: gameState.game_cards,
 					trash: gameState.trash,
+          status: gameState.status,
 					decks: gameState.decks,
 					hand: [...deck.hand],
 					draw: [...deck.draw],

@@ -7,6 +7,9 @@ import {
  } from 'react-native'
 
 import {postAddFriend} from '../../../../game-utilities/services'
+import {
+  responsiveWidth,
+} from 'react-native-responsive-dimensions';
 import t from 'tcomb-form-native'
 
 const Form = t.form.Form
@@ -63,6 +66,7 @@ export default class AddFriendForm extends Component {
           type={Player}
           onChange={this.onChange.bind(this)}
           options={options}
+          style={{width: responsiveWidth(80)}}
         />
         <TouchableHighlight style={styles.button} onPress={this.handleSubmit} underlayColor='#99d9f4'>
           <Text style={styles.buttonText}>Add Friend</Text>
@@ -84,12 +88,13 @@ const styles = StyleSheet.create({
   },
   button: {
     height: 36,
-    backgroundColor: '#48BBEC',
-    borderColor: '#48BBEC',
+    backgroundColor: '#2662bd',
+    borderColor: '#2662bd',
     borderWidth: 1,
     borderRadius: 8,
     marginBottom: 10,
     alignSelf: 'stretch',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    width: responsiveWidth(80)
   }
 });

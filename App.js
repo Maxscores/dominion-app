@@ -4,7 +4,6 @@ import {
   Text,
   View,
   Image,
-	ScrollView
 } from 'react-native';
 import {
   TabNavigator
@@ -17,6 +16,8 @@ import {
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+
 
 export default class App extends Component {
 
@@ -71,12 +72,14 @@ export default class App extends Component {
 
   render() {
     return (
-			<ScrollView
+			<KeyboardAwareScrollView
 				style={styles.container}
-				contentContainerStyle={{flex: 1}}
+        resetScrollToCoords={{ x: 0, y: 0 }}
+        contentContainerStyle={styles.container}
+        scrollEnabled={true}
 			>
-				{ this.renderView() }
-			</ScrollView>
+        { this.renderView() }
+			</KeyboardAwareScrollView>
 		);
   }
 }
@@ -84,7 +87,6 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#bfa891',
-    height: responsiveHeight(100),
   },
   logo: {
     marginTop: 40,

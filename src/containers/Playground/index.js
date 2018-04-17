@@ -54,6 +54,7 @@ export default class Playground extends Component {
       discard: [],
       hand: [],
       trash: [],
+      status: "",
 			turnOrder: [],
 			playarea: [],
 			actions: 1,
@@ -65,12 +66,12 @@ export default class Playground extends Component {
 			competitors: [],
 			attackQueue: {},
 			actionQueue: [],
-			cardImage: "copperFull",
+			cardImage: "",
 			turnPhase: 1,
 			popupAction: null,
 		}
 	}
-
+  
   render() {
     return (
       <RootNav screenProps={{
