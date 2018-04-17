@@ -37,7 +37,7 @@ export default class Table extends Component {
 		getGameState(this.props.screenProps.state.gameId)
 			.then((gameState) => {
 				// can change this to gameState.local_player, so that players only see their deck
-				let deck = playerDeck(gameState.decks, gameState.current_player);
+				let deck = playerDeck(gameState.decks, this.props.screenProps.state.localPlayer);
 				this.props.screenProps.setParentState({
 					competitors: gameState.competitors,
 					// permissions around doings by gameState.current_player === gameState.local_player
@@ -55,6 +55,12 @@ export default class Table extends Component {
 			})
 	}
 
+	isLocalPlayerTurn() {
+		let currentPlayer = this.props.screenProps.state.currentPlayer
+		let localPlayer = this.props.screenProps.state.localPlayer
+		return currentPlayer === localPlayer
+	}
+
 	playCardFromHand(card) {
 		playCard(this.props.screenProps, card)
 		this.popupDialog.dismiss()
@@ -66,14 +72,23 @@ export default class Table extends Component {
 	}
 
   openDialog(cardName, actionName, method) {
-    this.props.screenProps.setParentState({
+		if (this.isLocalPlayerTurn()) {
+			this.props.screenProps.setParentState({
 				cardImage: `${cardName.replace(" ", "_")}Full`,
 				cardName: cardName,
 				popupAction: actionName,
 				popupMethod: method
 			}, () => {
-      this.popupDialog.show()
-    })
+				this.popupDialog.show()
+			})
+		} else {
+			this.props.screenProps.setParentState({
+				cardImage: `${cardName.replace(" ", "_")}Full`,
+				cardName: cardName
+			}, () => {
+				this.popupDialog.show()
+			})
+		}
   }
 
   showCallbackWindow() {
@@ -145,6 +160,14 @@ export default class Table extends Component {
     }, this.props.screenProps.setParentState(dominionCards[card]['action'](this.props.screenProps.state)))
 	}
 
+	showPhaseButton() {
+		if (this.isLocalPlayerTurn()) {
+			return <PhaseButton screenProps={this.props.screenProps}/>
+		} else {
+			return <Text>It is not your turn</Text>
+		}
+	}
+
   render() {
     return (
       <View style={styles.container}>
@@ -163,7 +186,7 @@ export default class Table extends Component {
 					/>
           <Scoreboard players={this.props.screenProps.state.usernames}/>
         </View>
-				<PhaseButton screenProps={this.props.screenProps}/>
+				{this.showPhaseButton()}
         <View style={styles.playContainer}>
           <PlayArea
 						playareaCards={ this.props.screenProps.state.playarea }

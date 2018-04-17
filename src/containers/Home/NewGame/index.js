@@ -38,7 +38,7 @@ export default class NewGame extends Component {
 			let players = this.state.selectedFriends.map((friend) => {
 				return friend.value
 			})
-			players.unshift(this.props.screenProps.state.currentPlayer)
+			players.unshift(this.props.screenProps.state.localPlayer)
 			postNewGame(players)
 				.then((response) => {
 					let game = {id: response.game_id, players: response.players}

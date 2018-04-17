@@ -8,7 +8,7 @@ import {
 
 import t from 'tcomb-form-native'
 import u from 'tcomb-validation'
-import { postPlayer } from '../../game-utilities/services'
+import { postPlayer, registerForPushNotifications } from '../../game-utilities/services'
 
 const Form = t.form.Form
 
@@ -44,6 +44,7 @@ export default class SignUpForm extends Component {
       username: '',
       password: '',
       phoneNumber: 0,
+			token: registerForPushNotifications()
     }
   }
 
@@ -56,7 +57,7 @@ export default class SignUpForm extends Component {
       alert('Please enter username, 10 digit phone number, and password')
     } else {
       postPlayer(this.state)
-      .then((response) => this.props.signUpUser(response))
+      	.then((response) => this.props.signUpUser(response))
     }
   }
 

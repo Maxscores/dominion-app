@@ -1,5 +1,24 @@
+import { Permissions, Notifications } from 'expo';
 
 const baseURL = "https://dominion-backend.herokuapp.com"
+
+const registerForPushNotifications = async () => {
+	const { status: existingStatus } = await Permissions.getAsync(
+		Permissions.NOTIFICATIONS
+	);
+	let finalStatus = existingStatus;
+
+	if (existingStatus !== 'granted') {
+		const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+		finalStatus = status;
+	}
+
+	if (finalStatus !== 'granted') {
+		return;
+	}
+
+	return {token: await Notifications.getExpoPushTokenAsync()}
+}
 
 const handleResponse = (response) => {
 	return response.json()
@@ -61,7 +80,7 @@ const userInfoPrep = (userInfoRaw) => {
 	return {
 		username: userInfoRaw.username,
 		password: userInfoRaw.password,
-		phone_number: userInfoRaw.phoneNumber
+		phone_number: userInfoRaw.phoneNumber,
 	}
 }
 
@@ -98,4 +117,12 @@ const postAddFriend = (body) => {
 }
 
 
-module.exports = { getGameState, postTurn, postPlayer, getPlayer, postNewGame, postAddFriend }
+module.exports = {
+	getGameState,
+	postTurn,
+	postPlayer,
+	getPlayer,
+	postNewGame,
+	postAddFriend,
+	registerForPushNotifications
+}

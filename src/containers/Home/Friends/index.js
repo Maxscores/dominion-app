@@ -36,7 +36,7 @@ export default class Friends extends Component {
 			<AddFriendForm
 				onChangeMethod={(text) => {this.setState({text}).bind(this)}}
 				text={this.state.text}
-				currentPlayer={this.props.screenProps.state.currentPlayer}
+				localPlayer={this.props.screenProps.state.localPlayer}
 				friends={this.props.screenProps.state.friends}
 				addFriend={this.props.screenProps.setParentState.bind(this)}
 			/>
