@@ -4,33 +4,19 @@ import {
   Text,
   View,
   Image,
+  KeyboardAvoidingView,
 } from 'react-native';
 import {
   TabNavigator
 } from 'react-navigation';
-import Playground from './src/containers/Playground'
+import Home from './src/containers/Home'
 import LoginForm from './src/components/LoginForm'
 import SignUpForm from './src/components/SignUpForm'
 import { images } from '@assets/images'
 import {
   responsiveHeight,
+  responsiveWidth,
 } from 'react-native-responsive-dimensions';
-
-const routeConfig = {
-  Playground: {
-    screen: Playground,
-  },
-}
-
-const navConfig = {
-  tabBarOptions: {
-    labelStyle: {
-      fontSize: 22,
-    }
-  }
-}
-
-const RootNav = TabNavigator(routeConfig, navConfig)
 
 export default class App extends Component {
 
@@ -38,9 +24,10 @@ export default class App extends Component {
     super()
     this.state = {
       username: "",
-      id: 0,
+      id: null,
       token: "",
       games: [],
+			friends: [],
       formType: 'login',
     }
   }
@@ -67,41 +54,39 @@ export default class App extends Component {
 
   renderView() {
     if (this.state.username !== "") {
-      return (<Playground />)
+      return (<Home screenProps={this.state}/>)
     } else {
       return (
-        <View style={styles.container}>
-          <Image
-            source={images['dominionLogo']}
-            style={styles.logo}
-          >
-          </Image>
-          <Text style={styles.friends}>with Friends</Text>
-          { this.renderForm() }
-        </View>
-      )
+				<View>
+  				<Image
+  					source={images['dominionLogo']}
+  					style={styles.logo}
+  				>
+  				</Image>
+  				{ this.renderForm() }
+				</View>
+			)
     }
   }
 
   render() {
-    return this.renderView();
+    return (
+			<KeyboardAvoidingView
+				style={styles.container}
+        behavior="padding"
+			>
+				{ this.renderView() }
+			</KeyboardAvoidingView>
+		);
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#bfa891',
-    height: responsiveHeight(100)
   },
   logo: {
-    marginLeft: -10,
     marginTop: 40,
-  },
-  friends: {
-    textAlign: 'center',
-    fontFamily: 'Trebuchet MS',
-    fontSize: 20,
-    marginTop: -10,
-    marginBottom: -40,
+		width: responsiveWidth(100),
   }
 });

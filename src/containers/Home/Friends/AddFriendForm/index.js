@@ -6,14 +6,13 @@ import {
   Text,
  } from 'react-native'
 
+import {postAddFriend} from '../../../../game-utilities/services'
 import t from 'tcomb-form-native'
-import { getPlayer } from '../../game-utilities/services'
 
 const Form = t.form.Form
 
 const Player = t.struct({
   username: t.String,
-  password: t.String,
 })
 
 const options = {
@@ -21,20 +20,15 @@ const options = {
     username: {
       error: 'Please enter a valid username'
     },
-    password: {
-      error: 'Pleae enter a valid password',
-      secureTextEntry: true
-    },
   },
 }
 
-export default class LoginForm extends Component {
+export default class AddFriendForm extends Component {
 
   constructor(props) {
     super(props)
     this.state = {
       username: '',
-      password: '',
     }
   }
 
@@ -42,12 +36,22 @@ export default class LoginForm extends Component {
     this.setState(value)
   }
 
+	postConfig() {
+		return {
+			player_id: this.props.currentPlayer,
+			friend_name: this.state.username
+		}
+	}
+
   handleSubmit = () => {
-    if (this.state.username.length === 0 || this.state.password.length === 0) {
-      alert('Please enter both a username and password')
+    if (this.state.username.length === 0) {
+      alert('Please enter a username')
     } else {
-      getPlayer(this.state)
-      .then((response) => this.props.loginUser(response))
+			postAddFriend(this.postConfig())
+				.then((response) => {
+					let friends = [...this.props.friends, {id: response.id, username: response.username}]
+					this.props.addFriend({friends: friends})
+				})
     }
   }
 
@@ -61,10 +65,7 @@ export default class LoginForm extends Component {
           options={options}
         />
         <TouchableHighlight style={styles.button} onPress={this.handleSubmit} underlayColor='#99d9f4'>
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableHighlight>
-        <TouchableHighlight onPress={() => {this.props.updateForm('signup')}}>
-          <Text style={styles.buttonText}>Want an account? Sign Up.</Text>
+          <Text style={styles.buttonText}>Add Friend</Text>
         </TouchableHighlight>
       </View>
     );
@@ -74,7 +75,6 @@ export default class LoginForm extends Component {
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
-    marginTop: 50,
     padding: 20,
   },
   buttonText: {

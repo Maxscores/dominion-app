@@ -44,6 +44,7 @@ export default class Table extends Component {
 					currentPlayer: gameState.current_player,
 					supply: gameState.game_cards,
 					trash: gameState.trash,
+          status: gameState.status,
 					decks: gameState.decks,
 					hand: [...deck.hand],
 					draw: [...deck.draw],
@@ -54,6 +55,44 @@ export default class Table extends Component {
 				}, () => {resolveAttackQueue(this.props.screenProps)})
 			})
 	}
+
+  determineWinner() {
+    if (this.props.screenProps.state.status === "inactive") {
+
+    }
+  }
+
+  checkGameOver() {
+    let emptyDecks = 0
+    Object.values(this.props.screenProps.state.supply).forEach((pile) => {
+      if (pile === 0) {
+        emptyDecks++
+      }
+    })
+    if (emptyDecks > 2 || this.props.screenProps.state.supply.province === 0) {
+      this.setState(status: "inactive")
+    }
+  }
+
+  countPlayerScore() {
+    if (this.props.screenProps.state.decks !== {}) {
+      return this.props.screenProps.state.decks.reduce((playerScores, deck) => {
+        playerScores[deck.username] = 0
+        if (deck.deck_makeup.estate) {
+          playerScores[deck.username] += deck.deck_makeup.estate
+        }
+        if (deck.deck_makeup.duchy) {
+          playerScores[deck.username] += (deck.deck_makeup.duchy * 3)
+        }
+        if (deck.deck_makeup.province) {
+          playerScores[deck.username] += (deck.deck_makeup.province * 6)
+        }
+        if (deck.deck_makeup.curse) {
+          playerScores[deck.username] -= deck.deck_makeup.curse
+        }
+      }, {})
+    }
+  }
 
 	playCardFromHand(card) {
 		playCard(this.props.screenProps, card)
@@ -161,7 +200,7 @@ export default class Table extends Component {
 						style={styles.supply}
 						popupAction="Buy"
 					/>
-          <Scoreboard />
+          <Scoreboard players={this.countPlayerScore().bind(this)}/>
         </View>
 				<PhaseButton screenProps={this.props.screenProps}/>
         <View style={styles.playContainer}>
@@ -194,7 +233,7 @@ export default class Table extends Component {
 
 const styles = StyleSheet.create({
   playContainer: {
-    height: responsiveWidth(60),
+    height: responsiveWidth(50),
   },
   container: {
     flex: 1,
