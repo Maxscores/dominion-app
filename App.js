@@ -32,11 +32,23 @@ export default class App extends Component {
 			friends: [],
       formType: 'login',
     }
+		this.logoutUser = this.logoutUser.bind(this)
   }
 
 	componentDidMount() {
 		Expo.Asset.loadAsync(Object.values(images))
 		this.loadRememberedUser()
+	}
+
+	logoutUser() {
+		this.setState({username: '', id: null}, () => {this.deleteRememberedUser()})
+	}
+
+	async deleteRememberedUser() {
+		try {
+			await AsyncStorage.clear()
+		} catch (e) {
+		}
 	}
 
 	async loadRememberedUser() {
@@ -88,7 +100,7 @@ export default class App extends Component {
 
   renderView() {
     if (this.state.username !== "") {
-      return (<Home screenProps={this.state}/>)
+      return (<Home screenProps={{state: this.state, logoutUser: this.logoutUser}}/>)
     } else {
       return (
 				<View>
