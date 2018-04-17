@@ -58,12 +58,8 @@ export default class SignUpForm extends Component {
     }
   }
 
-
 	values() {
 		return {
-			username: this.state.username,
-			phoneNumber: null,
-			password: this.state.password,
 			rememberMe: this.state.rememberMe
 		}
 	}
