@@ -30,7 +30,7 @@ export default class GamesList extends Component {
 	}
 
 	games() {
-		return this.props.screenProps.state.games.map((game) => {
+		return this.props.screenProps.state.active_games.map((game) => {
 			return (
 				<GameCard
 					key={game}
