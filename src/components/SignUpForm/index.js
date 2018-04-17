@@ -16,6 +16,7 @@ const Player = t.struct({
   username: t.String,
   phoneNumber: t.Number,
   password: t.String,
+	rememberMe: t.Boolean,
 })
 
 const options = {
@@ -33,6 +34,9 @@ const options = {
       error: 'Pleae enter a valid password',
       secureTextEntry: true
     },
+		rememberMe: {
+			onTintColor: '#2662bd'
+		},
   },
 }
 
@@ -44,9 +48,20 @@ export default class SignUpForm extends Component {
       username: '',
       password: '',
       phoneNumber: 0,
-			token: registerForPushNotifications()
+			token: registerForPushNotifications(),
+			rememberMe: false,
     }
   }
+
+
+	values() {
+		return {
+			username: this.state.username,
+			phoneNumber: null,
+			password: this.state.password,
+			rememberMe: this.state.rememberMe
+		}
+	}
 
   onChange(value) {
     this.setState(value)
@@ -57,7 +72,7 @@ export default class SignUpForm extends Component {
       alert('Please enter username, 10 digit phone number, and password')
     } else {
       postPlayer(this.state)
-      	.then((response) => this.props.signUpUser(response))
+      	.then((response) => this.props.signUpUser(response, this.state.rememberMe))
     }
   }
 
@@ -69,6 +84,7 @@ export default class SignUpForm extends Component {
           type={Player}
           onChange={this.onChange.bind(this)}
           options={options}
+					value={this.values()}
         />
         <TouchableHighlight style={styles.button} onPress={this.handleSubmit.bind(this)} underlayColor='#99d9f4'>
           <Text style={styles.buttonText}>Sign Up</Text>
