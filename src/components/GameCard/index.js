@@ -23,6 +23,7 @@ export default class GameCard extends Component<Props> {
 				onPress={ () => this.props.navigateToGame(this.props.game)}
 				style={styles.card}>
 				<Text> Game {this.props.game.id}: {this.gamePlayers()} </Text>
+				<Text> Current Turn: {this.props.game.current} </Text>
 			</TouchableHighlight>
 		)
 	}
