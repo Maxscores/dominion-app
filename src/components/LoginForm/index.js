@@ -7,7 +7,7 @@ import {
  } from 'react-native'
 
 import t from 'tcomb-form-native'
-import { getPlayer } from '../../game-utilities/services'
+import { loginPlayer } from '../../game-utilities/services'
 
 const Form = t.form.Form
 
@@ -46,7 +46,7 @@ export default class LoginForm extends Component {
     if (this.state.username.length === 0 || this.state.password.length === 0) {
       alert('Please enter both a username and password')
     } else {
-      getPlayer(this.state)
+      loginPlayer(this.state)
       .then((response) => this.props.loginUser(response))
     }
   }

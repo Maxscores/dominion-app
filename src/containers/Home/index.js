@@ -17,6 +17,7 @@ import Friends from './Friends'
 import NewGame from './NewGame'
 import Playground from '../Playground'
 import GamesList from './GamesList'
+import { getPlayer } from '../../game-utilities/services'
 
 
 const stackRouteConfig = {
@@ -65,8 +66,7 @@ const tabNavConfig = {
 			paddingTop: responsiveHeight(2),
       height: responsiveHeight(11),
     }
-  },
-	lazy: false
+  }
 }
 
 const RootNav = TabNavigator(tabRouteConfig, tabNavConfig)
@@ -79,15 +79,24 @@ export default class Home extends Component {
 			games: props.screenProps.games,
 			friends: props.screenProps.friends
 		}
+		this.setState = this.setState.bind(this)
+		this.getPlayerState = this.getPlayerState.bind(this)
 	}
 
-
+	getPlayerState() {
+		getPlayer(this.state.localPlayer)
+			.then((response) => this.setState(response))
+	}
 
   render() {
     return (
       <RootNav
 				style={styles.container}
-				screenProps={{state: this.state, setParentState: this.setState.bind(this)}}
+				screenProps={{
+					state: this.state,
+					setParentState: this.setState,
+					getPlayerState: this.getPlayerState
+				}}
 			/>
     );
   }

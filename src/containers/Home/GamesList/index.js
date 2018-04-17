@@ -18,6 +18,13 @@ export default class GamesList extends Component {
 		super()
 	}
 
+	componentDidMount() {
+		this.props.navigation.addListener(
+			'didFocus',
+			() => this.props.screenProps.getPlayerState()
+		)
+	}
+
 	navigateToGame(game) {
 		this.props.navigation.navigate('Playground', {game: game})
 	}
