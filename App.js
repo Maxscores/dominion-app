@@ -104,12 +104,12 @@ export default class App extends Component {
     } else {
       return (
 				<View>
-				<Image
-					source={images['dominionLogo']}
-					style={styles.logo}
-				>
-				</Image>
-				{ this.renderForm() }
+					<Image
+						source={images['dominionLogo']}
+						style={styles.logo}
+					>
+					</Image>
+					{ this.renderForm() }
 				</View>
 			)
     }
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#bfa891',
   },
   logo: {
-    marginTop: 40,
+    marginTop: responsiveHeight(5),
 		width: responsiveWidth(100),
   }
 });

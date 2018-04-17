@@ -100,7 +100,7 @@ const canPlayCard = (state, card) => {
 
 const playerDeck = (decks, player) => {
 	let deck = decks.find((deck) => {
-		return deck.player_id === player
+		return +deck.player_id === +player
 	})
 	return drawCards(5, deck)
 }

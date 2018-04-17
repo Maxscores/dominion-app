@@ -12,11 +12,13 @@ import {
 
 export default class Scoreboard extends Component<Props> {
 	players() {
-		return this.props.players.map((player, index) => {
-			return (
-				<Text key={index} style={styles.scoreboardText}>{player}</Text>
-			)
-		})
+		let playerScores = []
+		let count = 0
+		for (let player in this.props.score) {
+			playerScores.push(<Text key={count} style={styles.scoreboardText}>{player}: {this.props.score[player]}</Text>)
+			count++
+		}
+		return playerScores
 	}
   render() {
     return (
@@ -36,6 +38,6 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   scoreboardText: {
-    fontSize: responsiveFontSize(2.7),
+    fontSize: responsiveFontSize(2),
   }
 })

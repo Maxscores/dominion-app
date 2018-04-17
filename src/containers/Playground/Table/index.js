@@ -36,11 +36,9 @@ export default class Table extends Component {
 	componentDidMount() {
 		getGameState(this.props.screenProps.state.gameId)
 			.then((gameState) => {
-				// can change this to gameState.local_player, so that players only see their deck
 				let deck = playerDeck(gameState.decks, this.props.screenProps.state.localPlayer);
 				this.props.screenProps.setParentState({
 					competitors: gameState.competitors,
-					// permissions around doings by gameState.current_player === gameState.local_player
 					currentPlayer: gameState.current_player,
 					supply: gameState.game_cards,
 					trash: gameState.trash,
@@ -51,7 +49,8 @@ export default class Table extends Component {
 					discard: deck.discard,
 					turnOrder: gameState.turn_order,
 					attackQueue: gameState.attack_queue,
-					turns: gameState.turns
+					turns: gameState.turns,
+					score: gameState.score
 				}, () => {resolveAttackQueue(this.props.screenProps)})
 			})
 	}
@@ -125,6 +124,7 @@ export default class Table extends Component {
     let trash = this.props.screenProps.state.trash
     let cardsTrashed = this.props.screenProps.state.cardsTrashed
     let cardBeingTrashed;
+		let score = this.props.screenProps.state.score
     cards.forEach((card) => {
       let index = hand.indexOf(card)
       if (index > -1) {
@@ -132,11 +132,15 @@ export default class Table extends Component {
         trash.push(cardBeingTrashed)
         cardsTrashed.push(cardBeingTrashed)
       }
+			if (dominonCards[card].type.includes('treasure')) {
+				score[this.props.screenProps.state.localUsername] -= dominonCards[card].vp
+			}
     })
     this.props.screenProps.setParentState({
       hand: hand,
       trash: trash,
-      cardsTrashed: cardsTrashed
+      cardsTrashed: cardsTrashed,
+			score: score
     })
   }
 
@@ -185,7 +189,7 @@ export default class Table extends Component {
 						style={styles.supply}
 						popupAction="Buy"
 					/>
-          <Scoreboard players={this.props.screenProps.state.usernames}/>
+          <Scoreboard score={this.props.screenProps.state.score}/>
         </View>
 				{this.showPhaseButton()}
         <View style={styles.playContainer}>

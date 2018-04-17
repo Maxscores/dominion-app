@@ -15,15 +15,18 @@ import {
 export default dominonCards = {
 	'estate': {
 		'type': 'victory',
-		'cost': 2
+		'cost': 2,
+		'vp': 1,
 	},
 	'duchy': {
 		'type': 'victory',
-		'cost': 5
+		'cost': 5,
+		'vp': 3,
 	},
 	'province': {
 		'type': 'victory',
-		'cost': 8
+		'cost': 8,
+		'vp': 6,
 	},
 	'curse': {
 		'type': 'curse',
