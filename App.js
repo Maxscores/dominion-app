@@ -4,6 +4,7 @@ import {
   Text,
   View,
   Image,
+	AsyncStorage,
 } from 'react-native';
 import {
   TabNavigator
@@ -35,13 +36,41 @@ export default class App extends Component {
 
 	componentDidMount() {
 		Expo.Asset.loadAsync(Object.values(images))
+		this.loadRememberedUser()
 	}
 
-  loginUser(info) {
+	async loadRememberedUser() {
+		try {
+			let username = await AsyncStorage.getItem('username')
+			let id = await AsyncStorage.getItem('id')
+			if (username && id) {
+				this.setState({username: username, id: id})
+			}
+		} catch (e) {
+		}
+	}
+
+	async rememberMe(info) {
+		try {
+			await AsyncStorage.multiSet([
+				['username', info.username],
+				['id', `${info.id}`]
+			])
+		} catch (e) {
+		}
+	}
+
+  loginUser(info, rememberMe) {
+		if (rememberMe) {
+			this.rememberMe(info)
+		}
     this.setState(info)
   }
 
-  signUpUser(info) {
+  signUpUser(info, rememberMe) {
+		if (rememberMe) {
+			this.rememberMe(info)
+		}
     this.setState(info)
   }
 
