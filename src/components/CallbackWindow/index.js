@@ -73,7 +73,10 @@ export default class CallbackWindow extends Component {
             </Button>
             <Button
               title='No'
-              onPress={ () => {this.props.resolveActionQueue()} }>
+              onPress={ () => {
+								this.props.discardVassal(1)
+								this.props.resolveActionQueue()
+							} }>
             </Button>
           </View>
         )
@@ -83,7 +86,10 @@ export default class CallbackWindow extends Component {
             <Text>{this.props.actionQueue[0].revealedCard} was discarded.</Text>
             <Button
               title='Ok'
-              onPress={ () => {this.props.resolveActionQueue()} }>
+              onPress={ () => {
+								this.props.discardVassal(1)
+								this.props.resolveActionQueue()
+							} }>
             </Button>
           </View>
         )
