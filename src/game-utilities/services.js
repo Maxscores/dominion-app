@@ -63,8 +63,7 @@ const gameStatePrep = (gameStateRaw) => {
 			discard: [
 				...gameStateRaw.discard,
 				...gameStateRaw.playarea,
-				...gameStateRaw.hand,
-				...gameStateRaw.cardsGained
+				...gameStateRaw.hand
 			]
 		},
 		turn: {

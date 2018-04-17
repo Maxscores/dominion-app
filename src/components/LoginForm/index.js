@@ -14,6 +14,7 @@ const Form = t.form.Form
 const Player = t.struct({
   username: t.String,
   password: t.String,
+	rememberMe: t.Boolean,
 })
 
 const options = {
@@ -25,6 +26,9 @@ const options = {
       error: 'Pleae enter a valid password',
       secureTextEntry: true
     },
+		rememberMe: {
+			onTintColor: '#2662bd'
+		},
   },
 }
 
@@ -35,8 +39,17 @@ export default class LoginForm extends Component {
     this.state = {
       username: '',
       password: '',
+			rememberMe: false,
     }
   }
+
+	values() {
+		return {
+			username: this.state.username,
+			password: this.state.password,
+			rememberMe: this.state.rememberMe
+		}
+	}
 
   onChange(value) {
     this.setState(value)
@@ -47,7 +60,7 @@ export default class LoginForm extends Component {
       alert('Please enter both a username and password')
     } else {
       loginPlayer(this.state)
-      .then((response) => this.props.loginUser(response))
+      .then((response) => this.props.loginUser(response, this.state.rememberMe))
     }
   }
 
@@ -59,6 +72,7 @@ export default class LoginForm extends Component {
           type={Player}
           onChange={this.onChange.bind(this)}
           options={options}
+					value={this.values()}
         />
         <TouchableHighlight style={styles.button} onPress={this.handleSubmit} underlayColor='#99d9f4'>
           <Text style={styles.buttonText}>Login</Text>

@@ -15,6 +15,7 @@ import {
 } from 'react-navigation';
 import Friends from './Friends'
 import NewGame from './NewGame'
+import Account from './Account'
 import Playground from '../Playground'
 import GamesList from './GamesList'
 import { getPlayer } from '../../game-utilities/services'
@@ -45,13 +46,16 @@ const stackNavConfig = {
 const GamesNav = StackNavigator(stackRouteConfig, stackNavConfig)
 
 const tabRouteConfig = {
+	Account: {
+		screen: Account,
+	},
   Games: {
     screen: GamesNav,
   },
   Friends: {
     screen: Friends,
   },
-  New: {
+  Play: {
     screen: NewGame,
   },
 }
@@ -60,7 +64,7 @@ const tabNavConfig = {
 	tabBarPosition: 'top',
   tabBarOptions: {
     labelStyle: {
-      fontSize: 22,
+      fontSize: 18,
     },
     style: {
 			paddingTop: responsiveHeight(2),
@@ -75,9 +79,10 @@ export default class Home extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			localPlayer: props.screenProps.id,
-			games: props.screenProps.games,
-			friends: props.screenProps.friends
+			localPlayer: props.screenProps.state.id,
+			games: props.screenProps.state.games,
+			friends: props.screenProps.state.friends,
+			username: props.screenProps.state.username
 		}
 		this.setState = this.setState.bind(this)
 		this.getPlayerState = this.getPlayerState.bind(this)
@@ -95,7 +100,8 @@ export default class Home extends Component {
 				screenProps={{
 					state: this.state,
 					setParentState: this.setState,
-					getPlayerState: this.getPlayerState
+					getPlayerState: this.getPlayerState,
+					logoutUser: this.props.screenProps.logoutUser
 				}}
 			/>
     );

@@ -4,6 +4,7 @@ import {
   Text,
   View,
   Image,
+	AsyncStorage,
 } from 'react-native';
 import {
   TabNavigator
@@ -31,13 +32,57 @@ export default class App extends Component {
 			friends: [],
       formType: 'login',
     }
+		this.logoutUser = this.logoutUser.bind(this)
   }
 
-  loginUser(info) {
+	componentDidMount() {
+		Expo.Asset.loadAsync(Object.values(images))
+		this.loadRememberedUser()
+	}
+
+	logoutUser() {
+		this.setState({username: '', id: null}, () => {this.deleteRememberedUser()})
+	}
+
+	async deleteRememberedUser() {
+		try {
+			await AsyncStorage.clear()
+		} catch (e) {
+		}
+	}
+
+	async loadRememberedUser() {
+		try {
+			let username = await AsyncStorage.getItem('username')
+			let id = await AsyncStorage.getItem('id')
+			if (username && id) {
+				this.setState({username: username, id: id})
+			}
+		} catch (e) {
+		}
+	}
+
+	async rememberMe(info) {
+		try {
+			await AsyncStorage.multiSet([
+				['username', info.username],
+				['id', `${info.id}`]
+			])
+		} catch (e) {
+		}
+	}
+
+  loginUser(info, rememberMe) {
+		if (rememberMe) {
+			this.rememberMe(info)
+		}
     this.setState(info)
   }
 
-  signUpUser(info) {
+  signUpUser(info, rememberMe) {
+		if (rememberMe) {
+			this.rememberMe(info)
+		}
     this.setState(info)
   }
 
@@ -55,7 +100,7 @@ export default class App extends Component {
 
   renderView() {
     if (this.state.username !== "") {
-      return (<Home screenProps={this.state}/>)
+      return (<Home screenProps={{state: this.state, logoutUser: this.logoutUser}}/>)
     } else {
       return (
 				<View>
@@ -75,7 +120,7 @@ export default class App extends Component {
 			<KeyboardAwareScrollView
 				style={styles.container}
         resetScrollToCoords={{ x: 0, y: 0 }}
-        contentContainerStyle={styles.container}
+        contentContainerStyle={{flex: 1}}
         scrollEnabled={true}
 			>
         { this.renderView() }
