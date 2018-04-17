@@ -33,6 +33,10 @@ export default class App extends Component {
     }
   }
 
+	componentDidMount() {
+		Expo.Asset.loadAsync(Object.values(images))
+	}
+
   loginUser(info) {
     this.setState(info)
   }
