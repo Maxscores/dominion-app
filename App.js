@@ -75,7 +75,7 @@ export default class App extends Component {
 			<KeyboardAwareScrollView
 				style={styles.container}
         resetScrollToCoords={{ x: 0, y: 0 }}
-        contentContainerStyle={styles.container}
+        contentContainerStyle={{flex: 1}}
         scrollEnabled={true}
 			>
         { this.renderView() }
