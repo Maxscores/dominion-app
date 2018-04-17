@@ -132,14 +132,17 @@ export default dominonCards = {
 		'type': 'action',
 		'action': (state) => {
 			let hand = state.hand
-			let cardIndex = hand.indexOf('copper')
-			hand.splice(cardIndex, 1)
-			let newTrash = trashCard(state.trash, 'copper')
-			let newCoins = coins(state.coins, 3)
-			let newHand = {hand: hand}
-			let resultingState = _.merge(newHand, newTrash)
-			resultingState = _.merge(resultingState, newCoins)
-			return resultingState
+			if (hand.includes('copper')) {
+				let cardIndex = hand.indexOf('copper')
+				hand.splice(cardIndex, 1)
+				let newTrash = trashCard(state.trash, 'copper')
+				let newCoins = coins(state.coins, 3)
+				let newHand = {hand: hand}
+				let resultingState = _.merge(newHand, newTrash)
+				resultingState = _.merge(resultingState, newCoins)
+				return resultingState
+			}
+			return {}
 		},
 		'cost': 4
 	},
