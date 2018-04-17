@@ -12,9 +12,9 @@ import {
 
 export default class Scoreboard extends Component<Props> {
 	players() {
-		return this.props.players.map((player) => {
+		return this.props.players.map((player, index) => {
 			return (
-				<Text style={styles.scoreboardText}>{player}</Text>
+				<Text key={index} style={styles.scoreboardText}>{player}</Text>
 			)
 		})
 	}

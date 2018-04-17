@@ -73,7 +73,11 @@ export default class Playground extends Component {
 
   render() {
     return (
-      <RootNav screenProps={{state: this.state, setParentState: this.setState.bind(this)}} />
+      <RootNav screenProps={{
+				state: this.state,
+				setParentState: this.setState.bind(this),
+				goBack: this.props.navigation.goBack.bind(this)
+			}} />
     );
   }
 }
