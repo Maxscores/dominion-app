@@ -270,6 +270,15 @@ describe('Dominion Cards', () => {
 				assert.equal(4, moneylender.cost)
 				assert.deepEqual(expected, moneylender.action(stateCopy))
 			})
+
+			it('must have copper to gain gold', () => {
+				let moneylender = dominonCards['moneylender']
+				let stateCopy = JSON.parse(JSON.stringify(state))
+				stateCopy.hand = []
+				let expected = {}
+
+				assert.deepEqual(expected, moneylender.action(stateCopy))
+			})
 		})
 
 		context('chapel', () => {
