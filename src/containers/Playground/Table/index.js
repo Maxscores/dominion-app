@@ -124,6 +124,7 @@ export default class Table extends Component {
     let trash = this.props.screenProps.state.trash
     let cardsTrashed = this.props.screenProps.state.cardsTrashed
     let cardBeingTrashed;
+		let score = this.props.screenProps.state.score
     cards.forEach((card) => {
       let index = hand.indexOf(card)
       if (index > -1) {
@@ -131,11 +132,15 @@ export default class Table extends Component {
         trash.push(cardBeingTrashed)
         cardsTrashed.push(cardBeingTrashed)
       }
+			if (dominonCards[card].type.includes('treasure')) {
+				score[this.props.screenProps.state.localUsername] -= dominonCards[card].vp
+			}
     })
     this.props.screenProps.setParentState({
       hand: hand,
       trash: trash,
-      cardsTrashed: cardsTrashed
+      cardsTrashed: cardsTrashed,
+			score: score
     })
   }
 
