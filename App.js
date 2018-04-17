@@ -58,12 +58,12 @@ export default class App extends Component {
     } else {
       return (
 				<View>
-  				<Image
-  					source={images['dominionLogo']}
-  					style={styles.logo}
-  				>
-  				</Image>
-  				{ this.renderForm() }
+				<Image
+					source={images['dominionLogo']}
+					style={styles.logo}
+				>
+				</Image>
+				{ this.renderForm() }
 				</View>
 			)
     }

@@ -11,17 +11,13 @@ import {
 } from 'react-native-responsive-dimensions';
 
 export default class Scoreboard extends Component<Props> {
-
 	players() {
-    if (this.props.players !== {}) {
-  		return Object.keys(this.props.players).map((player) => {
-  			return (
-  				<Text style={styles.scoreboardText}>`${player}`</Text>
-  			)
-  		})
-    }
+		return this.props.players.map((player) => {
+			return (
+				<Text style={styles.scoreboardText}>{player}</Text>
+			)
+		})
 	}
-
   render() {
     return (
       <View style={styles.scoreboard}>
