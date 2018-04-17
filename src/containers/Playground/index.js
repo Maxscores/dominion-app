@@ -48,6 +48,7 @@ export default class Playground extends Component {
 			usernames: props.navigation.state.params.game.players,
 			localPlayer: props.screenProps.state.localPlayer,
 			currentPlayer: null,
+			score: {},
 			decks: {},
 			supply: {},
       draw: [],
@@ -71,7 +72,7 @@ export default class Playground extends Component {
 			popupAction: null,
 		}
 	}
-  
+
   render() {
     return (
       <RootNav screenProps={{
