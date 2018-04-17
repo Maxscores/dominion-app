@@ -66,9 +66,11 @@ const buyCard = (screenProps, card) => {
 		let supply = screenProps.state.supply
 		supply[card]--
 		let cardsGained = [...screenProps.state.cardsGained, card]
+		let playarea = [card, ...screenProps.state.playarea]
 		screenProps.setParentState({
 			coins: screenProps.state.coins - dominionCards[card]['cost'],
 			cardsGained: cardsGained,
+			playarea: playarea,
 			supply: supply,
 			buys: screenProps.state.buys - 1,
 			hasBought: true
