@@ -97,7 +97,13 @@ const postPlayer = (userInfo) => {
 		.catch(errorLog)
 }
 
-const getPlayer = (userInfo) => {
+const getPlayer = (id) => {
+	return fetch(`${baseURL}/api/v1/players/${id}`)
+		.then(handleResponse)
+		.catch(errorLog)
+}
+
+const loginPlayer = (userInfo) => {
 	return fetch(`${baseURL}/api/v1/login?username=${userInfo.username}&password=${userInfo.password}`)
 		.then(handleResponse)
 		.catch(errorLog)
@@ -122,6 +128,7 @@ module.exports = {
 	postTurn,
 	postPlayer,
 	getPlayer,
+	loginPlayer,
 	postNewGame,
 	postAddFriend,
 	registerForPushNotifications
