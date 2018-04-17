@@ -22,7 +22,9 @@ const Player = t.struct({
 const options = {
   fields: {
     username: {
-      error: 'Please enter a valid username'
+      error: 'Please enter a valid username',
+			placeholder: 'Max Length: 11',
+			maxLength: 11,
     },
     phoneNumber: {
       error: 'Please enter a valid phone number',
