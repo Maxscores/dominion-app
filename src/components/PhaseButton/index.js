@@ -28,7 +28,7 @@ export default class PhaseButton extends Component {
 		if (isActionPhase(this.props.screenProps.state)) {
 			nextPhase(this.props.screenProps)
 		} else if (isBuyPhase(this.props.screenProps.state)) {
-			finishTurn(this.props.screenProps.state)
+			finishTurn(this.props.screenProps)
 		}
 	}
 
