@@ -81,6 +81,7 @@ const userInfoPrep = (userInfoRaw) => {
 		username: userInfoRaw.username,
 		password: userInfoRaw.password,
 		phone_number: userInfoRaw.phoneNumber,
+		token: userInfoRaw.token["_55"],
 	}
 }
 
