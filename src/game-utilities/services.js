@@ -17,7 +17,8 @@ const registerForPushNotifications = async () => {
 		return;
 	}
 
-	return {token: await Notifications.getExpoPushTokenAsync()}
+	let token = await Notifications.getExpoPushTokenAsync()
+	return token
 }
 
 const handleResponse = (response) => {
@@ -80,6 +81,7 @@ const userInfoPrep = (userInfoRaw) => {
 		username: userInfoRaw.username,
 		password: userInfoRaw.password,
 		phone_number: userInfoRaw.phoneNumber,
+		token: userInfoRaw.token["_55"],
 	}
 }
 
