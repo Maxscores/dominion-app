@@ -158,7 +158,7 @@ export default class Table extends Component {
     let discard = this.props.screenProps.state.discard
     let index = discard.indexOf(card)
     if (index > -1) { discard.splice(index, 1) }
-    let playarea = [card, ...this.props.screenProps.state.playarea]
+    let playarea = [...card, ...this.props.screenProps.state.playarea]
     this.props.screenProps.setParentState({
       discard: discard,
       playarea: playarea
