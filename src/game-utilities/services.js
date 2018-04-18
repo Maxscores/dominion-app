@@ -17,7 +17,8 @@ const registerForPushNotifications = async () => {
 		return;
 	}
 
-	return {token: await Notifications.getExpoPushTokenAsync()}
+	let token = await Notifications.getExpoPushTokenAsync()
+	return token
 }
 
 const handleResponse = (response) => {
