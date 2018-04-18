@@ -172,7 +172,9 @@ export default dominonCards = {
 			state.supply['curse']--
 			let newSupply = {supply: state.supply}
 			let cardsGained = {cardsGained: [...state.cardsGained, 'curse']}
+			let newPlayarea = {playarea: ['curse', ...state.playarea]}
 			let resultingState = _.merge(cardsGained, newSupply)
+			resultingState = _.merge(resultingState, newPlayarea)
 			return resultingState
 		}
 	},

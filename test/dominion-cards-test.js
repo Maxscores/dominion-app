@@ -341,7 +341,8 @@ describe('Dominion Cards', () => {
 					'supply': {
 						'curse': 9
 					},
-					'cardsGained': ['curse']
+					'cardsGained': ['curse'],
+					'playarea': ['curse']
 				}
 
 				assert.deepEqual(['action', 'attack'], witch.type)
