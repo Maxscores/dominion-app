@@ -12,7 +12,6 @@ If you want to give it a try you'll need to download the Expo app from the itune
   * [npm run ios](#npm-run-ios)
   * [npm run android](#npm-run-android)
   * [npm run eject](#npm-run-eject)
-* [Running Tests](#running-tests)
 * [Sharing and Deployment](#sharing-and-deployment)
 * [Contributing](#contributing)
 * [Troubleshooting](#troubleshooting)
