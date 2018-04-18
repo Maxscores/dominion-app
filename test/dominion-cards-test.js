@@ -346,7 +346,7 @@ describe('Dominion Cards', () => {
 				}
 
 				assert.deepEqual(['action', 'attack'], witch.type)
-				assert.equal(4, witch.cost)
+				assert.equal(5, witch.cost)
 				assert.deepEqual(expected, witch.action(stateCopy))
 				assert.deepEqual(expectedAttack, witch.attack(stateCopy2))
 			})

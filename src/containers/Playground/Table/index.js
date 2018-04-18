@@ -147,7 +147,7 @@ export default class Table extends Component {
   discardCardFromDraw(count) {
     let discard = this.props.screenProps.state.discard
     let draw = this.props.screenProps.state.draw
-    discard.push(draw.splice(0, count))
+    discard = [...discard, ...draw.splice(0, count)]
     this.props.screenProps.setParentState({
       discard: discard,
       draw: draw
