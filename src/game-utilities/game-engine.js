@@ -49,12 +49,12 @@ const	playCard = (screenProps, card) => {
 		let playarea = [card, ...screenProps.state.playarea]
 		let playCost = 0
 		if (dominionCards[card]['type'].includes('action')) {playCost = 1}
-		screenProps.setParentState({
-				hand: hand,
-				playarea: playarea,
-        actions: screenProps.state.actions - playCost
-			},
-      () => {screenProps.setParentState(dominionCards[card]['action'](screenProps.state))}
+		let updatedProps = screenProps
+		updatedProps.state.hand = hand
+		updatedProps.state.playarea = playarea
+		updatedProps.state.actions = screenProps.state.actions - playCost
+		screenProps.setParentState(updatedProps,
+      () => {screenProps.setParentState(dominionCards[card]['action'](updatedProps.state))}
     )
 	} else {
 		alert('You cannot play that right now')
