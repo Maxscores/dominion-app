@@ -19,7 +19,7 @@ export default class Table extends Component {
 
 	currentPlayerDeck(decks, currentPlayer) {
 		let deck = decks.find((deck) => {
-			return deck.player_id === currentPlayer
+			return +deck.player_id === +currentPlayer
 		})
 		let result = {
 			deckComposition: deck.deck_makeup,
@@ -64,7 +64,7 @@ export default class Table extends Component {
 		let localPlayer = this.props.screenProps.state.localPlayer
 		let currentPlayer = this.props.screenProps.state.currentPlayer
 		let discard
-		if (localPlayer === currentPlayer) {
+		if (+localPlayer === +currentPlayer) {
 			discard = this.props.screenProps.state.discard
 		} else {
 			discard = this.currentPlayerDeck(this.props.screenProps.state.decks, this.props.screenProps.state.localPlayer).discard
