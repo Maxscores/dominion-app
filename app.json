@@ -5,6 +5,7 @@
     "sdkVersion": "26.0.0",
 		"orientation": "portrait",
     "icon": "./src/assets/images/dominion-icon.png",
-    "version": "1.0.0"
+    "version": "1.0.0",
+		"description": "Dominion with Friends is a React-Native application based off of the popular deck building game [Dominion](https://boardgamegeek.com/boardgame/36218/dominion). There has been quite a saga of Dominion web-based games that were designed around the idea of playing a complete game live with others around the world. Most of these games require you to start and finish a game in one sitting. We wanted an application where you could play a game over the course of a day and play a turn when you have a moment. The best comparison is to Words with Friends, where you can invite friends to your game play with them. If you want to play a game with us, add `Maxscores` or `Umber` (the creators) and start a game!"
   }
 }
