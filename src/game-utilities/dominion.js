@@ -161,7 +161,7 @@ export default dominonCards = {
 	},
 	'witch': {
 		'type': ['action', 'attack'],
-		'cost': 4,
+		'cost': 5,
 		'action': (state) => {
 			let newDraw = drawCards(2, state)
 			let newAttackQueue = attackQueue(state.currentPlayer, state.attackQueue, 'witch')
