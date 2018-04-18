@@ -10,15 +10,14 @@ import _ from 'lodash'
 
 const resolveAttackQueue = (screenProps) => {
 	let allAttacks = screenProps.state.attackQueue
-	let currentAttacks = allAttacks[`${screenProps.state.currentPlayer}`]
-	if (currentAttacks.length === 0) {
-		while (currentAttacks.length > 0) {
-			playAttack(screenProps.state, currentAttacks.shift())
-		}
-		screenProps.setParentState({
-			attackQueue: allAttacks
-		})
+	let currentAttacks = allAttacks[screenProps.state.currentPlayer]
+	console.warn(currentAttacks)
+	while (currentAttacks.length > 0) {
+		playAttack(screenProps, currentAttacks.shift())
 	}
+	screenProps.setParentState({
+		attackQueue: allAttacks
+	})
 	nextPhase(screenProps)
 }
 
