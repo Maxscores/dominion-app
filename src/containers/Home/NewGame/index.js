@@ -106,6 +106,15 @@ export default class NewGame extends Component {
 		return (
 			<View style={styles.container}>
 				<Text style={styles.title}>New Game</Text>
+				<TouchableHighlight
+				style={styles.button}
+				onPress={
+					() => this.checkMaxSelected(3)
+				}
+				underlayColor='#99d9f4'
+				>
+				<Text style={styles.buttonText}>Start New Game</Text>
+				</TouchableHighlight>
 				<Text>Select 1 to 3 Friends</Text>
 				<ScrollView>
 					<SelectMultiple
@@ -116,15 +125,6 @@ export default class NewGame extends Component {
 						onSelectionsChange={this.onSelectedFriendsChange.bind(this)}
 					/>
 				</ScrollView>
-				<TouchableHighlight
-					style={styles.button}
-					onPress={
-						() => this.checkMaxSelected(3)
-					}
-					underlayColor='#99d9f4'
-				>
-					<Text style={styles.buttonText}>Start New Game</Text>
-				</TouchableHighlight>
 			</View>
 		)
 	}
