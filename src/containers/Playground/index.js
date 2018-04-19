@@ -43,21 +43,22 @@ const RootNav = TabNavigator(routeConfig, navConfig)
 export default class Playground extends Component {
 	constructor(props) {
 		super(props)
+		this.game = props.navigation.state.params.game
 		this.state = {
-			gameId: props.navigation.state.params.game.id,
-			usernames: props.navigation.state.params.game.players,
+			gameId: this.game.id,
+			usernames: this.game.players,
 			localPlayer: props.screenProps.state.localPlayer,
 			localUsername: props.screenProps.state.username,
-			currentPlayer: null,
-			score: {},
-			decks: {},
-			supply: {},
-      draw: [],
-      discard: [],
-      hand: [],
-      trash: [],
-      status: "",
-			turnOrder: [],
+			currentPlayer: this.game.currentPlayer,
+			score: this.game.score,
+			decks: this.game.decks,
+			supply: this.game.supply,
+      draw: this.game.draw,
+      discard: this.game.discard,
+      hand: this.game.hand,
+      trash: this.game.trash,
+      status: this.game.status,
+			turnOrder: this.game.turnOrder,
 			playarea: [],
 			actions: 1,
 			buys: 1,
@@ -65,12 +66,13 @@ export default class Playground extends Component {
 			cardsGained: [],
 			cardsTrashed: [],
 			hasBought: false,
-			competitors: [],
-			attackQueue: {},
+			competitors: this.game.competitors,
+			attackQueue: this.game.attackQueue,
 			actionQueue: [],
 			cardImage: "",
 			turnPhase: 1,
 			popupAction: null,
+			turns: this.game.turns
 		}
 	}
 

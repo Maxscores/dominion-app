@@ -123,12 +123,19 @@ const postAddFriend = (body) => {
 		.catch(errorLog)
 }
 
+const getFriend = (id) => {
+	return fetch(`${baseURL}/api/v1/friends/${id}`)
+		.then(handleResponse)
+		.catch(errorLog)
+}
+
 
 module.exports = {
 	getGameState,
 	postTurn,
 	postPlayer,
 	getPlayer,
+	getFriend,
 	loginPlayer,
 	postNewGame,
 	postAddFriend,

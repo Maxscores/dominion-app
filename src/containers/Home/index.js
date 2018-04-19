@@ -88,6 +88,10 @@ export default class Home extends Component {
 		this.getPlayerState = this.getPlayerState.bind(this)
 	}
 
+	componentDidMount() {
+		this.getPlayerState()
+	}
+
 	getPlayerState() {
 		getPlayer(this.state.localPlayer)
 			.then((response) => this.setState(response))

@@ -35,8 +35,9 @@ export default class GamesList extends Component {
 				<GameCard
 					key={game}
 					style={styles.text}
-					navigateToGame={ () => this.navigateToGame(game)}
+					navigateToGame={this.navigateToGame.bind(this)}
 					game={ game }
+					localPlayer={ this.props.screenProps.state.localPlayer }
 					>
 				</GameCard>
 			)
@@ -58,7 +59,7 @@ export default class GamesList extends Component {
 
 const styles = StyleSheet.create({
   container: {
-		paddingTop: responsiveHeight(7),
+		paddingTop: responsiveHeight(2),
     backgroundColor: '#bfa891',
     alignItems: 'center',
 		height: responsiveHeight(90),
@@ -68,6 +69,6 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		fontSize: 36,
-		marginBottom: responsiveHeight(7)
+		marginBottom: responsiveHeight(3)
 	}
 });

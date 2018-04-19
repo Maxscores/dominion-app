@@ -7,6 +7,7 @@ import {
   ScrollView,
 	Button
 } from 'react-native';
+import FriendshipCard from '../../../components/FriendshipCard'
 import AddFriendForm from './AddFriendForm'
 import {
   responsiveHeight,
@@ -24,9 +25,9 @@ export default class Friends extends Component {
 	friendsList() {
 		return this.props.screenProps.state.friends.map((friend, index) => {
 			return (
-				<View key={index}>
-					<Text>{friend.username}</Text>
-				</View>
+				<FriendshipCard
+					friend={friend}
+				/>
 			)
 		})
 	}
@@ -57,17 +58,17 @@ export default class Friends extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-		paddingTop: responsiveHeight(7),
-    flex: 1,
+	container: {
+		paddingTop: responsiveHeight(2),
     backgroundColor: '#bfa891',
     alignItems: 'center',
+		height: responsiveHeight(90),
   },
 	text: {
 		fontSize: 24,
 	},
 	title: {
 		fontSize: 36,
-		marginBottom: responsiveHeight(7)
-	}
+		marginBottom: responsiveHeight(3)
+	},
 });
