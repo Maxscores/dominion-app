@@ -35,8 +35,9 @@ export default class GamesList extends Component {
 				<GameCard
 					key={game}
 					style={styles.text}
-					navigateToGame={ () => this.navigateToGame(game)}
+					navigateToGame={this.navigateToGame.bind(this)}
 					game={ game }
+					localPlayer={ this.props.screenProps.state.localPlayer }
 					>
 				</GameCard>
 			)
