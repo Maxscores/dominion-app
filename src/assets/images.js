@@ -1,6 +1,7 @@
 export const images = {
 	'artisanTile': require('./images/artisan_tile.png'),
 	'artisanFull': require('./images/artisan.jpg'),
+	'background': require('./images/background.png'),
 	'banditTile': require('./images/bandit_tile.png'),
 	'banditFull': require('./images/bandit.jpg'),
 	'bureaucratTile': require('./images/bureaucrat_tile.png'),
@@ -16,6 +17,7 @@ export const images = {
 	'curseTile': require('./images/curse_tile.png'),
 	'curseFull': require('./images/curse.jpg'),
 	'dominionLogo': require('./images/dominion_logo.png'),
+	'dominionIcon': require('./images/dominion-icon.png'),
 	'duchyTile': require('./images/duchy_tile.png'),
 	'duchyFull': require('./images/duchy.jpg'),
 	'estateTile': require('./images/estate_tile.png'),
