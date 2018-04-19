@@ -13,10 +13,12 @@ import _ from 'lodash'
 import { images } from '@assets/images'
 
 export default class GameCard extends Component<Props> {
-	constructor() {
-		super()
+	constructor(props) {
+		super(props)
 		this.state = {
+			id: props.game.id,
 			currentPlayer: null,
+			currentPlayerUsername: '',
 			score: {},
 			decks: {},
 			supply: {},
@@ -61,6 +63,7 @@ export default class GameCard extends Component<Props> {
 		let deck = playerDeck(gameState.decks, this.props.localPlayer);
 		this.setState({
 			currentPlayer: gameState.current_player,
+			currentPlayerUsername: gameState.current_player_username,
 			score: gameState.score,
 			decks: gameState.decks,
 			supply: gameState.game_cards,
@@ -81,7 +84,7 @@ export default class GameCard extends Component<Props> {
 	}
 
 	isCurrentPlayer(player) {
-		if (player.toLowerCase() === this.props.game.current.toLowerCase()) {
+		if (player.toLowerCase() === this.state.currentPlayerUsername.toLowerCase()) {
 			return styles.currentPlayer
 		} else {
 			return styles.text
