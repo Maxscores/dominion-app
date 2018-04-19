@@ -31,6 +31,7 @@ const nextPhase = (screenProps) => {
 
 const finishTurn = (props) => {
 	postTurn(props.state.gameId, props.state)
+		.then((response) => props.updateGameState(response))
 		.then(alert('Turn completed'))
 		.then(props.goBack())
 }

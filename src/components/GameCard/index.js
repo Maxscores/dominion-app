@@ -13,10 +13,12 @@ import _ from 'lodash'
 import { images } from '@assets/images'
 
 export default class GameCard extends Component<Props> {
-	constructor() {
-		super()
+	constructor(props) {
+		super(props)
 		this.state = {
+			id: props.game.id,
 			currentPlayer: null,
+			currentPlayerUsername: '',
 			score: {},
 			decks: {},
 			supply: {},
@@ -31,6 +33,7 @@ export default class GameCard extends Component<Props> {
 			turns: [],
 		}
 		this.handleClick = this.handleClick.bind(this)
+		this.updateGameState = this.updateGameState.bind(this)
 	}
 
 	gameScore() {
@@ -52,31 +55,37 @@ export default class GameCard extends Component<Props> {
 	componentDidMount() {
 		getGameState(this.props.game.id)
 			.then((gameState) => {
-				let deck = playerDeck(gameState.decks, this.props.localPlayer);
-				this.setState({
-					currentPlayer: gameState.current_player,
-					score: gameState.score,
-					decks: gameState.decks,
-					supply: gameState.game_cards,
-					draw: [...deck.draw],
-					discard: deck.discard,
-					hand: [...deck.hand],
-					trash: gameState.trash,
-					status: gameState.status,
-					turnOrder: gameState.turn_order,
-					competitors: gameState.competitors,
-					attackQueue: gameState.attack_queue,
-					turns: gameState.turns
-				})
+				this.updateGameState(gameState)
 			})
 	}
 
+	updateGameState(gameState) {
+		let deck = playerDeck(gameState.decks, this.props.localPlayer);
+		this.setState({
+			currentPlayer: gameState.current_player,
+			currentPlayerUsername: gameState.current_player_username,
+			score: gameState.score,
+			decks: gameState.decks,
+			supply: gameState.game_cards,
+			draw: [...deck.draw],
+			discard: deck.discard,
+			hand: [...deck.hand],
+			trash: gameState.trash,
+			status: gameState.status,
+			turnOrder: gameState.turn_order,
+			competitors: gameState.competitors,
+			attackQueue: gameState.attack_queue,
+			turns: gameState.turns
+		})
+	}
+
 	handleClick() {
-		this.props.navigateToGame(this.state)
+		let game = _.merge(this.state, {updateGameState: this.updateGameState})
+		this.props.navigateToGame(game)
 	}
 
 	isCurrentPlayer(player) {
-		if (player.toLowerCase() === this.props.game.current.toLowerCase()) {
+		if (player.toLowerCase() === this.state.currentPlayerUsername.toLowerCase()) {
 			return styles.currentPlayer
 		} else {
 			return styles.text
