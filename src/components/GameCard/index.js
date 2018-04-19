@@ -31,6 +31,7 @@ export default class GameCard extends Component<Props> {
 			turns: [],
 		}
 		this.handleClick = this.handleClick.bind(this)
+		this.updateGameState = this.updateGameState.bind(this)
 	}
 
 	gameScore() {
@@ -52,27 +53,31 @@ export default class GameCard extends Component<Props> {
 	componentDidMount() {
 		getGameState(this.props.game.id)
 			.then((gameState) => {
-				let deck = playerDeck(gameState.decks, this.props.localPlayer);
-				this.setState({
-					currentPlayer: gameState.current_player,
-					score: gameState.score,
-					decks: gameState.decks,
-					supply: gameState.game_cards,
-					draw: [...deck.draw],
-					discard: deck.discard,
-					hand: [...deck.hand],
-					trash: gameState.trash,
-					status: gameState.status,
-					turnOrder: gameState.turn_order,
-					competitors: gameState.competitors,
-					attackQueue: gameState.attack_queue,
-					turns: gameState.turns
-				})
+				this.updateGameState(gameState)
 			})
 	}
 
+	updateGameState(gameState) {
+		let deck = playerDeck(gameState.decks, this.props.localPlayer);
+		this.setState({
+			currentPlayer: gameState.current_player,
+			score: gameState.score,
+			decks: gameState.decks,
+			supply: gameState.game_cards,
+			draw: [...deck.draw],
+			discard: deck.discard,
+			hand: [...deck.hand],
+			trash: gameState.trash,
+			status: gameState.status,
+			turnOrder: gameState.turn_order,
+			competitors: gameState.competitors,
+			attackQueue: gameState.attack_queue,
+			turns: gameState.turns
+		})
+	}
+
 	handleClick() {
-		this.props.navigateToGame(this.state)
+		this.props.navigateToGame(_.merge(this.state, {updateGameState: this.updateGameState}))
 	}
 
 	isCurrentPlayer(player) {
