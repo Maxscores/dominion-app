@@ -51,9 +51,22 @@ export default class Table extends Component {
   render() {
 
     return (
-      <ScrollView horizontal>
-        { this.renderHand() }
-      </ScrollView>
+      <View>
+        <Text
+          style={styles.text}
+        >
+        ↙ Your Hand ↘︎
+        </Text>
+        <ScrollView horizontal>
+          { this.renderHand() }
+        </ScrollView>
+      </View>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  text: {
+    textAlign: 'center',
+  }
+})
