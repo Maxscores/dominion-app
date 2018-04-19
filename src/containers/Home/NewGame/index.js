@@ -56,7 +56,7 @@ export default class NewGame extends Component {
 
 	friends() {
 		return this.props.screenProps.state.friends.map((friend) => {
-			return {label: friend.username, value: friend.id}
+			return {label: friend.username, value: friend.player_id}
 		})
 	}
 
