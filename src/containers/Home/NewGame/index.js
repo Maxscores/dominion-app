@@ -84,18 +84,18 @@ export default class NewGame extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-		paddingTop: responsiveHeight(7),
-    flex: 1,
+	container: {
+		paddingTop: responsiveHeight(2),
     backgroundColor: '#bfa891',
     alignItems: 'center',
+		height: responsiveHeight(90),
   },
 	text: {
 		fontSize: 24,
 	},
 	title: {
 		fontSize: 36,
-		marginBottom: responsiveHeight(7)
+		marginBottom: responsiveHeight(3)
 	},
 	row: {
 		width: responsiveWidth(80),
