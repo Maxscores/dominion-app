@@ -82,6 +82,7 @@ export default class Playground extends Component {
 				state: this.state,
 				setParentState: this.setState.bind(this),
 				goBack: this.props.navigation.goBack.bind(this)
+				updateGameState: this.game.updateGameState
 			}} />
     );
   }
