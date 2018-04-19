@@ -79,6 +79,7 @@ export default class AddFriendForm extends Component {
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
+		alignItems: 'center',
     padding: 20,
   },
   buttonText: {
