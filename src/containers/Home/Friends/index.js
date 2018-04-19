@@ -7,6 +7,7 @@ import {
   ScrollView,
 	Button
 } from 'react-native';
+import FriendshipCard from '../../../components/FriendshipCard'
 import AddFriendForm from './AddFriendForm'
 import {
   responsiveHeight,
@@ -24,9 +25,9 @@ export default class Friends extends Component {
 	friendsList() {
 		return this.props.screenProps.state.friends.map((friend, index) => {
 			return (
-				<View key={index}>
-					<Text>{friend.username}</Text>
-				</View>
+				<FriendshipCard
+					friend={friend}
+				/>
 			)
 		})
 	}
