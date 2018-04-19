@@ -4,7 +4,7 @@ import {
   Text,
   ScrollView,
 	View,
-	Button
+	TouchableHighlight
 } from 'react-native';
 import {
   responsiveHeight,
@@ -56,7 +56,7 @@ export default class NewGame extends Component {
 
 	friends() {
 		return this.props.screenProps.state.friends.map((friend) => {
-			return {label: friend.username, value: friend.id}
+			return {label: friend.username, value: friend.player_id}
 		})
 	}
 
@@ -74,19 +74,24 @@ export default class NewGame extends Component {
 						onSelectionsChange={this.onSelectedFriendsChange.bind(this)}
 					/>
 				</ScrollView>
-				<Button
-					title='Start New Game'
-					onPress={() => this.checkMaxSelected(3)}
-				/>
+				<TouchableHighlight
+					style={styles.button}
+					onPress={
+						() => this.checkMaxSelected(3)
+					}
+					underlayColor='#99d9f4'
+				>
+					<Text style={styles.buttonText}>Start New Game</Text>
+				</TouchableHighlight>
 			</View>
 		)
 	}
 }
 
 const styles = StyleSheet.create({
-  container: {
-		paddingTop: responsiveHeight(7),
-    flex: 1,
+	container: {
+		justifyContent: 'center',
+		paddingTop: responsiveHeight(2),
     backgroundColor: '#bfa891',
     alignItems: 'center',
   },
@@ -95,7 +100,24 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		fontSize: 36,
-		marginBottom: responsiveHeight(7)
+		marginBottom: responsiveHeight(3)
+	},
+	buttonText: {
+		fontSize: 18,
+		color: 'white',
+		alignSelf: 'center',
+	},
+	button: {
+		height: 36,
+		backgroundColor: '#2662bd',
+		borderColor: '#2662bd',
+		borderWidth: 1,
+		borderRadius: 8,
+		marginBottom: 10,
+		marginTop: 10,
+		alignSelf: 'center',
+		justifyContent: 'center',
+		width: responsiveWidth(80)
 	},
 	row: {
 		width: responsiveWidth(80),
