@@ -88,6 +88,7 @@ const userInfoPrep = (userInfoRaw) => {
 const postTurn = (gameId, gameStateRaw) => {
 	let gameState = gameStatePrep(gameStateRaw)
 	return fetch(`${baseURL}/api/v1/games/${gameId}/turns`, postConfig(gameState))
+		.then(handleResponse)
 		.catch(errorLog)
 }
 
