@@ -80,7 +80,8 @@ export default class GameCard extends Component<Props> {
 	}
 
 	handleClick() {
-		this.props.navigateToGame(_.merge(this.state, {updateGameState: this.updateGameState}))
+		let game = _.merge(this.state, {updateGameState: this.updateGameState})
+		this.props.navigateToGame(game)
 	}
 
 	isCurrentPlayer(player) {
