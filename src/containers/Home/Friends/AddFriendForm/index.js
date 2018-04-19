@@ -52,7 +52,7 @@ export default class AddFriendForm extends Component {
     } else {
 			postAddFriend(this.postConfig())
 				.then((response) => {
-					let friends = [...this.props.friends, {id: response.id, username: response.username, player_id: response.friend_id}]
+					let friends = [...this.props.friends, {id: response.id, username: response.username, player_id: response.player_id}]
 					this.props.addFriend({friends: friends})
 				})
     }
