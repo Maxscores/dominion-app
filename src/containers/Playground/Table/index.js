@@ -34,25 +34,7 @@ export default class Table extends Component {
   }
 
 	componentDidMount() {
-		getGameState(this.props.screenProps.state.gameId)
-			.then((gameState) => {
-				let deck = playerDeck(gameState.decks, this.props.screenProps.state.localPlayer);
-				this.props.screenProps.setParentState({
-					competitors: gameState.competitors,
-					currentPlayer: gameState.current_player,
-					supply: gameState.game_cards,
-					trash: gameState.trash,
-          status: gameState.status,
-					decks: gameState.decks,
-					hand: [...deck.hand],
-					draw: [...deck.draw],
-					discard: deck.discard,
-					turnOrder: gameState.turn_order,
-					attackQueue: gameState.attack_queue,
-					turns: gameState.turns,
-					score: gameState.score
-				}, () => {resolveAttackQueue(this.props.screenProps)})
-			})
+		resolveAttackQueue(this.props.screenProps)
 	}
 
 	isLocalPlayerTurn() {
