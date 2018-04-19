@@ -80,7 +80,7 @@ export default class Table extends Component {
           playVassal={ this.playDiscard.bind(this) }
           discardVassal={ this.discardCardFromDraw.bind(this) }
           playChapel={ this.trashFromHand.bind(this) }
-          playHarbinger={ this.discardToHand.bind(this) }
+          playHarbinger={ this.discardToDraw.bind(this) }
           actionQueue={ this.props.screenProps.state.actionQueue }
           resolveActionQueue={ () => resolveActionQueue(this.props.screenProps) }
         />
@@ -88,12 +88,12 @@ export default class Table extends Component {
     }
   }
 
-  discardToHand(cards) {
+  discardToDraw(cards) {
     let discard = this.props.screenProps.state.discard
     let draw = this.props.screenProps.state.draw
     cards.forEach((card) => {
       let index = discard.indexOf(card)
-      draw.unshift(discard.splice(index, 1))
+      draw = [...discard.splice(index, 1), ...draw]
     })
     this.props.screenProps.setParentState({
       discard: discard,
@@ -151,52 +151,58 @@ export default class Table extends Component {
 		if (this.isLocalPlayerTurn()) {
 			return <PhaseButton screenProps={this.props.screenProps}/>
 		} else {
-			return <Text>It is not your turn</Text>
+			return (
+        <View style={styles.bar}>
+          <Text style={styles.text}>It is not your turn</Text>
+        </View>
+      )
 		}
 	}
 
   render() {
     return (
-      <View style={styles.container}>
-        <TurnDetail
-					actions={ this.props.screenProps.state.actions }
-					coins={ this.props.screenProps.state.coins }
-					buys={ this.props.screenProps.state.buys }
-				/>
-        <View style={styles.topContainer}>
-          <Supply
-						supplyCards={ this.props.screenProps.state.supply }
-						openDialog={ this.openDialog.bind(this) }
-						popupMethod={ this.buyCardFromSupply.bind(this) }
-						style={styles.supply}
-						popupAction="Buy"
-					/>
-          <Scoreboard score={this.props.screenProps.state.score}/>
+      <ImageBackground source={images['background']} style={{flex: 1, position: 'relative'}}>
+        <View style={styles.container}>
+          <TurnDetail
+  					actions={ this.props.screenProps.state.actions }
+  					coins={ this.props.screenProps.state.coins }
+  					buys={ this.props.screenProps.state.buys }
+  				/>
+          <View style={styles.topContainer}>
+            <Supply
+  						supplyCards={ this.props.screenProps.state.supply }
+  						openDialog={ this.openDialog.bind(this) }
+  						popupMethod={ this.buyCardFromSupply.bind(this) }
+  						style={styles.supply}
+  						popupAction="Buy"
+  					/>
+            <Scoreboard score={this.props.screenProps.state.score}/>
+          </View>
+  				{this.showPhaseButton()}
+          <View style={styles.playContainer}>
+            <PlayArea
+  						playareaCards={ this.props.screenProps.state.playarea }
+  						openDialog={ this.openDialog.bind(this) }
+  					/>
+          </View>
+          <View>
+            <Hand
+  						handCards={ this.props.screenProps.state.hand }
+  						openDialog={ this.openDialog.bind(this) }
+  						popupAction="Play"
+  						popupMethod={ this.playCardFromHand.bind(this) }
+  					/>
+          </View>
+          <PopupDialog
+            cardImage={ this.props.screenProps.state.cardImage }
+  					cardName={ this.props.screenProps.state.cardName }
+  					popupAction={ this.props.screenProps.state.popupAction }
+  					popupMethod={ this.props.screenProps.state.popupMethod }
+            dialog={(popupDialog) => { this.popupDialog = popupDialog; }}
+          />
+          { this.showCallbackWindow() }
         </View>
-				{this.showPhaseButton()}
-        <View style={styles.playContainer}>
-          <PlayArea
-						playareaCards={ this.props.screenProps.state.playarea }
-						openDialog={ this.openDialog.bind(this) }
-					/>
-        </View>
-        <View>
-          <Hand
-						handCards={ this.props.screenProps.state.hand }
-						openDialog={ this.openDialog.bind(this) }
-						popupAction="Play"
-						popupMethod={ this.playCardFromHand.bind(this) }
-					/>
-        </View>
-        <PopupDialog
-          cardImage={ this.props.screenProps.state.cardImage }
-					cardName={ this.props.screenProps.state.cardName }
-					popupAction={ this.props.screenProps.state.popupAction }
-					popupMethod={ this.props.screenProps.state.popupMethod }
-          dialog={(popupDialog) => { this.popupDialog = popupDialog; }}
-        />
-        { this.showCallbackWindow() }
-      </View>
+      </ImageBackground>
     )
   }
 }
@@ -204,12 +210,36 @@ export default class Table extends Component {
 
 const styles = StyleSheet.create({
   playContainer: {
-    height: responsiveWidth(50),
+    height: responsiveWidth(42),
   },
   container: {
     flex: 1,
   },
   topContainer: {
     flexDirection: 'row'
+  },
+  text: {
+    fontSize: 18,
+    color: 'white',
+    alignSelf: 'center',
+    shadowOpacity: 0,
+    elevation: 0,
+  },
+  bar: {
+    height: 26,
+    backgroundColor: '#2662bd',
+    borderColor: '#2662bd',
+    borderWidth: 1,
+    borderRadius: 8,
+    marginRight: responsiveWidth(2),
+    marginLeft: responsiveWidth(2),
+    marginTop: responsiveHeight(3),
+    alignSelf: 'stretch',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 1,
   },
 })

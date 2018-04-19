@@ -31,7 +31,9 @@ export default class CardTile extends Component<Props> {
     }
 
     return (
-      <View>
+      <View
+        style={styles.cardContainer}
+      >
         <TouchableHighlight
           onPress={() => {
             this.props.openDialog(
@@ -59,7 +61,7 @@ export default class CardTile extends Component<Props> {
 const styles = StyleSheet.create({
   cardCount: {
     backgroundColor: 'red',
-    width: responsiveWidth(5.4),
+    width: responsiveWidth(5.8),
     borderRadius: 100,
     alignItems: 'center',
     justifyContent: 'center',
@@ -67,4 +69,11 @@ const styles = StyleSheet.create({
   cardCountNumber: {
     fontSize: responsiveFontSize(2),
   },
+  cardContainer: {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 1,
+  }
 })
