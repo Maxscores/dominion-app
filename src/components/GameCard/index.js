@@ -7,26 +7,80 @@ import {
   TouchableHighlight,
 } from 'react-native';
 import { responsiveWidth, responsiveHeight, responsiveFontSize } from 'react-native-responsive-dimensions';
+import { getGameState, postTurn } from '../../game-utilities/services'
+import { playerDeck } from '../../game-utilities/game-mechanics'
+
 
 export default class GameCard extends Component<Props> {
-	gamePlayers() {
-		let players = ''
-		for (var i = 0; i < this.props.game.players.length; i++) {
-			players += `${this.props.game.players[i]}, `
+	constructor() {
+		super()
+		this.state = {
+			currentPlayer: null,
+			score: {},
+			decks: {},
+			supply: {},
+			draw: [],
+			discard: [],
+			hand: [],
+			trash: [],
+			status: "",
+			turnOrder: [],
+			competitors: [],
+			attackQueue: {},
+			turns: [],
 		}
-		return players.slice(0, players.length - 2)
+	}
+
+	gamePlayers() {
+		return this.props.game.players.map((player, index) => {
+			return (
+				<Text style={this.isCurrentPlayer(player)}>{player}</Text>
+			)
+		})
+	}
+
+	componentDidMount() {
+		getGameState(this.props.game.id)
+			.then((gameState) => {
+				console.warn('back!')
+				let deck = playerDeck(gameState.decks, this.props.localPlayer);
+				this.setState({
+					currentPlayer: gameState.current_player,
+					score: gameState.score,
+					decks: gameState.decks,
+					supply: gameState.game_cards,
+					draw: [...deck.draw],
+					discard: deck.discard,
+					hand: [...deck.hand],
+					trash: gameState.trash,
+					status: gameState.status,
+					turnOrder: gameState.turn_order,
+					competitors: gameState.competitors,
+					attackQueue: gameState.attack_queue,
+					turns: gameState.turns
+				})
+			})
+	}
+
+	isCurrentPlayer(player) {
+		if (player.toLowerCase() === this.props.game.current.toLowerCase()) {
+			return styles.currentPlayer
+		} else {
+			return styles.text
+		}
 	}
 
 	render() {
 		return (
 			<TouchableHighlight
-				onPress={ () => this.props.navigateToGame(this.props.game)}
+				onPress={ () => this.props.navigateToGame(this.state)}
 				style={styles.card}>
-				<Text>
-					Game {this.props.game.id}: {this.gamePlayers()}
-					Current Turn: {this.props.game.current}
+				<View>
+				<Text style={styles.text}>
+					Game {this.props.game.id}
 				</Text>
-
+					{this.gamePlayers()}
+				</View>
 			</TouchableHighlight>
 		)
 	}
@@ -40,10 +94,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 	text: {
-		fontSize: 24
+		fontSize: 20
+	},
+	currentPlayer: {
+		fontSize: 20,
+		fontWeight: 'bold',
 	},
 	card: {
-		height: responsiveHeight(7),
+		height: responsiveHeight(15),
 		width: responsiveWidth(80),
 		borderRadius: 4,
     borderWidth: 0.5,
