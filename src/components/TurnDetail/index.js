@@ -25,12 +25,19 @@ export default class TurnDetail extends Component<Props> {
 const styles = StyleSheet.create({
   turnDetail: {
     height: responsiveHeight(5),
-    backgroundColor: '#abcdef',
+    backgroundColor: 'rgba(191, 17, 49, 0.4)',
     flexDirection: 'row',
     justifyContent: 'space-around',
-
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 1,
   },
   turnDetailText: {
     fontSize: responsiveFontSize(2.7),
+    marginTop: responsiveHeight(0.5),
+    shadowOpacity: 0,
+    elevation: 0,
   }
 })
