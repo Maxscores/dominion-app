@@ -12,6 +12,7 @@ import {
 } from 'react-native-responsive-dimensions';
 import SelectMultiple from 'react-native-select-multiple'
 import {postNewGame} from '../../../game-utilities/services'
+import { playerDeck } from '../../../game-utilities/game-mechanics'
 
 import _ from 'lodash'
 
@@ -29,8 +30,49 @@ export default class NewGame extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			selectedFriends: []
+			selectedFriends: [],
+			id: null,
+			currentPlayer: null,
+			currentPlayerUsername: '',
+			score: {},
+			decks: {},
+			supply: {},
+			draw: [],
+			discard: [],
+			hand: [],
+			trash: [],
+			status: "",
+			turnOrder: [],
+			competitors: [],
+			attackQueue: {},
+			turns: []
 		}
+		this.updateGameState = this.updateGameState.bind(this)
+	}
+
+
+	updateGameState(gameState) {
+		let deck = playerDeck(gameState.decks, this.props.screenProps.state.localPlayer);
+		this.setState({
+			id: gameState.game_id,
+			currentPlayer: gameState.current_player,
+			currentPlayerUsername: gameState.current_player_username,
+			score: gameState.score,
+			decks: gameState.decks,
+			supply: gameState.game_cards,
+			draw: [...deck.draw],
+			discard: deck.discard,
+			hand: [...deck.hand],
+			trash: gameState.trash,
+			status: gameState.status,
+			turnOrder: gameState.turn_order,
+			competitors: gameState.competitors,
+			attackQueue: gameState.attack_queue,
+			turns: gameState.turns
+		}, () => {
+			let game = _.merge(this.state, {updateGameState: this.updateGameState})
+			this.props.navigation.navigate('Playground', {game: game})
+		})
 	}
 
 	checkMaxSelected(maxCount) {
@@ -40,10 +82,10 @@ export default class NewGame extends Component {
 			})
 			players.unshift(this.props.screenProps.state.localPlayer)
 			postNewGame(players)
-				.then((response) => {
-					let game = {id: response.game_id, players: response.players}
+				.then((gameState) => {
+					let game = {id: gameState.game_id, players: gameState.players}
 					this.props.screenProps.setParentState({active_games: [...this.props.screenProps.state.active_games, game]})
-					this.props.navigation.navigate('Playground', {game: game})
+					this.updateGameState(gameState)
 				})
 		} else {
 			alert(`Please select 1 to ${maxCount} friends`)
