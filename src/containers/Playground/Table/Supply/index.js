@@ -42,11 +42,17 @@ export default class Supply extends Component {
     let thirdCards = this.renderSupply().slice(12)
 
     return (
+      <View>
+        <Text
+          style={styles.text}
+        >
+        Kingdom Cards
+        </Text>
         <Swiper
           maxHeight={responsiveHeight(27)}
           maxWidth={responsiveWidth(65)}
           paginationStyle={{
-            bottom: 0,
+            bottom: -responsiveHeight(3),
           }}>
           <View style={styles.container}>
             { firstCards }
@@ -58,6 +64,7 @@ export default class Supply extends Component {
             { thirdCards }
           </View>
         </Swiper>
+      </View>
     )
   }
 }
@@ -69,6 +76,9 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    backgroundColor: '#abcdef',
+  },
+  text: {
+    textAlign: 'center',
+    marginTop: responsiveHeight(0.5)
   }
 })

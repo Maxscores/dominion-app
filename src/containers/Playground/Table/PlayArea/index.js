@@ -59,6 +59,5 @@ export default class PlayArea extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#3c0563',
   }
 })
